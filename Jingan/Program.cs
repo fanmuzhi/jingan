@@ -66,7 +66,13 @@ namespace Jingan
                     Console.WriteLine(String.Format("{0:X}", error));
                     break;
                 }
-                Console.WriteLine(tR.StepResult.Count);
+                foreach(KeyValuePair<string, string> kv in tR.StepResult)
+                {
+                    if (kv.Key == step)
+                    {
+                        Console.WriteLine("............................" + kv.Value);
+                    }
+                }
             }
             site.Close();
 

@@ -32,6 +32,8 @@ namespace ManagedTestEngine {
 	{
 		Dictionary<String^, String^>^ StepResult = gcnew Dictionary<String^, String^>();
 
+		String^ SensorSerialNumber = gcnew String("");
+
 		List<Double>^ SNRValues = gcnew List<Double>();
 
 		List<String^>^ BinCodes = gcnew List<String^>();
@@ -44,8 +46,6 @@ namespace ManagedTestEngine {
 		//int imageFingerRows;
 		//int imageFingerCols;
 
-		//Get ver info
-		//std::string sSensorSerialNumber;
 		//uint32_t   buildtime;        /* Unix-style build time, in seconds   *//*  from 1/1/1970 12:00 AM GMT         */
 		//uint32_t   buildnum;         /* build number                        */
 		//uint8_t    vmajor;           /* major version                       */
@@ -72,8 +72,6 @@ namespace ManagedTestEngine {
 
 		//uint8_t arrMainSector0[2048];
 		//uint8_t arrMainSector1[2048];
-
-
 	};
 
 
@@ -91,7 +89,7 @@ namespace ManagedTestEngine {
 		UInt32 GetTestResult(OFilmTestResult^ %testResult);
 		UInt32 Close();
 		List<String^>^ GetTestStepList();
-		void WriteLog(String^ path);
+		void WriteLog(String^ path, String^ fileName);
 
 	private:
 		Syn_Site * site;

@@ -81,21 +81,23 @@ namespace ManagedTestEngine {
 	UInt32 OFilmSite::GetTestResult(OFilmTestResult^ %ofilmTestResult)
 	{
 		Syn_DutTestResult* ptestResult;
-		Syn_DutTestInfo* ptestInfo;
-		UInt32 rc = site->GetTestInfo(ptestInfo);
-		if (rc != 0)
-		{
-			return rc;
-		}
-		rc = site->GetTestResult(ptestResult);
+		UInt32 rc = site->GetTestResult(ptestResult);
 		if (rc != 0)
 		{
 			return rc;
 		}
 
-		//if info executed, push step name and result
+		ofilmTestResult->SensorSerialNumber = gcnew String(ptestResult->_sSensorSerialNumber.c_str());
 
-		
+		for (std::map<std::string, std::string>::iterator i = ptestResult->_mapTestPassInfo.begin(); i != ptestResult->_mapTestPassInfo.end(); i++)
+		{
+			String^ key = gcnew String(i->first.c_str());
+			String^ value = gcnew String(i->second.c_str());
+			if (!ofilmTestResult->StepResult->ContainsKey(key))
+			{
+				ofilmTestResult->StepResult->Add(key, value);
+			}
+		}
 
 		return rc;
 	}
@@ -120,11 +122,12 @@ namespace ManagedTestEngine {
 		return testStepList;
 	}
 
-	void OFilmSite::WriteLog(String^ path)
+	void OFilmSite::WriteLog(String^ path, String^ fileName)
 	{
-		std::string logPath;
+		std::string logPath, fname;
 		MarshalString(path, logPath);
-		site->Write_Log(logPath);
+		MarshalString(fileName, fname);
+		site->Write_Log(logPath, fname);
 	}
 
 	//
