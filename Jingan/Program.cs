@@ -116,6 +116,8 @@ namespace Jingan
                 }
             }
             //display bin codes and SNR value
+            Console.WriteLine("SNR: " + tR.SNR.ToString());
+
             string sBincodes = "";
             foreach (string bincode in tR.BinCodes)
             {
@@ -126,6 +128,7 @@ namespace Jingan
                 sBincodes += 1;
             }
             Console.WriteLine("Bin Codes: " + sBincodes);
+
 
 
             //display image
@@ -140,7 +143,7 @@ namespace Jingan
                     int index = row + (NumRow * col);
                     rowImage += tR.ImageNoFinger[index].ToString() + ", ";
                 }
-                Console.WriteLine(rowImage);
+                //Console.WriteLine(rowImage);
             } 
             Console.WriteLine("finger image:");
             NumRow = tR.ImageFingerRow;
@@ -153,7 +156,7 @@ namespace Jingan
                     int index = row + (NumRow * col);
                     rowImage += tR.ImageFinger[index].ToString() + ", ";
                 }
-                Console.WriteLine(rowImage);
+                //Console.WriteLine(rowImage);
             } 
 
             //write log

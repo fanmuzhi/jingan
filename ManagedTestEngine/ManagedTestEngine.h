@@ -34,7 +34,8 @@ namespace ManagedTestEngine {
 
 		String^ SensorSerialNumber = gcnew String("");
 
-		List<Double>^ SNRValues = gcnew List<Double>();
+		//List<Double>^ SNRValues = gcnew List<Double>();
+		float SNR = 0;
 
 		List<String^>^ BinCodes = gcnew List<String^>();
 

@@ -117,6 +117,9 @@ namespace ManagedTestEngine {
 			synaTestResult->BinCodes->Add(bincode);
 		}
 
+		//snr
+		synaTestResult->SNR = ptestResult->_snrResults.SNR[6];
+
 		//no finger image
 		synaTestResult->ImageNoFinger->Clear();
 		for (auto i = 0; i < ptestResult->_acqImgNoFingerResult.iRealRowNumber; i++)
