@@ -4,7 +4,11 @@
 
 #include "ManagedTestEngine.h"
 //#include <msclr/marshal_cppstd.h>
+
+#using <system.drawing.dll>
+
 using namespace System::Runtime::InteropServices;
+using namespace System::Drawing;
 
 
 namespace ManagedTestEngine {
@@ -26,7 +30,7 @@ namespace ManagedTestEngine {
 	//
 	//Managed Site
 	//
-	OFilmSite::OFilmSite(UInt16 siteNumber, UInt32 devSerNum, String^ configPath, OFilmAdcBaseLineInfo^ adcInfo)
+	SYNASite::SYNASite(UInt16 siteNumber, UInt32 devSerNum, String^ configPath, SYNAAdcBaseLineInfo^ adcInfo)
 		:site(NULL)
 	{
 		Syn_Site * psite = NULL;
@@ -57,7 +61,7 @@ namespace ManagedTestEngine {
 		site = psite;
 	}
 
-	OFilmSite::~OFilmSite()
+	SYNASite::~SYNASite()
 	{
 		if (NULL != site)
 		{
@@ -66,19 +70,19 @@ namespace ManagedTestEngine {
 		}
 	}
 
-	UInt32 OFilmSite::Open()
+	UInt32 SYNASite::Open()
 	{
 		return site->Open();
 	}
 
-	UInt32 OFilmSite::ExecuteTestStep(String^ testName)
+	UInt32 SYNASite::ExecuteTestStep(String^ testName)
 	{
 		std::string testStepName;
 		MarshalString(testName, testStepName);
 		return site->ExecuteTestStep(testStepName);
 	}
 
-	UInt32 OFilmSite::GetTestResult(OFilmTestResult^ %ofilmTestResult)
+	UInt32 SYNASite::GetTestResult(SYNATestResult^ %synaTestResult)
 	{
 		Syn_DutTestResult* ptestResult;
 		UInt32 rc = site->GetTestResult(ptestResult);
@@ -87,27 +91,37 @@ namespace ManagedTestEngine {
 			return rc;
 		}
 
-		ofilmTestResult->SensorSerialNumber = gcnew String(ptestResult->_sSensorSerialNumber.c_str());
+		//serial number
+		synaTestResult->SensorSerialNumber = gcnew String(ptestResult->_sSensorSerialNumber.c_str());
 
+		//each test step and test result
 		for (std::map<std::string, std::string>::iterator i = ptestResult->_mapTestPassInfo.begin(); i != ptestResult->_mapTestPassInfo.end(); i++)
 		{
 			String^ key = gcnew String(i->first.c_str());
 			String^ value = gcnew String(i->second.c_str());
-			if (!ofilmTestResult->StepResult->ContainsKey(key))
+			if (!synaTestResult->StepResult->ContainsKey(key))
 			{
-				ofilmTestResult->StepResult->Add(key, value);
+				synaTestResult->StepResult->Add(key, value);
 			}
+		}
+
+		//bin codes
+		synaTestResult->BinCodes->Clear();
+		for (auto i = 0; i < ptestResult->_binCodes.size(); i++)
+		{
+			String^ bincode = gcnew String(ptestResult->_binCodes[i].c_str());
+			synaTestResult->BinCodes->Add(bincode);
 		}
 
 		return rc;
 	}
 
-	UInt32 OFilmSite::Close()
+	UInt32 SYNASite::Close()
 	{
 		return site->Close();
 	}
 
-	List<String^>^ OFilmSite::GetTestStepList()
+	List<String^>^ SYNASite::GetTestStepList()
 	{
 		vector<string> testSteps;
 		site->GetTestStepList(testSteps);
@@ -122,7 +136,7 @@ namespace ManagedTestEngine {
 		return testStepList;
 	}
 
-	void OFilmSite::WriteLog(String^ path, String^ fileName)
+	void SYNASite::WriteLog(String^ path, String^ fileName)
 	{
 		std::string logPath, fname;
 		MarshalString(path, logPath);
@@ -133,13 +147,13 @@ namespace ManagedTestEngine {
 	//
 	//Managed DeviceManager
 	//
-	OFilmDeviceManager::OFilmDeviceManager()
+	SYNADeviceManager::SYNADeviceManager()
 	{
 		deviceManager = NULL;
 		deviceManager = new Syn_DeviceManager();
 	}
 
-	OFilmDeviceManager::~OFilmDeviceManager()
+	SYNADeviceManager::~SYNADeviceManager()
 	{
 		if (NULL != deviceManager)
 		{
@@ -148,12 +162,12 @@ namespace ManagedTestEngine {
 		}
 	}
 
-	UInt32 OFilmDeviceManager::Open()
+	UInt32 SYNADeviceManager::Open()
 	{
 		return deviceManager->Open();
 	}
 
-	List<UInt32>^ OFilmDeviceManager::GetSNList()
+	List<UInt32>^ SYNADeviceManager::GetSNList()
 	{
 		List<UInt32>^ snlist = gcnew List<UInt32>();
 		
@@ -168,12 +182,12 @@ namespace ManagedTestEngine {
 		return snlist;
 	}
 
-	UInt32 OFilmDeviceManager::UpdateFW()
+	UInt32 SYNADeviceManager::UpdateFW()
 	{
 		return deviceManager->UpdateFirmware();
 	}
 
-	List<UInt32>^ OFilmDeviceManager::UpdateADCOffsets(UInt32 serialnumber, UInt32 vdd, UInt32 vio, UInt32 vled, UInt32 vddh)
+	List<UInt32>^ SYNADeviceManager::UpdateADCOffsets(UInt32 serialnumber, UInt32 vdd, UInt32 vio, UInt32 vled, UInt32 vddh)
 	{
 		List<UInt32>^ adclist = gcnew List<UInt32>();
 
@@ -189,12 +203,12 @@ namespace ManagedTestEngine {
 		return adclist;
 	}
 
-	UInt32 OFilmDeviceManager::SetLED(UInt32 serialnumber)
+	UInt32 SYNADeviceManager::SetLED(UInt32 serialnumber)
 	{
 		return deviceManager->SetLeds(serialnumber);
 	}
 
-	UInt32 OFilmDeviceManager::Close()
+	UInt32 SYNADeviceManager::Close()
 	{
 		return deviceManager->Close();
 	}

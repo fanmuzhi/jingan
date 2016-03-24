@@ -14,7 +14,7 @@ namespace ManagedTestEngine {
 	//
 	//Managed AdcBaseLineInfo
 	//
-	public ref struct OFilmAdcBaseLineInfo
+	public ref struct SYNAAdcBaseLineInfo
 	{
 		//array<uint32_t, 2>^ m_arAdcBaseLines = gcnew array<uint32_t,2>(4,4);
 		List<UInt32>^ m_arAdcBaseLines = gcnew List<UInt32>();
@@ -28,7 +28,7 @@ namespace ManagedTestEngine {
 	//
 	//Managed TestResult
 	//
-	public ref struct OFilmTestResult
+	public ref struct SYNATestResult
 	{
 		Dictionary<String^, String^>^ StepResult = gcnew Dictionary<String^, String^>();
 
@@ -78,15 +78,15 @@ namespace ManagedTestEngine {
 	//
 	//Managed Site
 	//
-	public ref class OFilmSite
+	public ref class SYNASite
 	{
 	public:
-		OFilmSite(UInt16 siteNumber, UInt32 devSerNum, String^ configPath, OFilmAdcBaseLineInfo^ adcInfo);
-		~OFilmSite();
+		SYNASite(UInt16 siteNumber, UInt32 devSerNum, String^ configPath, SYNAAdcBaseLineInfo^ adcInfo);
+		~SYNASite();
 
 		UInt32 Open();
 		UInt32 ExecuteTestStep(String^ testName);
-		UInt32 GetTestResult(OFilmTestResult^ %testResult);
+		UInt32 GetTestResult(SYNATestResult^ %testResult);
 		UInt32 Close();
 		List<String^>^ GetTestStepList();
 		void WriteLog(String^ path, String^ fileName);
@@ -99,11 +99,11 @@ namespace ManagedTestEngine {
 	//
 	//Managed DeviceManager
 	//
-	public ref class OFilmDeviceManager
+	public ref class SYNADeviceManager
 	{
 	public:
-		OFilmDeviceManager();
-		~OFilmDeviceManager();
+		SYNADeviceManager();
+		~SYNADeviceManager();
 
 		UInt32 Open();
 		List<UInt32>^ GetSNList();
