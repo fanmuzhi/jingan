@@ -30,7 +30,7 @@ namespace ManagedTestEngine {
 	//
 	//Managed Site
 	//
-	SYNASite::SYNASite(UInt16 siteNumber, UInt32 devSerNum, String^ configPath, SYNAAdcBaseLineInfo^ adcInfo)
+	SynapticsSite::SynapticsSite(UInt16 siteNumber, UInt32 devSerNum, String^ configPath, SynapticsAdcBaseLineInfo^ adcInfo)
 		:site(NULL)
 	{
 		Syn_Site * psite = NULL;
@@ -57,11 +57,15 @@ namespace ManagedTestEngine {
  
 		std::string path;
 		MarshalString(configPath, path);
-		Syn_Site::CreateSiteInstance(siteNum, devSN, path, adcBaseLineInfo, psite);
+		UInt32 rc = Syn_Site::CreateSiteInstance(siteNum, devSN, path, adcBaseLineInfo, psite);
+		if (rc != 0)
+		{
+			throw exception("Construct site failed.");
+		}
 		site = psite;
 	}
 
-	SYNASite::~SYNASite()
+	SynapticsSite::~SynapticsSite()
 	{
 		if (NULL != site)
 		{
@@ -70,19 +74,19 @@ namespace ManagedTestEngine {
 		}
 	}
 
-	UInt32 SYNASite::Open()
+	UInt32 SynapticsSite::Open()
 	{
 		return site->Open();
 	}
 
-	UInt32 SYNASite::ExecuteTestStep(String^ testName)
+	UInt32 SynapticsSite::ExecuteTestStep(String^ testName)
 	{
 		std::string testStepName;
 		MarshalString(testName, testStepName);
 		return site->ExecuteTestStep(testStepName);
 	}
 
-	UInt32 SYNASite::GetTestResult(SYNATestResult^ %synaTestResult)
+	UInt32 SynapticsSite::GetTestResult(SynapticsTestResult^ %synaTestResult)
 	{
 		Syn_DutTestResult* ptestResult;
 		UInt32 rc = site->GetTestResult(ptestResult);
@@ -116,12 +120,12 @@ namespace ManagedTestEngine {
 		return rc;
 	}
 
-	UInt32 SYNASite::Close()
+	UInt32 SynapticsSite::Close()
 	{
 		return site->Close();
 	}
 
-	List<String^>^ SYNASite::GetTestStepList()
+	List<String^>^ SynapticsSite::GetTestStepList()
 	{
 		vector<string> testSteps;
 		site->GetTestStepList(testSteps);
@@ -136,7 +140,7 @@ namespace ManagedTestEngine {
 		return testStepList;
 	}
 
-	void SYNASite::WriteLog(String^ path, String^ fileName)
+	void SynapticsSite::WriteLog(String^ path, String^ fileName)
 	{
 		std::string logPath, fname;
 		MarshalString(path, logPath);
@@ -147,13 +151,13 @@ namespace ManagedTestEngine {
 	//
 	//Managed DeviceManager
 	//
-	SYNADeviceManager::SYNADeviceManager()
+	SynapticsDeviceManager::SynapticsDeviceManager()
 	{
 		deviceManager = NULL;
 		deviceManager = new Syn_DeviceManager();
 	}
 
-	SYNADeviceManager::~SYNADeviceManager()
+	SynapticsDeviceManager::~SynapticsDeviceManager()
 	{
 		if (NULL != deviceManager)
 		{
@@ -162,12 +166,12 @@ namespace ManagedTestEngine {
 		}
 	}
 
-	UInt32 SYNADeviceManager::Open()
+	UInt32 SynapticsDeviceManager::Open()
 	{
 		return deviceManager->Open();
 	}
 
-	List<UInt32>^ SYNADeviceManager::GetSNList()
+	List<UInt32>^ SynapticsDeviceManager::GetSNList()
 	{
 		List<UInt32>^ snlist = gcnew List<UInt32>();
 		
@@ -182,12 +186,12 @@ namespace ManagedTestEngine {
 		return snlist;
 	}
 
-	UInt32 SYNADeviceManager::UpdateFW()
+	UInt32 SynapticsDeviceManager::UpdateFW()
 	{
 		return deviceManager->UpdateFirmware();
 	}
 
-	List<UInt32>^ SYNADeviceManager::UpdateADCOffsets(UInt32 serialnumber, UInt32 vdd, UInt32 vio, UInt32 vled, UInt32 vddh)
+	List<UInt32>^ SynapticsDeviceManager::UpdateADCOffsets(UInt32 serialnumber, UInt32 vdd, UInt32 vio, UInt32 vled, UInt32 vddh)
 	{
 		List<UInt32>^ adclist = gcnew List<UInt32>();
 
@@ -203,12 +207,12 @@ namespace ManagedTestEngine {
 		return adclist;
 	}
 
-	UInt32 SYNADeviceManager::SetLED(UInt32 serialnumber)
+	UInt32 SynapticsDeviceManager::SetLED(UInt32 serialnumber)
 	{
 		return deviceManager->SetLeds(serialnumber);
 	}
 
-	UInt32 SYNADeviceManager::Close()
+	UInt32 SynapticsDeviceManager::Close()
 	{
 		return deviceManager->Close();
 	}

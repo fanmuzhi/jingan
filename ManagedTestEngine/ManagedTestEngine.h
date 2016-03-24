@@ -14,7 +14,7 @@ namespace ManagedTestEngine {
 	//
 	//Managed AdcBaseLineInfo
 	//
-	public ref struct SYNAAdcBaseLineInfo
+	public ref struct SynapticsAdcBaseLineInfo
 	{
 		//array<uint32_t, 2>^ m_arAdcBaseLines = gcnew array<uint32_t,2>(4,4);
 		List<UInt32>^ m_arAdcBaseLines = gcnew List<UInt32>();
@@ -28,7 +28,7 @@ namespace ManagedTestEngine {
 	//
 	//Managed TestResult
 	//
-	public ref struct SYNATestResult
+	public ref struct SynapticsTestResult
 	{
 		Dictionary<String^, String^>^ StepResult = gcnew Dictionary<String^, String^>();
 
@@ -78,15 +78,15 @@ namespace ManagedTestEngine {
 	//
 	//Managed Site
 	//
-	public ref class SYNASite
+	public ref class SynapticsSite
 	{
 	public:
-		SYNASite(UInt16 siteNumber, UInt32 devSerNum, String^ configPath, SYNAAdcBaseLineInfo^ adcInfo);
-		~SYNASite();
+		SynapticsSite(UInt16 siteNumber, UInt32 devSerNum, String^ configPath, SynapticsAdcBaseLineInfo^ adcInfo);
+		~SynapticsSite();
 
 		UInt32 Open();
 		UInt32 ExecuteTestStep(String^ testName);
-		UInt32 GetTestResult(SYNATestResult^ %testResult);
+		UInt32 GetTestResult(SynapticsTestResult^ %testResult);
 		UInt32 Close();
 		List<String^>^ GetTestStepList();
 		void WriteLog(String^ path, String^ fileName);
@@ -99,11 +99,11 @@ namespace ManagedTestEngine {
 	//
 	//Managed DeviceManager
 	//
-	public ref class SYNADeviceManager
+	public ref class SynapticsDeviceManager
 	{
 	public:
-		SYNADeviceManager();
-		~SYNADeviceManager();
+		SynapticsDeviceManager();
+		~SynapticsDeviceManager();
 
 		UInt32 Open();
 		List<UInt32>^ GetSNList();
