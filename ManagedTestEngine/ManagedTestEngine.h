@@ -38,10 +38,16 @@ namespace ManagedTestEngine {
 
 		List<String^>^ BinCodes = gcnew List<String^>();
 
+		List<uint8_t>^ ImageNoFinger = gcnew List<uint8_t>();
+		uint8_t ImageNoFingerRow;
+		uint8_t ImageNoFingerCol;
 		//uint8_t arrImageNoFinger[200][200];
 		//int imageNoFingerRows;
 		//int imageNoFingerCols;
 
+		List<uint8_t>^ ImageFinger = gcnew List<uint8_t>();
+		uint8_t ImageFingerRow;
+		uint8_t ImageFingerCol;
 		//uint8_t arrImageFinger[200][200];
 		//int imageFingerRows;
 		//int imageFingerCols;

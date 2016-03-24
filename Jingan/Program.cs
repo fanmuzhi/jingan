@@ -47,7 +47,7 @@ namespace Jingan
                 return;
             }
 
-            string cfgPath = "C:\\Users\\bqiling\\Google Drive\\Metallica 57K0\\Huangpu Version\\Metallica_57K0_OFilm_Grey.xml";
+            string cfgPath = "C:\\Metallica_77A0_OFilm_Gold.xml";
 
             Console.WriteLine("please mount the sensor...");
             Console.ReadKey();
@@ -76,39 +76,42 @@ namespace Jingan
                 Console.WriteLine(step);
 
                 //if waiting for fake finger
-                if(step == "AcqImgFinger")
+                if (step == "WaitStimulus")
+                //if(step == "AcqImgFinger")
                 {
                     Console.WriteLine("please put stimulus on");
                     Console.ReadKey();
                     Console.WriteLine("acqire finger image ....");
                 }
-
-                timer.Start();
-                //execute test step
-                UInt32 error = site.ExecuteTestStep(step);
-                if (error != 0)
+                else
                 {
-                    Console.WriteLine(String.Format("{0:X}", error));
-                    break;
-                }
-
-                timer.Stop();
-                Console.WriteLine("............................Time elapsed: {0} ms", timer.ElapsedMilliseconds);
-                timer.Reset();
-
-                //get test result
-                error = site.GetTestResult(ref tR);
-                if (error != 0)
-                {
-                    Console.WriteLine(String.Format("{0:X}", error));
-                    break;
-                }
-                foreach(KeyValuePair<string, string> kv in tR.StepResult)
-                {
-                    if (kv.Key == step)
+                    timer.Start();
+                    //execute test step
+                    UInt32 error = site.ExecuteTestStep(step);
+                    if (error != 0)
                     {
-                        //display test result of each test step
-                        Console.WriteLine("............................" + kv.Value);
+                        Console.WriteLine(String.Format("{0:X}", error));
+                        break;
+                    }
+
+                    timer.Stop();
+                    Console.WriteLine("............................Time elapsed: {0} ms", timer.ElapsedMilliseconds);
+                    timer.Reset();
+
+                    //get test result
+                    error = site.GetTestResult(ref tR);
+                    if (error != 0)
+                    {
+                        Console.WriteLine(String.Format("{0:X}", error));
+                        break;
+                    }
+                    foreach (KeyValuePair<string, string> kv in tR.StepResult) // <Key=TestStep, value=Pass/Fail> Pair
+                    {
+                        if (kv.Key == step)
+                        {
+                            //display test result of each test step
+                            Console.WriteLine("............................" + kv.Value);
+                        }
                     }
                 }
             }
@@ -124,6 +127,34 @@ namespace Jingan
             }
             Console.WriteLine("Bin Codes: " + sBincodes);
 
+
+            //display image
+            Console.WriteLine("No finger image:");
+            byte NumRow = tR.ImageNoFingerRow;
+            byte NumCol = tR.ImageNoFingerCol;
+            for (byte col = 0; col < NumCol; col++)
+            {
+                string rowImage = "";
+                for (byte row = 0; row < NumRow; row++)
+                {
+                    int index = row + (NumRow * col);
+                    rowImage += tR.ImageNoFinger[index].ToString() + ", ";
+                }
+                Console.WriteLine(rowImage);
+            } 
+            Console.WriteLine("finger image:");
+            NumRow = tR.ImageFingerRow;
+            NumCol = tR.ImageFingerCol;
+            for (byte col = 0; col < NumCol; col++)
+            {
+                string rowImage = "";
+                for (byte row = 0; row < NumRow; row++)
+                {
+                    int index = row + (NumRow * col);
+                    rowImage += tR.ImageFinger[index].ToString() + ", ";
+                }
+                Console.WriteLine(rowImage);
+            } 
 
             //write log
             site.WriteLog("C:\\logfiles", "test.csv");

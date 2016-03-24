@@ -117,6 +117,29 @@ namespace ManagedTestEngine {
 			synaTestResult->BinCodes->Add(bincode);
 		}
 
+		//no finger image
+		synaTestResult->ImageNoFinger->Clear();
+		for (auto i = 0; i < ptestResult->_acqImgNoFingerResult.iRealRowNumber; i++)
+		{
+			for (auto j = 0; j < ptestResult->_acqImgNoFingerResult.iRealColumnNumber; j++)
+			{
+				synaTestResult->ImageNoFinger->Add(ptestResult->_acqImgNoFingerResult.arr_ImageFPSFrame.arr[i][j]);
+			}
+		}
+		synaTestResult->ImageNoFingerRow = ptestResult->_acqImgNoFingerResult.iRealRowNumber;
+		synaTestResult->ImageNoFingerCol = ptestResult->_acqImgNoFingerResult.iRealColumnNumber;
+
+		//finger image
+		synaTestResult->ImageFinger->Clear();
+		for (auto i = 0; i < ptestResult->_acqImgFingerResult.iRealRowNumber; i++)
+		{
+			for (auto j = 0; j < ptestResult->_acqImgFingerResult.iRealColumnNumber; j++)
+			{
+				synaTestResult->ImageFinger->Add(ptestResult->_acqImgFingerResult.arr_ImageFPSFrame.arr[i][j]);
+			}
+		}
+		synaTestResult->ImageFingerRow = ptestResult->_acqImgFingerResult.iRealRowNumber;
+		synaTestResult->ImageFingerCol = ptestResult->_acqImgFingerResult.iRealColumnNumber;
 		return rc;
 	}
 
