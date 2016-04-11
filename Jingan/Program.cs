@@ -115,6 +115,9 @@ namespace Jingan
                     }
                 }
             }
+
+            Console.WriteLine("SerialNumber:" + tR.SensorSerialNumber);
+
             //display bin codes and SNR value
             Console.WriteLine("SNR: " + tR.SNR.ToString());
 
