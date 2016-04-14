@@ -47,7 +47,7 @@ namespace Jingan
                 return;
             }
 
-            string cfgPath = "C:\\Metallica_77A0_OFilm_Gold.xml";
+            string cfgPath = "C:\\Metallica_57K0_Primax_Grey.xml";
 
             Console.WriteLine("please mount the sensor...");
             Console.ReadKey();
