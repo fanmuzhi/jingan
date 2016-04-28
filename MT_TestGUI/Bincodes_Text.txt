@@ -1,0 +1,59 @@
+Test Name	Failure modes detected	Bin Codes
+		
+PASS		1
+SPI comm check	Executes the Get_Version command (0x01) and compares the FW buildnum value with the expected value	100
+OSC Trim	Calibrate ASIC oscillator	102
+Slow Osc Trim	Calibrate ASIC digital oscillator	103
+DRDY Pin Test	Test DRDY pin for open/short	104
+Invalidate Extended Tags	Invalidates any unwanted tag burned into the Main Sector of the OTPROM. Typically used to invalidate incorrect AFE calibration values	105
+OTPROM boot sector	Read/write	106
+Tx/Rx Opens and Shorts Tests	Rx & Tx opens, Rx-Tx, Tx-Gnd, Rx-Gnd, Rx-Vdd, Tx-Vdd shorts for modules	107
+Rx-Range test failure	Tests for a small range across RX chanels.	107.1
+1st Stage/2nd Stage Offset Calibration	Tune first and second stages of AFE to center the ADC response close to midpoint (128)	108
+Button Test	Check for open/short of the button	109
+Image - Pegged Pixel Test Row/Col	Check that pixels have enough headroom to provide good performance	110
+Image - Floored Pixel Test Row/Col	Check that pixels have enough foot room to provide good performance	111
+Image - Consecutive Pegged Pixel Test Row/Col	Check that less than a certain amount of consecutive pixels have enough headroom to provide good performance to the Matcher	112
+Image - Consecutive Floored Pixel Test Rol/Col	Check that less than a certain amount of consecutive pixels have enough foot room to provide good performance to the Matcher	113
+Delta Pixel Row/Col	Check for changes on each pixel with and without finger	114
+Current - Imaging	Check current while acquiring an image	115
+Current - WOE	Check current while module is idle	116
+Current - WOF/WOVar	Check current for wake on finger or variance mode	117
+Current - WOF-Low Power	Check current for wake at low power	117.1
+Current - Sleep	Check current while the module is in Sleep mode	118
+SNR Test	Using a fake finger, calculate the SNR of different zones, as well as for the overall sensor area (SNR, Signal and Noise)	119
+Pixel Uniformity	Checking for sensor trace abnormalities, i.e. under/over etching of copper traces	120
+SDK Baseline test failure	SDK Baseline test failure	120.1
+FW Upgrade/bug fix patch write	OTPROM Write these updates and verify	121
+Security patch write	OTPROM Write these updates and verify	122
+Serial Number	Read back or Issuing new number	123
+ProjectID	Incorrect ProjectID	124
+OTPROM Main Sector	Read/write	125
+Sharpness Test	Tests for uneven/fuzzy Fake Finger Image	126
+Laplacian	Tests for Distorted Fake Finger Image	127
+Stdev of RXs	Tests for uneven Rx response to Fake Finger	128
+Imperfections	Tests for Imperfect image response to Fake Finger	129
+DutCtrlComm	DUT controller is not communicating properly	130
+WOF	Check the delta with finger and without finger	131
+Extended Tag	Extended Tags are not all available.	132
+Pixel Uniformity Patch 	Checking for sensor trace abnormalities using test patch	133
+DUT timeout error 	When communicating with the DUT, the command protocol was not as expected.	134
+WOVAR		135
+RAM Test	Test patches return errors in the RAM	136
+Build # Mismatch	The sensor returns a Build # that is not equal to that specified in the Initialization step's argurment list	137
+LED Test	Check to assure LED(s) are functional	138
+USB Comm	USB comm check fails to enumerate	139
+PGA OTP Variance Score	Stage2 - 5 lines variance	140
+MS0 Tag Checksum Failure	The checksum of one or more records stored in MS0 is erroneous.	141
+AFE Matching Patch	AFE Match/Balance Testing	142
+Voltage mismatch	The voltages at which the ADC baseline readins obtained do not match those used during the current test.	143
+Premature sensor removal	The operator has removed the sensor before the completion of scoring test.	144
+Layer ID Test	Test patch has found a Layer ID error.	145
+Flex ID Test	Test patch has found a Flex ID error.	146
+Configuration file anomaly	A problem was detected in the specified configuration file.	147
+SPI Flash Module Failure	SMT failure of the SPI flash module for Match In Sensor products	148
+SPI Ownership Failure	SPI Ownership Failure	148.1
+Power Supply Failure	The power supplied to the DUT is not as specified in the configuration file.	149
+Package Type Failure	The package type read from OTP does not match that specified in the config file.	150
+AFE Test Failure	AFE Test Failure	151
+ATE Pass Bit	ATE Pass bit not found, unit not ATE tested	152
