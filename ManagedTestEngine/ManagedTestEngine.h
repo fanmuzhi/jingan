@@ -11,6 +11,12 @@ using namespace System::Collections::Generic;
 
 namespace ManagedTestEngine {
 
+	public ref class DllVersion
+	{
+	public:
+		inline static String^ GetDllVersion() { return "1.0.6"; }
+	};
+
 	//
 	//Managed AdcBaseLineInfo
 	//

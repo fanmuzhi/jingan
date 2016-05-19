@@ -12,6 +12,9 @@ namespace Jingan
     {
         static void Main(string[] args)
         {
+
+            Console.WriteLine(DllVersion.GetDllVersion());
+
             UInt32 deviceSN = 0;
             SynapticsAdcBaseLineInfo abi = new SynapticsAdcBaseLineInfo();
             abi.m_nVdd = 1800;
@@ -135,7 +138,7 @@ namespace Jingan
 
 
             //display image
-            Console.WriteLine("No finger image:");
+            //Console.WriteLine("No finger image:");
             byte NumRow = tR.ImageNoFingerRow;
             byte NumCol = tR.ImageNoFingerCol;
             for (byte col = 0; col < NumCol; col++)
@@ -148,7 +151,7 @@ namespace Jingan
                 }
                 //Console.WriteLine(rowImage);
             } 
-            Console.WriteLine("finger image:");
+            //Console.WriteLine("finger image:");
             NumRow = tR.ImageFingerRow;
             NumCol = tR.ImageFingerCol;
             for (byte col = 0; col < NumCol; col++)

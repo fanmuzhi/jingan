@@ -171,7 +171,7 @@ namespace ManagedTestEngine {
 		std::string logPath, fname;
 		MarshalString(path, logPath);
 		MarshalString(fileName, fname);
-		site->Write_Log(logPath, fname);
+		site->WriteLog(logPath, fname);
 	}
 
 	//
