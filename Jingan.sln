@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ManagedTestEngine", "ManagedTestEngine\ManagedTestEngine.vcxproj", "{30102E22-BA73-47F8-B26E-B10EF9902242}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jingan", "Jingan_console\Jingan.csproj", "{39870ADF-8AFC-4525-9F21-B5AF3A73C134}"
+	ProjectSection(ProjectDependencies) = postProject
+		{30102E22-BA73-47F8-B26E-B10EF9902242} = {30102E22-BA73-47F8-B26E-B10EF9902242}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SynapticsTestEngine", "TestEngine\SynapticsTestEngine.vcxproj", "{781C9FF2-40EE-4B25-9534-EC37D557B17B}"
 EndProject

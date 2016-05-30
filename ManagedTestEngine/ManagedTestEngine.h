@@ -14,7 +14,7 @@ namespace ManagedTestEngine {
 	public ref class DllVersion
 	{
 	public:
-		inline static String^ GetDllVersion() { return "1.0.6"; }
+		inline static String^ GetDllVersion() { return "1.0.8"; }
 	};
 
 	//
