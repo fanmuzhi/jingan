@@ -26,7 +26,7 @@ public:
 
 	uint32_t GetTestResult(Synaptics_TestResult * &opSynapticsTestResult);
 	
-	void WriteLog(std::string strFolderPath, std::string strFileName);
+	void WriteLog(std::string SstrFolderPath, std::string strFileName);
 
 	uint32_t Close();
 
@@ -36,4 +36,3 @@ private:
 
 	Synaptics_TestResult *_pSynaptics_TestResult;
 };
-

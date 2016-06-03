@@ -12,6 +12,9 @@ namespace Jingan
     {
         static void Main(string[] args)
         {
+
+            Console.WriteLine(DllVersion.GetDllVersion());
+
             UInt32 deviceSN = 0;
             SynapticsAdcBaseLineInfo abi = new SynapticsAdcBaseLineInfo();
             abi.m_nVdd = 1800;
@@ -47,8 +50,7 @@ namespace Jingan
                 return;
             }
 
-            string cfgPath = "D:\\ConfigFile(xml)\\Manhattan\\(580-006033-01r01)_OFilm_Manhattan_Huangpu_HuaweiSNR.xml";//"C:\\Metallica_77A0_OFilm_Gold.xml";
-
+            string cfgPath = "C:\\Metallica_57K0_Primax_Grey.xml";//"D:\\ConfigFile(xml)\\Manhattan\\(580-006033-01r01)_OFilm_Manhattan_Huangpu_HuaweiSNR.xml";
             Console.WriteLine("please mount the sensor...");
             Console.ReadKey();
 
@@ -115,6 +117,9 @@ namespace Jingan
                     }
                 }
             }
+
+            Console.WriteLine("SerialNumber:" + tR.SensorSerialNumber);
+
             //display bin codes and SNR value
             Console.WriteLine("SensorSerialNumber: " + tR.SensorSerialNumber.ToString());
 
@@ -134,7 +139,7 @@ namespace Jingan
 
 
             //display image
-            Console.WriteLine("No finger image:");
+            //Console.WriteLine("No finger image:");
             byte NumRow = tR.ImageNoFingerRow;
             byte NumCol = tR.ImageNoFingerCol;
             for (byte col = 0; col < NumCol; col++)
@@ -147,7 +152,7 @@ namespace Jingan
                 }
                 //Console.WriteLine(rowImage);
             } 
-            Console.WriteLine("finger image:");
+            //Console.WriteLine("finger image:");
             NumRow = tR.ImageFingerRow;
             NumCol = tR.ImageFingerCol;
             for (byte col = 0; col < NumCol; col++)

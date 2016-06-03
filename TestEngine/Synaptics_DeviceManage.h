@@ -11,7 +11,6 @@
 
 class Syn_DeviceManager;
 
-
 class SYNA_SJ_API Synaptics_DeviceManage
 {
 
@@ -36,4 +35,3 @@ private:
 
 	Syn_DeviceManager *_pSyn_DeviceManager;
 };
-

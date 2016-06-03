@@ -1,0 +1,46 @@
+﻿InitializationStep : Initialize
+UsbCommTest : USB Comm
+VerifyPackageType : Verify Package
+SpiFlashRam : Flash Patch
+RAMTest : RAM Patch
+LayerIdTest : LayerID
+FlexIdTest : FlexID
+OscTrim : OSCTrim
+SlowOsc : SlowOSC Trim
+OpensShortsTest : TX/RX Patch
+PixelPatchTest : Pixel Patch
+WoVarTest : WoVar Patch
+AFETest : AFE
+RetainModeCurrentTest : Retain Mode Current
+WOF-LowPower : WOF Low Power
+WakeOnFinger : WOF Test
+SCM_WOFWithoutStimulus : SCM WOF
+Calibrate : PGA/LNA Cal
+PatchCalibration : Patch Cal
+ReadDutAdc : Read DUT ADC
+ButtonTestWithoutStimulus : Button Test
+AcquireFPSSamples : Acquire Images
+AcquireImageWithoutStimulus : No Finger Images
+SetStimulusDown : Fake Finger Down
+AcquireImageWithStimulus : Fake Finger Images
+ButtonTestWithStimulus : Button Test
+SCM_WOFWithStimulus : SCM WOF
+PeggedPixelsTest : Pegged Pixels
+FlooredPixelsTest : Floored Pixels
+DRdyTest : Drdy Test
+ConsecutivePixels : Consecutive Pixels
+SDKBaselineTest : SDKBaseline
+CurrentTest : Current Measure
+SNRTest : SNR Check
+DeltaPixelTest : Delta Pixels
+SetOTPBits : Set OTP
+HardwareIdTest : HardwareID
+LEDTest : LED Test
+SharpnessTest : Sharpness
+LaplacianTest : Laplacian
+RxStandardDev : RX STD
+Imperfections : Imperfections
+ProductIdTest : ProductID
+OTPExtTag : OTP Extended Tags
+Security : Security Step
+FinalizationStep : End of Test
