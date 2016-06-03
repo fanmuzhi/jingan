@@ -47,7 +47,7 @@ namespace Jingan
                 return;
             }
 
-            string cfgPath = "C:\\Metallica_77A0_OFilm_Gold.xml";
+            string cfgPath = "D:\\ConfigFile(xml)\\Manhattan\\(580-006033-01r01)_OFilm_Manhattan_Huangpu_HuaweiSNR.xml";//"C:\\Metallica_77A0_OFilm_Gold.xml";
 
             Console.WriteLine("please mount the sensor...");
             Console.ReadKey();
@@ -116,6 +116,8 @@ namespace Jingan
                 }
             }
             //display bin codes and SNR value
+            Console.WriteLine("SensorSerialNumber: " + tR.SensorSerialNumber.ToString());
+
             Console.WriteLine("SNR: " + tR.SNR.ToString());
 
             string sBincodes = "";
@@ -160,7 +162,7 @@ namespace Jingan
             } 
 
             //write log
-            site.WriteLog("C:\\logfiles", "test.csv");
+            site.WriteLog("C:\\logfiles", "");//test.csv
 
             site.Close();
 

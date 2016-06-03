@@ -94,9 +94,15 @@ namespace ManagedTestEngine {
 		{
 			return rc;
 		}
+		Syn_DutTestInfo* ptestInfo;
+		rc = site->GetTestInfo(ptestInfo);
+		if (rc != 0)
+		{
+			return rc;
+		}
 
 		//serial number
-		synaTestResult->SensorSerialNumber = gcnew String(ptestResult->_sSensorSerialNumber.c_str());
+		synaTestResult->SensorSerialNumber = gcnew String(ptestInfo->_getVerInfo.sSerialNumber, 0, sizeof(ptestInfo->_getVerInfo.sSerialNumber));
 
 		//each test step and test result
 		for (std::map<std::string, std::string>::iterator i = ptestResult->_mapTestPassInfo.begin(); i != ptestResult->_mapTestPassInfo.end(); i++)
@@ -171,7 +177,7 @@ namespace ManagedTestEngine {
 		std::string logPath, fname;
 		MarshalString(path, logPath);
 		MarshalString(fileName, fname);
-		site->Write_Log(logPath, fname);
+		site->WriteLog(logPath, fname);
 	}
 
 	//

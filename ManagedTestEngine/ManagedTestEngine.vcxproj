@@ -53,11 +53,11 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>C:\Users\bqiling\Documents\projects\Huangpu\TestEngine;C:\Users\bqiling\Documents\projects\Huangpu\DutUtls;C:\Users\bqiling\Documents\projects\Huangpu\TestStep;C:\Users\bqiling\Documents\projects\Huangpu\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Project\huangpu\TestEngine;D:\Project\huangpu\DutUtls;D:\Project\huangpu\TestStep;D:\Project\huangpu\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>C:\Users\bqiling\Documents\projects\Huangpu\Win32\Release\Mpc04Api.lib;C:\Users\bqiling\Documents\projects\Huangpu\Win32\Release\DutUtls.lib;C:\Users\bqiling\Documents\projects\Huangpu\Win32\Release\TestStep.lib;C:\Users\bqiling\Documents\projects\Huangpu\Win32\Release\TestEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>D:\Project\huangpu\Win32\Release\Mpc04Api.lib;D:\Project\huangpu\Win32\Release\DutUtls.lib;D:\Project\huangpu\Win32\Release\TestStep.lib;D:\Project\huangpu\Win32\Release\TestEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -65,11 +65,11 @@
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>C:\Users\bqiling\Documents\projects\Huangpu\TestEngine;C:\Users\bqiling\Documents\projects\Huangpu\DutUtls;C:\Users\bqiling\Documents\projects\Huangpu\TestStep;C:\Users\bqiling\Documents\projects\Huangpu\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Project\huangpu\TestEngine;D:\Project\huangpu\DutUtls;D:\Project\huangpu\TestStep;D:\Project\huangpu\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>C:\Users\bqiling\Documents\projects\Huangpu\Win32\Release\Mpc04Api.lib;C:\Users\bqiling\Documents\projects\Huangpu\Win32\Release\DutUtls.lib;C:\Users\bqiling\Documents\projects\Huangpu\Win32\Release\TestStep.lib;C:\Users\bqiling\Documents\projects\Huangpu\Win32\Release\TestEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>D:\Project\huangpu\Win32\Release\Mpc04Api.lib;D:\Project\huangpu\Win32\Release\DutUtls.lib;D:\Project\huangpu\Win32\Release\TestStep.lib;D:\Project\huangpu\Win32\Release\TestEngine.lib;D:\Project\huangpu\Win32\Release\snrtest.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
