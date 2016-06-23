@@ -74,6 +74,7 @@ int main(int argc, char *argv[])
 	delete pDeviceManage;
 	pDeviceManage = NULL;
 
+	std::cout << "DLL version:" << Synaptics_DLLVersion::GetDLLVersion() << std::endl;
 
 	std::string cfgPath = sConfigFilePath;//"D:\\ConfigFile(xml)\\Manhattan\\(580-006033-01r01)_OFilm_Manhattan_Huangpu_HuaweiSNR.xml";
 
@@ -139,7 +140,7 @@ int main(int argc, char *argv[])
 			std::string strTestStepName(listOfTestStep[step]);
 			std::string strTestStepResult("");
 			strTestStepResult = pTestResult->mapStepResult[strTestStepName];
-			std::cout << strTestStepName << ":" << strTestStepResult << ",time:"<< RunningTime << std::endl;
+			std::cout << strTestStepName << ":" << strTestStepResult << ","<< RunningTime <<"ms"<< std::endl;
 		}
 	}
 
