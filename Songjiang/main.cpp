@@ -2,6 +2,7 @@
 #include "windows.h"
 
 #include <iostream>
+#include <string>
 
 //local
 #include "sjimportexport.h"
@@ -9,8 +10,31 @@
 #include "Synaptics_Site.h"
 #include "Synaptics_Utils.h"
 
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,int iCmdShow)
+//int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine, int iCmdShow)
+int main(int argc, char *argv[])
 {
+	//MessageBox(NULL, std::to_string(argc).c_str(), TEXT("Message"), 0);
+
+	std::string sConfigFilePath("");
+	std::string sLogFilePath("");
+	std::string sLogFileName("");
+	if (3 == argc)
+	{
+		sConfigFilePath = argv[1];
+		sLogFilePath = argv[2];
+	}
+	else if (4 <= argc)
+	{
+		sConfigFilePath = argv[1];
+		sLogFilePath = argv[2];
+		sLogFileName = argv[3];
+	}
+	else
+	{
+		MessageBox(NULL, "Wrong argument counts", TEXT("Message"), 0);
+		return 1;
+	}
+
 	uint32_t deviceSN = 0;
 	SynapticsAdcBaseLineInfo abi;
 	abi.m_nVdd = 1800;
@@ -50,8 +74,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
 	delete pDeviceManage;
 	pDeviceManage = NULL;
 
+	std::cout << "DLL version:" << Synaptics_DLLVersion::GetDLLVersion() << std::endl;
 
-	std::string cfgPath = "D:\\ConfigFile(xml)\\Manhattan\\(580-006033-01r01)_OFilm_Manhattan_Huangpu_HuaweiSNR.xml";
+	std::string cfgPath = sConfigFilePath;//"D:\\ConfigFile(xml)\\Manhattan\\(580-006033-01r01)_OFilm_Manhattan_Huangpu_HuaweiSNR.xml";
 
 	//Console.WriteLine("please mount the sensor...");
 	//Console.ReadKey();
@@ -92,6 +117,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
 		}
 		else
 		{
+
+			DWORD starttime = GetTickCount64();
 			//execute test step
 			rc = site->ExecuteTestStep(listOfTestStep[step]);
 			if (rc != 0)
@@ -106,11 +133,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
 				break;
 			}
 
+			DWORD finishtime = GetTickCount64();
+			double RunningTime = (double)(finishtime - starttime);
+
 			//
 			std::string strTestStepName(listOfTestStep[step]);
 			std::string strTestStepResult("");
 			strTestStepResult = pTestResult->mapStepResult[strTestStepName];
-			std::cout << strTestStepName << ":" << strTestStepResult << std::endl;
+			std::cout << strTestStepName << ":" << strTestStepResult << ","<< RunningTime <<"ms"<< std::endl;
 		}
 	}
 
@@ -144,7 +174,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
 	}
 	MessageBox(NULL, sBincodes.c_str(), TEXT("BinCodes"), 0);
 
-	site->WriteLog("D:\\ConfigFile(xml)\\Manhattan", "");
+	site->WriteLog(sLogFilePath, sLogFileName);
 
 	site->Close();
 	delete site;

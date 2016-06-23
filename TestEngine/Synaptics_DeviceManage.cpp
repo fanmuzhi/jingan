@@ -92,3 +92,8 @@ uint32_t Synaptics_DeviceManage::Close()
 		return _pSyn_DeviceManager->Close();
 	}
 }
+
+std::string Synaptics_DLLVersion::GetDLLVersion()
+{
+	return SW_VERSION;
+}
