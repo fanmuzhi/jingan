@@ -4,6 +4,7 @@
 
 #include "Syn_Site.h"
 #include "Syn_DeviceManager.h"
+#include "Syn_TestUtils.h"
 
 
 using namespace System;
@@ -14,7 +15,7 @@ namespace ManagedTestEngine {
 	public ref class DllVersion
 	{
 	public:
-		inline static String^ GetDllVersion() { return "1.0.8"; }
+		inline static String^ GetDllVersion() { return SW_VERSION; }
 	};
 
 	//
