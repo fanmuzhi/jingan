@@ -13,6 +13,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SynapticsTestEngine", "TestEngine\SynapticsTestEngine.vcxproj", "{781C9FF2-40EE-4B25-9534-EC37D557B17B}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Songjiang", "Songjiang\Songjiang.vcxproj", "{8B4A2F31-61CC-4827-9B9F-228D665F2B7E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{781C9FF2-40EE-4B25-9534-EC37D557B17B} = {781C9FF2-40EE-4B25-9534-EC37D557B17B}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

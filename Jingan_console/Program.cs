@@ -50,7 +50,7 @@ namespace Jingan
                 return;
             }
 
-            string cfgPath = "C:\\Metallica_57K0_Primax_Grey.xml";//"D:\\ConfigFile(xml)\\Manhattan\\(580-006033-01r01)_OFilm_Manhattan_Huangpu_HuaweiSNR.xml";
+            string cfgPath = @"D:\projects\MTconfig\Metallica_109A\FM192_182_Huawei_109A_109C_Series\release\(580-006033-01r05)_OFilm_109A_Huangpu.xml";
             Console.WriteLine("please mount the sensor...");
             Console.ReadKey();
 
@@ -167,7 +167,7 @@ namespace Jingan
             } 
 
             //write log
-            site.WriteLog("C:\\logfiles", "");//test.csv
+            site.WriteLog("D:\\logfiles", "");//test.csv
 
             site.Close();
 
