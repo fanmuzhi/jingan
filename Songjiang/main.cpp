@@ -92,7 +92,6 @@ int main(int argc, char *argv[])
 	}
 
 	uint32_t rc = site->Open();
-	//Console.WriteLine(rc);
 
 	std::vector<std::string> listOfTestStep;
 	listOfTestStep = site->GetTestStepList();

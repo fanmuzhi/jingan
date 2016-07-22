@@ -98,7 +98,7 @@ uint32_t Synaptics_Site::GetTestResult(Synaptics_TestResult * &opSynapticsTestRe
 
 	Syn_DutTestResult* pTestResult = NULL;
 	uint32_t rc = _pSyn_Site->GetTestResult(pTestResult);
-	if (rc != 0)
+	if (rc != 0 || NULL == pTestResult)
 	{
 		return rc;
 	}
