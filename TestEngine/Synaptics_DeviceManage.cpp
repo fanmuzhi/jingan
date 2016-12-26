@@ -1,95 +1,129 @@
 //Local
-#include "Syn_DeviceManager.h"
-
+#include "syn_devicemanager.h"
+#include "syn_bridge.h"
 #include "Synaptics_DeviceManage.h"
+#include "SYN_TestUtils.h"
 #include "Syn_Exception.h"
 
 Synaptics_DeviceManage::Synaptics_DeviceManage()
-:_pSyn_DeviceManager(NULL)
+:_pSynDeviceManager(NULL)
 {
-	_pSyn_DeviceManager = new Syn_DeviceManager();
+	_pSynDeviceManager = new syn_devicemanager();
 }
 
 Synaptics_DeviceManage::~Synaptics_DeviceManage()
 {
-	if (NULL != _pSyn_DeviceManager)
+	if (NULL != _pSynDeviceManager)
 	{
-		delete _pSyn_DeviceManager;
-		_pSyn_DeviceManager = NULL;
+		delete _pSynDeviceManager;
+		_pSynDeviceManager = NULL;
 	}
 }
 
-uint32_t Synaptics_DeviceManage::Open()
+uint32_t Synaptics_DeviceManage::Open(Syn_DeviceType DeviceType)
 {
-	if (NULL == _pSyn_DeviceManager)
+	if (NULL == _pSynDeviceManager)
 	{
 		return Syn_ExceptionCode::Syn_UnknownError;
 	}
-	else
+	
+	uint32_t rc(0);
+
+	devicetype Type;
+	switch (DeviceType)
 	{
-		return _pSyn_DeviceManager->Open();
+		case MPC04:
+			Type = spi_mpc04;
+			break;
+		case M5:
+			Type = spi_m5;
+			break;
+		default:
+			Type = spi_m5;
+			break;
 	}
 
+	rc = _pSynDeviceManager->Connect(Type);
+
+	return rc;
 }
 
-std::vector<uint32_t> Synaptics_DeviceManage::GetSerialNumberList()
+uint32_t Synaptics_DeviceManage::GetSerialNumberList(std::vector<std::string> &oListOfSerialNumber)
 {
-	std::vector<uint32_t> listOfSerialNumber;
-	listOfSerialNumber.clear();
+	oListOfSerialNumber.clear();
 
-	if (NULL != _pSyn_DeviceManager)
-	{
-		_pSyn_DeviceManager->GetSerialNumberList(listOfSerialNumber);
-	}
-
-	return listOfSerialNumber;
-}
-
-uint32_t Synaptics_DeviceManage::UpdateFirmware()
-{
-	if (NULL == _pSyn_DeviceManager)
+	if (NULL == _pSynDeviceManager)
 	{
 		return Syn_ExceptionCode::Syn_UnknownError;
 	}
-	else
-	{
-		return _pSyn_DeviceManager->UpdateFirmware();
-	}
+
+	uint32_t rc = _pSynDeviceManager->GetSerialNumberList(oListOfSerialNumber);
+
+	return rc;
 }
 
-uint32_t Synaptics_DeviceManage::UpdateADCOffsets(uint32_t serialnumber, uint32_t vdd, uint32_t vio, uint32_t vled, uint32_t vddh, uint32_t arAdcBaseLines[4][4])
+uint32_t Synaptics_DeviceManage::UpdateADCOffsets(Syn_DeviceType DeviceType, std::string serialnumber, uint32_t vdd, uint32_t vio, uint32_t vled, uint32_t vddh, uint32_t arAdcBaseLines[4])
 {
-	if (NULL == _pSyn_DeviceManager)
+	devicetype Type;
+	uint32_t clockRate(MPC04_CLOCKRATE);
+	switch (DeviceType)
 	{
-		return Syn_ExceptionCode::Syn_UnknownError;
+		case MPC04:
+			Type = spi_mpc04;
+			clockRate = MPC04_CLOCKRATE;
+			break;
+		case M5:
+			Type = spi_m5;
+			clockRate = M5_CLOCKRATE;
+			break;
+		default:
+			Type = spi_m5;
+			clockRate = M5_CLOCKRATE;
+			break;
 	}
-	else
-	{
-		return _pSyn_DeviceManager->UpdateADCOffsets(serialnumber, vdd, vio,vled,vddh,arAdcBaseLines);
-	}
-}
+	
+	uint32_t rc(0);
 
-uint32_t Synaptics_DeviceManage::SetLED(uint32_t serialnumber)
-{
-	if (NULL == _pSyn_DeviceManager)
+	if (NULL != _pSynDeviceManager)
 	{
-		return Syn_ExceptionCode::Syn_UnknownError;
+		delete _pSynDeviceManager;
+		_pSynDeviceManager = NULL;
 	}
-	else
+
+	syn_bridge *pBridge = NULL;
+	rc = syn_bridge::CreateDeviceInstance(serialnumber, Type, pBridge);
+	if (0 == rc&&NULL != pBridge)
 	{
-		return _pSyn_DeviceManager->SetLeds(serialnumber);
+		pBridge->SetPortSPI(clockRate);
+		pBridge->SetVoltages(vddh, vdd);
+
+		uint32_t arrLowGain[2] = { 2 };
+		uint32_t arrHighGain[2] = { 2 };
+		rc = pBridge->GetCurrentValues(arrLowGain);
+		rc = pBridge->GetCurrentValues(arrHighGain, false);
+
+		arAdcBaseLines[0] = arrLowGain[0];
+		arAdcBaseLines[1] = arrLowGain[1];
+		arAdcBaseLines[2] = arrHighGain[0];
+		arAdcBaseLines[3] = arrHighGain[1];
+
+		pBridge->SetVoltages(0, 0);
+		delete pBridge;
+		pBridge = NULL;
 	}
+
+	return rc;
 }
 
 uint32_t Synaptics_DeviceManage::Close()
 {
-	if (NULL == _pSyn_DeviceManager)
+	if (NULL == _pSynDeviceManager)
 	{
 		return Syn_ExceptionCode::Syn_UnknownError;
 	}
 	else
 	{
-		return _pSyn_DeviceManager->Close();
+		return _pSynDeviceManager->Disconnect();
 	}
 }
 

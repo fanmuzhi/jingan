@@ -12,34 +12,47 @@ namespace Jingan
     {
         static void Main(string[] args)
         {
-
+            UInt32 rc = 0;
             Console.WriteLine(DllVersion.GetDllVersion());
 
-            UInt32 deviceSN = 0;
+            //String^ deviceSN = gcnew String();
             SynapticsAdcBaseLineInfo abi = new SynapticsAdcBaseLineInfo();
             abi.m_nVdd = 1800;
             abi.m_nVio = 1800;
             abi.m_nVled = 3300;
             abi.m_nVddh = 3300;
             SynapticsDeviceManager dm = new SynapticsDeviceManager();
-            dm.Open();
-            List<UInt32> SNList = dm.GetSNList();
+ 
+            Syn_DeviceType DeviceType = Syn_DeviceType.M5;
+            rc = dm.Open(DeviceType);
+            if(0!=rc)
+            {
+                DeviceType = Syn_DeviceType.MPC04;
+                rc = dm.Open(DeviceType);
+                if(0!=rc)
+                {
+                    Console.WriteLine(String.Format("Error:code is 0x{0:X}", rc));
+                    return;
+                }
+            }
+
+            String deviceSN;
+            List<String> SNList = dm.GetSNList();
             if (SNList.Count != 0)
             {
                 Console.WriteLine("please remove the sensor...");
                 Console.ReadKey();
-                dm.UpdateFW();
-                foreach (UInt32 sn in SNList)
+                foreach (String sn in SNList)
                 {
                     Console.WriteLine(sn.ToString());
-                    abi.m_arAdcBaseLines = dm.UpdateADCOffsets(sn, abi.m_nVdd, abi.m_nVio, abi.m_nVled, abi.m_nVddh);
-                    string sadcBaseline = "";
+                    abi.m_arAdcBaseLines = dm.UpdateADCOffsets(DeviceType, sn, abi.m_nVdd, abi.m_nVio, abi.m_nVled, abi.m_nVddh);
+                    String sadcBaseline = "";
+                    Console.WriteLine(abi.m_arAdcBaseLines.Count());
                     foreach (UInt32 adc in abi.m_arAdcBaseLines)
                     {
                         sadcBaseline += adc.ToString() + ", ";
                     }
                     Console.WriteLine("ADC Baseline: " + sadcBaseline);
-                    dm.SetLED(sn);
                 }
                 deviceSN = SNList[0];
             }
@@ -50,7 +63,7 @@ namespace Jingan
                 return;
             }
 
-            string cfgPath = "C:\\Metallica_57K0_Primax_Grey.xml";//"D:\\ConfigFile(xml)\\Manhattan\\(580-006033-01r01)_OFilm_Manhattan_Huangpu_HuaweiSNR.xml";
+            string cfgPath = "(580-006033-01r05)_OFilm_109A_Huangpu.xml";//"D:\\ConfigFile(xml)\\Manhattan\\(580-006033-01r01)_OFilm_Manhattan_Huangpu_HuaweiSNR.xml";
             Console.WriteLine("please mount the sensor...");
             Console.ReadKey();
 
@@ -65,7 +78,7 @@ namespace Jingan
                 Console.ReadKey();
                 return;
             }
-            UInt32 rc = site.Open();
+            rc = site.Open();
             Console.WriteLine(rc);
 
             List<String> testSteps = site.GetTestStepList();
@@ -92,7 +105,7 @@ namespace Jingan
                     UInt32 error = site.ExecuteTestStep(step);
                     if (error != 0)
                     {
-                        Console.WriteLine(String.Format("{0:X}", error));
+                        Console.WriteLine(String.Format("Error:code is 0x{0:X}", error));
                         break;
                     }
 
@@ -104,7 +117,7 @@ namespace Jingan
                     error = site.GetTestResult(ref tR);
                     if (error != 0)
                     {
-                        Console.WriteLine(String.Format("{0:X}", error));
+                        Console.WriteLine(String.Format("Error:code is 0x{0:X}", error));
                         break;
                     }
                     foreach (KeyValuePair<string, string> kv in tR.StepResult) // <Key=TestStep, value=Pass/Fail> Pair

@@ -3,6 +3,7 @@
 #include "stdafx.h"
 
 #include "ManagedTestEngine.h"
+#include "syn_bridge.h"
 //#include <msclr/marshal_cppstd.h>
 
 #using <system.drawing.dll>
@@ -30,7 +31,7 @@ namespace ManagedTestEngine {
 	//
 	//Managed Site
 	//
-	SynapticsSite::SynapticsSite(UInt16 siteNumber, UInt32 devSerNum, String^ configPath, SynapticsAdcBaseLineInfo^ adcInfo)
+	SynapticsSite::SynapticsSite(UInt16 siteNumber, String^ devSerNum, String^ configPath, SynapticsAdcBaseLineInfo^ adcInfo)
 		:site(NULL)
 	{
 		Syn_Site * psite = NULL;
@@ -45,16 +46,14 @@ namespace ManagedTestEngine {
 		int k = 0;
 		for (int i = 0; i < NUM_CURRENT_VALUES; i++)
 		{
-			for (int j = 0; j < KNUMGAINS; j++)
-			{
-				adcBaseLineInfo.m_arAdcBaseLines[i][j] = adcInfo->m_arAdcBaseLines[k];
-				k++;
-			}
+			adcBaseLineInfo.m_arrAdcBaseLines[i] = adcInfo->m_arAdcBaseLines[k];
+			k++;
 		}
 
-		uint8_t siteNum = siteNumber;
-		uint32_t devSN = devSerNum;
+		uint8_t siteNum = (uint8_t)siteNumber;
  
+		std::string devSN;
+		MarshalString(devSerNum, devSN);
 		std::string path;
 		MarshalString(configPath, path);
 		UInt32 rc = Syn_Site::CreateSiteInstance(siteNum, devSN, path, adcBaseLineInfo, psite);
@@ -94,15 +93,9 @@ namespace ManagedTestEngine {
 		{
 			return rc;
 		}
-		Syn_DutTestInfo* ptestInfo;
-		rc = site->GetTestInfo(ptestInfo);
-		if (rc != 0)
-		{
-			return rc;
-		}
 
 		//serial number
-		synaTestResult->SensorSerialNumber = gcnew String(ptestInfo->_getVerInfo.sSerialNumber, 0, sizeof(ptestInfo->_getVerInfo.sSerialNumber));
+		synaTestResult->SensorSerialNumber = gcnew String(ptestResult->_versionResult.sSerialNumber, 0, sizeof(ptestResult->_versionResult.sSerialNumber));
 
 		//each test step and test result
 		for (std::map<std::string, std::string>::iterator i = ptestResult->_mapTestPassInfo.begin(); i != ptestResult->_mapTestPassInfo.end(); i++)
@@ -117,7 +110,7 @@ namespace ManagedTestEngine {
 
 		//bin codes
 		synaTestResult->BinCodes->Clear();
-		for (auto i = 0; i < ptestResult->_binCodes.size(); i++)
+		for (size_t i = 0; i < ptestResult->_binCodes.size(); i++)
 		{
 			String^ bincode = gcnew String(ptestResult->_binCodes[i].c_str());
 			synaTestResult->BinCodes->Add(bincode);
@@ -163,7 +156,7 @@ namespace ManagedTestEngine {
 		site->GetTestStepList(testSteps);
 		List<String^>^ testStepList = gcnew List<String^>();
 
-		for (int i = 0; i < testSteps.size(); i++)
+		for (size_t i = 0; i < testSteps.size(); i++)
 		{
 			String^ step = gcnew String(testSteps[i].c_str());
 			testStepList->Add(step);
@@ -186,7 +179,7 @@ namespace ManagedTestEngine {
 	SynapticsDeviceManager::SynapticsDeviceManager()
 	{
 		deviceManager = NULL;
-		deviceManager = new Syn_DeviceManager();
+		deviceManager = new syn_devicemanager();
 	}
 
 	SynapticsDeviceManager::~SynapticsDeviceManager()
@@ -198,54 +191,108 @@ namespace ManagedTestEngine {
 		}
 	}
 
-	UInt32 SynapticsDeviceManager::Open()
+	UInt32 SynapticsDeviceManager::Open(Syn_DeviceType Type)
 	{
-		return deviceManager->Open();
+		devicetype sourceType;
+		switch (Type)
+		{
+			case Syn_DeviceType::MPC04:
+				sourceType = spi_mpc04;
+				break;
+			case Syn_DeviceType::M5:
+				sourceType = spi_m5;
+				break;
+			default:
+				sourceType = spi_m5;
+				break;
+		}
+
+		return deviceManager->Connect(sourceType);
 	}
 
-	List<UInt32>^ SynapticsDeviceManager::GetSNList()
+	List<String^>^ SynapticsDeviceManager::GetSNList()
 	{
-		List<UInt32>^ snlist = gcnew List<UInt32>();
+		List<String^>^ snlist = gcnew List<String^>();
 		
-		std::vector<uint32_t> serialnumberList;
+		std::vector<std::string> serialnumberList;
 		deviceManager->GetSerialNumberList(serialnumberList);
 
 		for (size_t i = 1; i <= serialnumberList.size(); i++)
 		{
-			snlist->Add(serialnumberList[i - 1]);
+			String^ curSeriaNumber = gcnew String(serialnumberList[i - 1].c_str(), 0, serialnumberList[i - 1].size());
+			snlist->Add(curSeriaNumber);
 		}
 		serialnumberList.clear();
 		return snlist;
 	}
 
-	UInt32 SynapticsDeviceManager::UpdateFW()
-	{
-		return deviceManager->UpdateFirmware();
-	}
-
-	List<UInt32>^ SynapticsDeviceManager::UpdateADCOffsets(UInt32 serialnumber, UInt32 vdd, UInt32 vio, UInt32 vled, UInt32 vddh)
+	List<UInt32>^ SynapticsDeviceManager::UpdateADCOffsets(Syn_DeviceType Type, String^ serialnumber, UInt32 vdd, UInt32 vio, UInt32 vled, UInt32 vddh)
 	{
 		List<UInt32>^ adclist = gcnew List<UInt32>();
 
-		uint32_t arAdcBaseLines[NUM_CURRENT_VALUES][KNUMGAINS] = { 0 };
-		deviceManager->UpdateADCOffsets(serialnumber, vdd, vio, vled, vddh, arAdcBaseLines);
-		for (int i = 0; i < NUM_CURRENT_VALUES; i++)
+		devicetype sourceType;
+		switch (Type)
 		{
-			for (int j = 0; j < KNUMGAINS; j++)
-			{
-				adclist->Add(arAdcBaseLines[i][j]);
-			}
+			case Syn_DeviceType::MPC04:
+				sourceType = spi_mpc04;
+				break;
+			case Syn_DeviceType::M5:
+				sourceType = spi_m5;
+				break;
+			default:
+				sourceType = spi_m5;
+				break;
 		}
-		return adclist;
-	}
 
-	UInt32 SynapticsDeviceManager::SetLED(UInt32 serialnumber)
-	{
-		return deviceManager->SetLeds(serialnumber);
+		uint32_t clockRate = M5_CLOCKRATE;
+		switch (sourceType)
+		{
+			case spi_mpc04:
+				clockRate = MPC04_CLOCKRATE;
+				break;
+			case spi_m5:
+				clockRate = M5_CLOCKRATE;
+				break;
+			default:
+				clockRate = M5_CLOCKRATE;
+				break;
+		}
+
+		delete deviceManager;
+		deviceManager = NULL;
+
+		uint32_t arAdcBaseLines[NUM_CURRENT_VALUES] = { 0 };
+		syn_bridge *pBridge = NULL;
+		std::string strSerialNumber;
+		MarshalString(serialnumber, strSerialNumber);
+		uint32_t rc = syn_bridge::CreateDeviceInstance(strSerialNumber, sourceType, pBridge);
+		if (0 == rc&&NULL != pBridge)
+		{
+			pBridge->SetPortSPI(clockRate);
+			pBridge->SetVoltages(vddh, vdd);
+
+			uint32_t arrLowGain[2] = { 2 };
+			uint32_t arrHighGain[2] = { 2 };
+			rc = pBridge->GetCurrentValues(arrLowGain);
+			rc = pBridge->GetCurrentValues(arrHighGain, false);
+
+			pBridge->SetVoltages(0, 0);
+			delete pBridge;
+			pBridge = NULL;
+
+			adclist->Add(arrLowGain[0]);
+			adclist->Add(arrLowGain[1]);
+			adclist->Add(arrHighGain[0]);
+			adclist->Add(arrHighGain[1]);
+		}
+
+		deviceManager = new syn_devicemanager();
+
+		return adclist;
 	}
 
 	UInt32 SynapticsDeviceManager::Close()
 	{
-		return deviceManager->Close();
+		return deviceManager->Disconnect();
 	}
 }

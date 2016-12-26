@@ -1,7 +1,6 @@
 #pragma once
 
 //Local
-#include "sjimportexport.h"
 #include "Synaptics_Utils.h"
 
 //std
@@ -15,7 +14,7 @@ class SYNA_SJ_API Synaptics_Site
 
 public:
 	
-	Synaptics_Site(uint8_t siteNumber, uint32_t deviceSerNumber, std::string strConfigFilePath, const SynapticsAdcBaseLineInfo &adcInfo);
+	Synaptics_Site(uint8_t siteNumber, std::string deviceSerNumber, std::string strConfigFilePath, const SynapticsAdcBaseLineInfo &adcInfo);
 	~Synaptics_Site();
 
 	uint32_t Open();

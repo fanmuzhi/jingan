@@ -72,14 +72,13 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>..\..\Huangpu\Win32\Release\Mpc04Api.lib;..\..\Huangpu\Win32\Release\DutUtls.lib;..\..\Huangpu\Win32\Release\TestStep.lib;..\..\Huangpu\Win32\Release\TestEngine.lib;..\..\Huangpu\Win32\Release\snrtest.lib</AdditionalDependencies>
+      <AdditionalDependencies>..\..\Huangpu\Win32\Release\FpBridge.lib;..\..\Huangpu\Win32\Release\FpAlphaModule.lib;..\..\Huangpu\Win32\Release\DutUtls.lib;..\..\Huangpu\Win32\Release\TestStep.lib;..\..\Huangpu\Win32\Release\TestEngine.lib;..\..\Huangpu\Win32\Release\snrtest.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="sjimportexport.h" />
     <ClInclude Include="Synaptics_DeviceManage.h" />
     <ClInclude Include="Synaptics_Site.h" />
     <ClInclude Include="Synaptics_Utils.h" />

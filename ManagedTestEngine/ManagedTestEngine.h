@@ -2,8 +2,8 @@
 
 #pragma once
 
+#include "syn_devicemanager.h"
 #include "Syn_Site.h"
-#include "Syn_DeviceManager.h"
 #include "Syn_TestUtils.h"
 
 
@@ -95,7 +95,7 @@ namespace ManagedTestEngine {
 	public ref class SynapticsSite
 	{
 	public:
-		SynapticsSite(UInt16 siteNumber, UInt32 devSerNum, String^ configPath, SynapticsAdcBaseLineInfo^ adcInfo);
+		SynapticsSite(UInt16 siteNumber, String^ devSerNum, String^ configPath, SynapticsAdcBaseLineInfo^ adcInfo);
 		~SynapticsSite();
 
 		UInt32 Open();
@@ -113,20 +113,20 @@ namespace ManagedTestEngine {
 	//
 	//Managed DeviceManager
 	//
+	public enum class Syn_DeviceType{ MPC04 = 0, M5 };
+
 	public ref class SynapticsDeviceManager
 	{
 	public:
 		SynapticsDeviceManager();
 		~SynapticsDeviceManager();
 
-		UInt32 Open();
-		List<UInt32>^ GetSNList();
-		UInt32 UpdateFW();
-		List<UInt32>^ UpdateADCOffsets(UInt32 serialnumber, UInt32 vdd, UInt32 vio, UInt32 vled, UInt32 vddh);
-		UInt32 SetLED(UInt32 serialnumber);
+		UInt32 Open(Syn_DeviceType Type);
+		List<String^>^ GetSNList();
+		List<UInt32>^ UpdateADCOffsets(Syn_DeviceType Type, String^ serialnumber, UInt32 vdd, UInt32 vio, UInt32 vled, UInt32 vddh);
 		UInt32 Close();
 
 	private:
-		Syn_DeviceManager * deviceManager;
+		syn_devicemanager * deviceManager;
 	};
 }

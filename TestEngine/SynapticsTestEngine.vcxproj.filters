@@ -18,9 +18,6 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="sjimportexport.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Synaptics_DeviceManage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
