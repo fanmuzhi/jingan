@@ -83,7 +83,6 @@ namespace Jingan
                 {
                     Console.WriteLine("please put stimulus on");
                     Console.ReadKey();
-                    Console.WriteLine("acqire finger image ....");
                 }
                 else
                 {
@@ -117,8 +116,6 @@ namespace Jingan
                     }
                 }
             }
-
-            Console.WriteLine("SerialNumber:" + tR.SensorSerialNumber);
 
             //display bin codes and SNR value
             Console.WriteLine("SensorSerialNumber: " + tR.SensorSerialNumber.ToString());
