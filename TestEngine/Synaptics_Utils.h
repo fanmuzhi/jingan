@@ -1,7 +1,11 @@
 #pragma once
 
 //local
-#include "sjimportexport.h"
+#ifdef SYNA_SJ_EXPORTS
+	#define SYNA_SJ_API __declspec(dllexport)
+#else
+	#define SYNA_SJ_API __declspec(dllimport)
+#endif
 
 #include <stdint.h>
 
@@ -9,6 +13,8 @@
 #include <vector>
 #include <map>
 #include <string>
+
+enum Syn_DeviceType{ MPC04, M5 };
 
 struct Synaptics_TestResult
 {
@@ -37,5 +43,5 @@ struct SynapticsAdcBaseLineInfo
 	uint32_t m_nVled;
 	uint32_t m_nVddh;
 
-	uint32_t arrAdcBaseLines[4][4];
+	uint32_t arrAdcBaseLines[4];
 };

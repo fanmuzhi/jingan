@@ -5,7 +5,6 @@
 #include <string>
 
 //local
-#include "sjimportexport.h"
 #include "Synaptics_DeviceManage.h"
 #include "Synaptics_Site.h"
 #include "Synaptics_Utils.h"
@@ -35,52 +34,63 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 
-	uint32_t deviceSN = 0;
+	std::string deviceSN;
 	SynapticsAdcBaseLineInfo abi;
 	abi.m_nVdd = 1800;
 	abi.m_nVio = 1800;
 	abi.m_nVled = 3300;
 	abi.m_nVddh = 3300;
+	
+	uint32_t rc(0);
 
 	Synaptics_DeviceManage *pDeviceManage = new Synaptics_DeviceManage();
-	pDeviceManage->Open();
-	std::vector<uint32_t> listOfDeviceNumber = pDeviceManage->GetSerialNumberList();
+	Syn_DeviceType Type;
+	rc = pDeviceManage->Open(M5);
+	if (0 != rc)
+	{
+		rc = pDeviceManage->Open(MPC04);
+		if (0 != rc)
+		{
+			MessageBox(NULL, "No device found%x", TEXT("Message"), rc);
+			return rc;
+		}
+		Type = MPC04;
+	}
+	Type = M5;
+
+	std::vector<std::string> listOfDeviceNumber;
+	rc = pDeviceManage->GetSerialNumberList(listOfDeviceNumber);
 	if (0 != listOfDeviceNumber.size())
 	{
-		//Console.WriteLine("please remove the sensor...");
-		//Console.ReadKey();
-		pDeviceManage->UpdateFirmware();
 		for (size_t i = 0; i < listOfDeviceNumber.size();i++)
 		{
 			//Console.WriteLine(sn.ToString());
-			pDeviceManage->UpdateADCOffsets(listOfDeviceNumber[i], abi.m_nVdd, abi.m_nVio, abi.m_nVled, abi.m_nVddh, abi.arrAdcBaseLines);
-			
-			pDeviceManage->SetLED(listOfDeviceNumber[i]);
+			pDeviceManage->UpdateADCOffsets(Type, listOfDeviceNumber[i], abi.m_nVdd, abi.m_nVio, abi.m_nVled, abi.m_nVddh, abi.arrAdcBaseLines);
 		}
 		deviceSN = listOfDeviceNumber[0];
 	}
 	else
 	{
-		pDeviceManage->Close();
 		delete pDeviceManage;
 		pDeviceManage = NULL;
-		//Console.WriteLine("No device found.");
-		MessageBox(NULL, "No device found", TEXT("Message"), 0);
-
-		return 1;
+		MessageBox(NULL, "No device found%x", TEXT("Message"), rc);
+		return rc;
 	}
 
-	pDeviceManage->Close();
 	delete pDeviceManage;
 	pDeviceManage = NULL;
 
 	std::cout << "DLL version:" << Synaptics_DLLVersion::GetDLLVersion() << std::endl;
 
+	MessageBox(NULL, "Please remove the sensor...", TEXT("Message"), 0);
+
 	std::string cfgPath = sConfigFilePath;//"D:\\ConfigFile(xml)\\Manhattan\\(580-006033-01r01)_OFilm_Manhattan_Huangpu_HuaweiSNR.xml";
 
-	//Console.WriteLine("please mount the sensor...");
-	//Console.ReadKey();
+	std::string strAdcBaseline;
+	strAdcBaseline = std::to_string(abi.arrAdcBaseLines[0]) + "," + std::to_string(abi.arrAdcBaseLines[1]) + "," + std::to_string(abi.arrAdcBaseLines[2]) + "," + std::to_string(abi.arrAdcBaseLines[3]);
+	std::cout << "ADC Baseline: " << strAdcBaseline << std::endl;
 
+	MessageBox(NULL, "Please mount the sensor...", TEXT("Message"), 0);
 	Synaptics_Site *site = NULL;
 	try
 	{
@@ -91,7 +101,7 @@ int main(int argc, char *argv[])
 		return 2;
 	}
 
-	uint32_t rc = site->Open();
+	rc = site->Open();
 
 	std::vector<std::string> listOfTestStep;
 	listOfTestStep = site->GetTestStepList();
@@ -117,7 +127,7 @@ int main(int argc, char *argv[])
 		else
 		{
 
-			DWORD starttime = GetTickCount64();
+			ULONGLONG starttime = GetTickCount64();
 			//execute test step
 			rc = site->ExecuteTestStep(listOfTestStep[step]);
 			if (rc != 0)
@@ -132,7 +142,7 @@ int main(int argc, char *argv[])
 				break;
 			}
 
-			DWORD finishtime = GetTickCount64();
+			ULONGLONG finishtime = GetTickCount64();
 			double RunningTime = (double)(finishtime - starttime);
 
 			//

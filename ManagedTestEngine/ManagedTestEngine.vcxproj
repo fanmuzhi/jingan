@@ -69,8 +69,12 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>..\..\Huangpu\Win32\Release\Mpc04Api.lib;..\..\Huangpu\Win32\Release\DutUtls.lib;..\..\Huangpu\Win32\Release\TestStep.lib;..\..\Huangpu\Win32\Release\TestEngine.lib;..\..\Huangpu\Win32\Release\snrtest.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>..\..\Huangpu\Win32\Release\FpBridge.lib;..\..\Huangpu\Win32\Release\FpAlphaModule.lib;..\..\Huangpu\Win32\Release\DutUtls.lib;..\..\Huangpu\Win32\Release\TestStep.lib;..\..\Huangpu\Win32\Release\TestEngine.lib;..\..\Huangpu\Win32\Release\snrtest.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PreLinkEvent>
+      <Command>
+      </Command>
+    </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <Reference Include="System" />

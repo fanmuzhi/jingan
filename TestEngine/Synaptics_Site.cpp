@@ -3,7 +3,7 @@
 
 #include "Synaptics_Site.h"
 
-Synaptics_Site::Synaptics_Site(uint8_t siteNumber, uint32_t deviceSerNumber, std::string strConfigFilePath, const SynapticsAdcBaseLineInfo &adcInfo)
+Synaptics_Site::Synaptics_Site(uint8_t siteNumber, std::string deviceSerNumber, std::string strConfigFilePath, const SynapticsAdcBaseLineInfo &adcInfo)
 :_pSyn_Site(NULL)
 , _pSynaptics_TestResult(NULL)
 {
@@ -17,10 +17,7 @@ Synaptics_Site::Synaptics_Site(uint8_t siteNumber, uint32_t deviceSerNumber, std
 
 	for (int i = 0; i < NUM_CURRENT_VALUES; i++)
 	{
-		for (int j = 0; j < KNUMGAINS; j++)
-		{
-			adcBaseLineInfo.m_arAdcBaseLines[i][j] = adcInfo.arrAdcBaseLines[i][j];
-		}
+		adcBaseLineInfo.m_arrAdcBaseLines[i] = adcInfo.arrAdcBaseLines[i];
 	}
 
 	std::string path;
@@ -113,7 +110,7 @@ uint32_t Synaptics_Site::GetTestResult(Synaptics_TestResult * &opSynapticsTestRe
 		_pSynaptics_TestResult = new Synaptics_TestResult();
 
 	//serial number
-	_pSynaptics_TestResult->strSensorNumber = pTestInfo->_getVerInfo.sSerialNumber;
+	_pSynaptics_TestResult->strSensorNumber = pTestResult->_versionResult.sSerialNumber;
 
 	//each test step and test result
 	_pSynaptics_TestResult->mapStepResult.clear();
