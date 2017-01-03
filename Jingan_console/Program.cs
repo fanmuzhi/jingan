@@ -63,7 +63,7 @@ namespace Jingan
                 return;
             }
 
-            string cfgPath = @"D:\projects\MTconfig\Metallica_109A\FM192_182_Huawei_109A_109C_Series\release\(580-006033-01r05)_OFilm_109A_Huangpu.xml";
+            string cfgPath = @"D:\projects\MTconfig\Metallica_109A\FM192_182_Huawei_109A_109C_Series\release\(580-006033-01r07)_OFilm_109A_Huangpu.xml";
             Console.WriteLine("please mount the sensor...");
             Console.ReadKey();
 
