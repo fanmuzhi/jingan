@@ -1,6 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<MT_ANALYSIS_CONFIG>
-  <SUBTEST_CONVERT Description="Text file that matches the Subtest name in the MT config with a more readable name. [Config Subtest Name]:[Readable Name]">SubTest_Readable.txt</SUBTEST_CONVERT>
-  <BINCODE_DOC Description="Text file with the details of each bin code. [Test Name]\t[Description]\t[Bincode]">Bincodes_Text.txt</BINCODE_DOC>
-  
-</MT_ANALYSIS_CONFIG>
