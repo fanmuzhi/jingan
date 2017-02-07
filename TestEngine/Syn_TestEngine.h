@@ -32,7 +32,7 @@ public:
 
 	uint32_t Open();
 
-	uint32_t GetTestData(vector<SynTestData*> &olist_test_data);
+	uint32_t GetTestData(dut_test_result * &opTestData);
 
 	uint32_t Close();
 

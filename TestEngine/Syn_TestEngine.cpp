@@ -157,8 +157,10 @@ uint32_t Syn_TestEngine::Open()
 	return 0;
 }
 
-uint32_t Syn_TestEngine::GetTestData(vector<SynTestData*> &olist_test_data)
+uint32_t Syn_TestEngine::GetTestData(dut_test_result * &opTestData)
 {
+	opTestData = NULL;
+
 	if (_State == error || _State != data_ready)
 	{
 		return ERROR_ENGINE_STATE;
@@ -166,11 +168,7 @@ uint32_t Syn_TestEngine::GetTestData(vector<SynTestData*> &olist_test_data)
 
 	if (NULL != _pSynDutUtils)
 	{
-		olist_test_data.clear();
-		for (size_t i = 1; i <= _pSynDutUtils->list_TestData.size(); i++)
-		{
-			olist_test_data.push_back(_pSynDutUtils->list_TestData[i - 1]);
-		}
+		opTestData = _pSynDutUtils->_pDutTestResult;
 
 		_State = idle;
 		return 0;
