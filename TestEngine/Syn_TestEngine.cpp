@@ -38,6 +38,7 @@ uint32_t Syn_TestEngine::CreateTestEngine(uint32_t TestEngineNumber, string strD
 
 	uint32_t rc = 0;
 
+	//need add adcoffset
 	opTestEngine = new Syn_TestEngine(TestEngineNumber, strDeviceSerialNumber, strConfigFilePath);
 	rc = opTestEngine->Init();
 
@@ -57,19 +58,15 @@ uint32_t Syn_TestEngine::Init()
 		return rc;
 	}
 
-	_pSynDutUtils = new Syn_Dut_Utils();
-
-	rc = pConfigUtilsMT->GetConfigMTInfo(_pSynDutUtils->Config_MT_Info);
+	rc = pConfigUtilsMT->GetConfigMTInfo(_Config_MT_Info);
 	delete pConfigUtilsMT;
 	pConfigUtilsMT = NULL;
 	if (0 != rc)
 	{
-		delete _pSynDutUtils;
-		_pSynDutUtils = NULL;
 		return rc;
 	}
 
-	string strDutController(_pSynDutUtils->Config_MT_Info.strDutController);
+	string strDutController(_Config_MT_Info.strDutController);
 	devicetype DeviceType;
 	uint32_t clockrate = M5_CLOCKRATE;
 	if (std::string("MPC04") == strDutController)
@@ -87,13 +84,11 @@ uint32_t Syn_TestEngine::Init()
 	rc = syn_bridge::CreateDeviceInstance(_strDeviceSerialNumber, DeviceType, _pSyn_Bridge);
 	if (0 != rc)
 	{
-		delete _pSynDutUtils;
-		_pSynDutUtils = NULL;
 		return rc;
 	}
 
 	//Module
-	string strModuleType = _pSynDutUtils->Config_MT_Info.strDutType;
+	string strModuleType = _Config_MT_Info.strDutType;
 	FpBravoModule::BravoSensorType SensorType;
 	if (string("Denali") == strModuleType)
 	{
@@ -114,8 +109,8 @@ uint32_t Syn_TestEngine::Init()
 	rc = FpBravoModule::CreateModuleInstance(SensorType, _pSyn_Bridge, _pSyn_Module);
 	if (0 != rc)
 	{
-		delete _pSynDutUtils; _pSynDutUtils = NULL;
-		delete _pSyn_Bridge; _pSyn_Bridge = NULL;
+		delete _pSyn_Bridge; 
+		_pSyn_Bridge = NULL;
 		return rc;
 	}
 
@@ -124,4 +119,173 @@ uint32_t Syn_TestEngine::Init()
 	_State = closed;
 
 	return rc;
+}
+
+uint32_t Syn_TestEngine::Open()
+{
+	uint32_t rc = 0;
+
+	if (_State == running)
+	{
+		return ERROR_ENGINE_STATE;
+	}
+
+	//Create DutUtils
+	if (NULL != _pSynDutUtils)
+	{
+		delete _pSynDutUtils;
+		_pSynDutUtils = NULL;
+	}
+	_pSynDutUtils = new Syn_Dut_Utils();
+	_pSynDutUtils->Config_MT_Info = _Config_MT_Info;
+
+	//fill info
+
+	size_t stringSize = _strConfigFilePath.size();
+	size_t lastBackslashIndex = _strConfigFilePath.find_last_of("/");
+	if (std::string::npos == lastBackslashIndex)
+	{
+		lastBackslashIndex = _strConfigFilePath.find_last_of("\\");
+	}
+	//_pSyn_Dut->_sConfigFileName = _strConfigFilePath.substr(lastBackslashIndex + 1, stringSize - lastBackslashIndex - 1);
+
+	_State = idle;
+
+	//_pSyn_Dut->_DeviceSerialNumber = _strSerialNumber;
+	//_pSyn_Dut->_iSiteNumber = _iSiteNumber;
+
+	return 0;
+}
+
+uint32_t Syn_TestEngine::GetTestData(vector<SynTestData*> &olist_test_data)
+{
+	if (_State == error || _State != data_ready)
+	{
+		return ERROR_ENGINE_STATE;
+	}
+
+	if (NULL != _pSynDutUtils)
+	{
+		olist_test_data.clear();
+		for (size_t i = 1; i <= _pSynDutUtils->list_TestData.size(); i++)
+		{
+			olist_test_data.push_back(_pSynDutUtils->list_TestData[i - 1]);
+		}
+
+		_State = idle;
+		return 0;
+	}
+
+	_State = error;
+
+	return ERROR_ENGINE_DATA;
+}
+
+uint32_t Syn_TestEngine::Close()
+{
+	if (_State == running)
+	{
+		return ERROR_ENGINE_STATE;
+	}
+
+	if (NULL != _pSynDutUtils)
+	{
+		delete _pSynDutUtils;
+		_pSynDutUtils = NULL;
+	}
+
+	_State = closed;
+
+	return 0;
+}
+
+void Syn_TestEngine::GetTestStepList(std::vector<std::string> &oListTeststepName)
+{
+	oListTeststepName.clear();
+
+	for (size_t i = 1; i <= _Config_MT_Info.list_TestStep_Info.size(); i++)
+	{
+		oListTeststepName.push_back(_Config_MT_Info.list_TestStep_Info[i - 1].strTestStepName);
+	}
+}
+
+uint32_t Syn_TestEngine::ExecuteTestStep(string TestStepName, ExcuteType Type)
+{
+	uint32_t rc = 0;
+
+	if (_State == error)
+	{
+		ERROR_ENGINE_STATE;
+	}
+	if (_State != idle && _State != data_ready)
+	{
+		return ERROR_ENGINE_STATE;
+	}
+
+	string strArgsValue("");
+	_Config_MT_Info.GetTestStepInfo(TestStepName, strArgsValue);
+	Syn_TestStep *pTestStep = NULL;
+	rc = Syn_TestStepFactory::CreateBravoTestStep(TestStepName, strArgsValue, _pSyn_Module, _pSynDutUtils, pTestStep);
+	if (0 != rc || NULL == pTestStep)
+	{
+		_State = error;
+		return ERROR_TESTSTEP;
+	}
+
+	_State = running;
+	try
+	{
+		switch (Type)
+		{
+			case All:
+				pTestStep->SetUp();
+				pTestStep->Execute();
+				pTestStep->ProcessData();
+				pTestStep->CleanUp();
+				break;
+
+			case Setup:
+				pTestStep->SetUp();
+				break;
+
+			case Excute:
+				pTestStep->Execute();
+				break;
+
+			case ProcessData:
+				pTestStep->ProcessData();
+				break;
+
+			case Cleanup:
+				pTestStep->CleanUp();
+				break;
+
+			default:
+				pTestStep->SetUp();
+				pTestStep->Execute();
+				pTestStep->ProcessData();
+				pTestStep->CleanUp();
+				break;
+		}
+
+		delete pTestStep;
+		pTestStep = NULL;
+
+		_State = data_ready;
+	}
+	catch (...)
+	{
+		try
+		{
+			_pSyn_Bridge->SetVoltages(0, 0);
+		}
+		catch (...){}
+		delete pTestStep;
+		pTestStep = NULL;
+
+		_State = error;
+		return ERROR_TESTSTEP;
+	}
+
+	return 0;
 }

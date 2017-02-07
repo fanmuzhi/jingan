@@ -12,11 +12,17 @@
 #include "Syn_TestStep.h"
 #include "Syn_TestStepFactory.h"
 
+#define ERROR_ENGINE_STATE	0x6001
+#define ERROR_ENGINE_DATA	0x6002
+#define ERROR_TESTSTEP		0x6003
+
 class Syn_TestEngine
 {
 public:
 
-	enum EngineState{ idle = 0x8001, data_ready, running, error, closed };
+	enum EngineState{ idle, data_ready, running, error, closed };
+
+	enum ExcuteType{ All, Setup, Excute, ProcessData, Cleanup };
 
 	//Syn_TestEngine();
 	~Syn_TestEngine();
@@ -25,6 +31,14 @@ public:
 	static uint32_t CreateTestEngine(uint32_t TestEngineNumber, string strDeviceSerialNumber, string strConfigFilePath, Syn_TestEngine * &opTestEngine);
 
 	uint32_t Open();
+
+	uint32_t GetTestData(vector<SynTestData*> &olist_test_data);
+
+	uint32_t Close();
+
+	void GetTestStepList(vector<string> &oListTeststepName);
+
+	uint32_t ExecuteTestStep(string TestStepName, ExcuteType Type = All);
 
 private:
 
@@ -43,6 +57,8 @@ private:
 
 	syn_bridge	  *_pSyn_Bridge;
 	FpBravoModule *_pSyn_Module;
+
+	Syn_Config_MT_Info _Config_MT_Info;
 
 	EngineState	_State;
 };
