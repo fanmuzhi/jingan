@@ -100,7 +100,7 @@ uint32_t Syn_TestEngine::Init()
 	}
 	else if (std::string("Shasta") == strModuleType)
 	{
-		//SensorType = FpBravoModule::Shasta;
+		SensorType = FpBravoModule::Shasta;
 	}
 	else
 	{

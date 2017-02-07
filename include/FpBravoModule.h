@@ -58,7 +58,7 @@ class SYNA_FPBRAVOMODULE_API FpBravoModule
 
 public:
 
-	enum BravoSensorType{ Denali, Hayes };
+	enum BravoSensorType{ Denali, Hayes, Shasta };
 
 	static uint32_t CreateModuleInstance(BravoSensorType Type, syn_bridge *ipSynBridge, FpBravoModule * &opBravoModule);
 
