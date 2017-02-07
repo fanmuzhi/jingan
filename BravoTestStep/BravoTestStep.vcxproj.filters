@@ -24,12 +24,21 @@
     <ClInclude Include="Syn_TestStep.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Syn_BravoFingerprintTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Ts_BravoInitializationStep.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Syn_TestStepFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Syn_TestStep.cpp">
+    <ClCompile Include="Syn_BravoFingerprintTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Ts_BravoInitializationStep.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

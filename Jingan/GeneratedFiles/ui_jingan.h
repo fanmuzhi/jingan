@@ -15,6 +15,7 @@
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QMainWindow>
+#include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QToolBar>
@@ -25,9 +26,11 @@ QT_BEGIN_NAMESPACE
 class Ui_JinganClass
 {
 public:
-    QMenuBar *menuBar;
-    QToolBar *mainToolBar;
+    QAction *actionExit;
     QWidget *centralWidget;
+    QMenuBar *menuBar;
+    QMenu *menuFile;
+    QToolBar *mainToolBar;
     QStatusBar *statusBar;
 
     void setupUi(QMainWindow *JinganClass)
@@ -35,18 +38,26 @@ public:
         if (JinganClass->objectName().isEmpty())
             JinganClass->setObjectName(QStringLiteral("JinganClass"));
         JinganClass->resize(600, 400);
-        menuBar = new QMenuBar(JinganClass);
-        menuBar->setObjectName(QStringLiteral("menuBar"));
-        JinganClass->setMenuBar(menuBar);
-        mainToolBar = new QToolBar(JinganClass);
-        mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
-        JinganClass->addToolBar(mainToolBar);
+        actionExit = new QAction(JinganClass);
+        actionExit->setObjectName(QStringLiteral("actionExit"));
         centralWidget = new QWidget(JinganClass);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         JinganClass->setCentralWidget(centralWidget);
+        menuBar = new QMenuBar(JinganClass);
+        menuBar->setObjectName(QStringLiteral("menuBar"));
+        menuBar->setGeometry(QRect(0, 0, 600, 21));
+        menuFile = new QMenu(menuBar);
+        menuFile->setObjectName(QStringLiteral("menuFile"));
+        JinganClass->setMenuBar(menuBar);
+        mainToolBar = new QToolBar(JinganClass);
+        mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
+        JinganClass->addToolBar(Qt::BottomToolBarArea, mainToolBar);
         statusBar = new QStatusBar(JinganClass);
         statusBar->setObjectName(QStringLiteral("statusBar"));
         JinganClass->setStatusBar(statusBar);
+
+        menuBar->addAction(menuFile->menuAction());
+        menuFile->addAction(actionExit);
 
         retranslateUi(JinganClass);
 
@@ -56,6 +67,8 @@ public:
     void retranslateUi(QMainWindow *JinganClass)
     {
         JinganClass->setWindowTitle(QApplication::translate("JinganClass", "Jingan", 0));
+        actionExit->setText(QApplication::translate("JinganClass", "Exit", 0));
+        menuFile->setTitle(QApplication::translate("JinganClass", "File", 0));
     } // retranslateUi
 
 };

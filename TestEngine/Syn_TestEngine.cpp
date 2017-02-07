@@ -38,9 +38,13 @@ uint32_t Syn_TestEngine::CreateTestEngine(uint32_t TestEngineNumber, string strD
 
 	uint32_t rc = 0;
 
-	//need add adcoffset
 	opTestEngine = new Syn_TestEngine(TestEngineNumber, strDeviceSerialNumber, strConfigFilePath);
 	rc = opTestEngine->Init();
+	if (0 != rc)
+	{
+		delete opTestEngine;
+		opTestEngine = NULL;
+	}
 
 	return rc;
 

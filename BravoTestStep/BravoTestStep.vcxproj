@@ -51,7 +51,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)SynDutUtils;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -79,7 +79,7 @@ xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\FpBridge.dll" 
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)SynDutUtils;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -105,12 +105,15 @@ xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\FpBridge.dll" 
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Syn_BravoFingerprintTest.h" />
     <ClInclude Include="Syn_TestStep.h" />
     <ClInclude Include="Syn_TestStepFactory.h" />
+    <ClInclude Include="Ts_BravoInitializationStep.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Syn_TestStep.cpp" />
+    <ClCompile Include="Syn_BravoFingerprintTest.cpp" />
     <ClCompile Include="Syn_TestStepFactory.cpp" />
+    <ClCompile Include="Ts_BravoInitializationStep.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
