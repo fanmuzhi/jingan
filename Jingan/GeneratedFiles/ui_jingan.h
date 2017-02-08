@@ -37,7 +37,7 @@ public:
     QPushButton *OperationPushButton;
     QMenuBar *menuBar;
     QMenu *menuFile;
-    QMenu *menuEdit;
+    QMenu *menuOption;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
 
@@ -93,8 +93,8 @@ public:
         menuBar->setGeometry(QRect(0, 0, 571, 21));
         menuFile = new QMenu(menuBar);
         menuFile->setObjectName(QStringLiteral("menuFile"));
-        menuEdit = new QMenu(menuBar);
-        menuEdit->setObjectName(QStringLiteral("menuEdit"));
+        menuOption = new QMenu(menuBar);
+        menuOption->setObjectName(QStringLiteral("menuOption"));
         JinganClass->setMenuBar(menuBar);
         mainToolBar = new QToolBar(JinganClass);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
@@ -104,9 +104,9 @@ public:
         JinganClass->setStatusBar(statusBar);
 
         menuBar->addAction(menuFile->menuAction());
-        menuBar->addAction(menuEdit->menuAction());
+        menuBar->addAction(menuOption->menuAction());
         menuFile->addAction(actionExit);
-        menuEdit->addAction(actionLocalSettings);
+        menuOption->addAction(actionLocalSettings);
 
         retranslateUi(JinganClass);
 
@@ -138,7 +138,7 @@ public:
         ___qtablewidgetitem8->setText(QApplication::translate("JinganClass", "TestStep", 0));
         OperationPushButton->setText(QApplication::translate("JinganClass", "Run", 0));
         menuFile->setTitle(QApplication::translate("JinganClass", "File", 0));
-        menuEdit->setTitle(QApplication::translate("JinganClass", "Edit", 0));
+        menuOption->setTitle(QApplication::translate("JinganClass", "Option", 0));
     } // retranslateUi
 
 };
