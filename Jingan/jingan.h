@@ -9,6 +9,10 @@
 #include "FpBravoModule.h"
 #include "Syn_TestEngine.h"
 
+//Local
+#include "LocalSettings.h"
+#include "LocalSettingsConfig.h"
+
 //std
 #include <vector>
 #include <string>
@@ -22,15 +26,25 @@ public:
 	Jingan(QWidget *parent = 0);
 	~Jingan();
 
+	void ClearTestEngines();
+
+
 public Q_SLOTS:
 
 	void Exit();
+
+	void Initialize();
+
+	void CreateLocalSettings();
+
 
 private:
 
 	Ui::JinganClass ui;
 
 	vector<Syn_TestEngine*> _ListOfTestEngine;
+
+	LocalSettingConfig_t _LocalSettingConfig;
 };
 
 #endif // JINGAN_H

@@ -40,6 +40,12 @@ public:
 
 	uint32_t ExecuteTestStep(string TestStepName, ExcuteType Type = All);
 
+	inline EngineState GetStatus(){ return _State; }
+
+	inline void GetTestEngineNumber(unsigned int &oEngineNumber){ oEngineNumber = _TestEngineNumber; };
+
+	inline void GetDeviceSerialNumber(string &oSerialNumber){ oSerialNumber = _strDeviceSerialNumber; };
+
 private:
 
 	Syn_TestEngine(uint32_t EngineNumber, string strDeviceSerNumber, string strConfigFilePath);

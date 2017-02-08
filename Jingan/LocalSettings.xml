@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LocalSettings>
+    <SysConfigFile>C:/Users/jezhang/Desktop/Hayes_Demo.xml</SysConfigFile>
+    <LogFilePath>C:/logfiles</LogFilePath>
+    <EngineNumbers>2</EngineNumbers>
+    <TestEngine1>FT12GAHM</TestEngine1>
+    <TestEngine2>FTHIT0E</TestEngine2>
+    <DeviceType>M5</DeviceType>
+</LocalSettings>
