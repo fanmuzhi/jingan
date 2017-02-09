@@ -107,29 +107,8 @@ void Jingan::Initialize()
 		string strSerialNumber;
 		_ListOfTestEngine[t - 1]->GetDeviceSerialNumber(strSerialNumber);
 		
-		QString strEngineStatus("");
 		Syn_TestEngine::EngineState EngineState =_ListOfTestEngine[t - 1]->GetStatus();
-		switch (EngineState)
-		{
-			case Syn_TestEngine::idle:
-				strEngineStatus = "Idle";
-				break;
-			case Syn_TestEngine::data_ready:
-				strEngineStatus = "Data Ready";
-				break;
-			case Syn_TestEngine::running:
-				strEngineStatus = "Running";
-				break;
-			case Syn_TestEngine::error:
-				strEngineStatus = "Error";
-				break;
-			case Syn_TestEngine::closed:
-				strEngineStatus = "Closed";
-				break;
-			default:
-				strEngineStatus = "Error";
-				break;
-		}
+		QString strEngineStatus = TransformEngineStatus(EngineState);
 		
 		QTableWidgetItem *qItemSiteNumber = new QTableWidgetItem(QString::number(TestEngineNumber) + QString(" (") + QString::fromStdString(strSerialNumber) + QString(") "));
 		QTableWidgetItem *qItemSiteStatus = new QTableWidgetItem(strEngineStatus);
@@ -169,4 +148,32 @@ void Jingan::ClearTestEngines()
 		}
 		_ListOfTestEngine.clear();
 	}
+}
+
+QString Jingan::TransformEngineStatus(Syn_TestEngine::EngineState EngineState)
+{
+	QString strEngineStatus("");
+	switch (EngineState)
+	{
+		case Syn_TestEngine::idle:
+			strEngineStatus = "Idle";
+			break;
+		case Syn_TestEngine::data_ready:
+			strEngineStatus = "Data Ready";
+			break;
+		case Syn_TestEngine::running:
+			strEngineStatus = "Running";
+			break;
+		case Syn_TestEngine::error:
+			strEngineStatus = "Error";
+			break;
+		case Syn_TestEngine::closed:
+			strEngineStatus = "Closed";
+			break;
+		default:
+			strEngineStatus = "Error";
+			break;
+	}
+
+	return strEngineStatus;
 }

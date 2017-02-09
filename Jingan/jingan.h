@@ -28,6 +28,7 @@ public:
 
 	void ClearTestEngines();
 
+	QString TransformEngineStatus(Syn_TestEngine::EngineState EngineState);
 
 public Q_SLOTS:
 
