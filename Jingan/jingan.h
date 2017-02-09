@@ -12,6 +12,7 @@
 //Local
 #include "LocalSettings.h"
 #include "LocalSettingsConfig.h"
+#include "SynThread.h"
 
 //std
 #include <vector>
@@ -30,6 +31,8 @@ public:
 
 	QString TransformEngineStatus(Syn_TestEngine::EngineState EngineState);
 
+	void keyPressEvent(QKeyEvent * ev);
+	
 public Q_SLOTS:
 
 	void Exit();
@@ -43,9 +46,12 @@ private:
 
 	Ui::JinganClass ui;
 
+	SynThread _qThreadArray[TESTENGINE_COUNTS_MAX];
 	vector<Syn_TestEngine*> _ListOfTestEngine;
 
 	LocalSettingConfig_t _LocalSettingConfig;
+
+	uint32_t _finishedEngineCounts;
 };
 
 #endif // JINGAN_H

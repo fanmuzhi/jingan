@@ -9,6 +9,8 @@ using namespace std;
 #define MPC04_CLOCKRATE			8
 #define M5_CLOCKRATE			15
 
+#define	TESTENGINE_COUNTS_MAX	20
+
 enum TestDataType{ Initialization, ROMTest, RAMTest, ProgrammingMFW, MFWCheck, ProgrammingIOTA, CurrentTest, SleepCurrentTest, DRdyTest, WOF_Baseline, Calibrate, AcqImgNoFinger, WaitStimulus, AcqImgFinger, WOF_Signal, SNRTest, BubbleTest, Imperfections, IOTACheck, Finalization };
 
 struct SynTestData

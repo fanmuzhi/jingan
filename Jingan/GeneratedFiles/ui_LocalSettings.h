@@ -127,6 +127,7 @@ public:
         TestEngineNumberSpinBox = new QSpinBox(TestEngineGroupBox);
         TestEngineNumberSpinBox->setObjectName(QStringLiteral("TestEngineNumberSpinBox"));
         TestEngineNumberSpinBox->setMinimum(0);
+        TestEngineNumberSpinBox->setMaximum(20);
 
         gridLayout_4->addWidget(TestEngineNumberSpinBox, 0, 1, 1, 1);
 

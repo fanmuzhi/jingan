@@ -1,5 +1,6 @@
 #include "LocalSettings.h"
 #include "DeviceManagment.h"
+#include "Syn_Test_Utils.h"
 
 #include <QMessageBox>
 #include <QFileDialog>
@@ -9,6 +10,8 @@ LocalSettings::LocalSettings(QWidget *parent)
 , _pDeviceManager(NULL)
 {
 	ui.setupUi(this);
+
+	ui.TestEngineNumberSpinBox->setMaximum(TESTENGINE_COUNTS_MAX);
 
 	ui.TestEngineTableWidget->verticalHeader()->setVisible(false);
 	ui.TestEngineTableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);

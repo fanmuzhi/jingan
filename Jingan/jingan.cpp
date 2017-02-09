@@ -1,9 +1,11 @@
 #include "jingan.h"
 
 #include <QMessageBox>
+#include <QKeyEvent>
 
 Jingan::Jingan(QWidget *parent)
 : QMainWindow(parent)
+, _finishedEngineCounts(0)
 {
 	ui.setupUi(this);
 	ui.TestEngineTableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -12,6 +14,10 @@ Jingan::Jingan(QWidget *parent)
 	QObject::connect(ui.actionExit, SIGNAL(triggered(bool)), this, SLOT(Exit()));
 
 	QObject::connect(ui.actionLocalSettings, SIGNAL(triggered(bool)), this, SLOT(CreateLocalSettings()));
+
+	//Testing Operation
+	//QObject::connect(ui.pushButtonRun, SIGNAL(clicked()), this, SLOT(Run()));
+
 
 	this->Initialize();
 }
@@ -147,6 +153,14 @@ void Jingan::ClearTestEngines()
 			_ListOfTestEngine[i - 1] = NULL;
 		}
 		_ListOfTestEngine.clear();
+	}
+}
+
+void Jingan::keyPressEvent(QKeyEvent * ev)
+{
+	if (ev->key() == Qt::Key_Enter || ev->key() == Qt::Key_Return)
+	{
+		//Run();
 	}
 }
 
