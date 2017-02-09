@@ -91,6 +91,7 @@ void Ts_BravoInitializationStep::Execute()
 void Ts_BravoInitializationStep::ProcessData()
 {
 	_InitTestData->pass = true;
+	_pSynDutUtils->_pDutTestResult->strSensorSerialNumber = _InitTestData->strSensorSerialNumber;
 }
 
 void Ts_BravoInitializationStep::CleanUp()

@@ -17,7 +17,13 @@ public:
 
 	void SetStopTag(bool stopTag);
 
+	void SetTestStep(vector<string> iListOfTestStep);
+
 signals:
+
+	void sendTestStep(uint32_t EngineNumber, const QString strTestStep, const QString strPassOrFail);
+
+	void sendTestData(uint32_t EngineNumber, const dut_test_result *pTestData);
 
 protected:
 
@@ -28,6 +34,8 @@ private:
 	Syn_TestEngine *_pTestEngine;
 	
 	bool _stopped;
+
+	vector<string> _ListOfTestStep;
 };
 
 #endif // SYNTHREAD_H

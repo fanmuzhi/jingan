@@ -7,7 +7,9 @@
 
 typedef struct dut_test_result_t
 {
-	vector<string>		list_bincodes;
+	string strSensorSerialNumber;
+
+	vector<string> list_bincodes;
 	map<string, string>	map_teststep_ispass;
 
 	vector<SynTestData*> list_testdata;

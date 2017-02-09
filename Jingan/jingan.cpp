@@ -16,7 +16,7 @@ Jingan::Jingan(QWidget *parent)
 	QObject::connect(ui.actionLocalSettings, SIGNAL(triggered(bool)), this, SLOT(CreateLocalSettings()));
 
 	//Testing Operation
-	//QObject::connect(ui.pushButtonRun, SIGNAL(clicked()), this, SLOT(Run()));
+	QObject::connect(ui.OperationPushButton, SIGNAL(clicked()), this, SLOT(Run()));
 
 
 	this->Initialize();
@@ -135,13 +135,90 @@ void Jingan::CreateLocalSettings()
 	//clear
 	this->ClearTestEngines();
 
-	LocalSettings *_pLocalSettingsDlg = new LocalSettings(this);
-	_pLocalSettingsDlg->show();
-	_pLocalSettingsDlg->setAttribute(Qt::WA_DeleteOnClose);
+	LocalSettings *pLocalSettingsDlg = new LocalSettings(this);
+	pLocalSettingsDlg->show();
+	pLocalSettingsDlg->setAttribute(Qt::WA_DeleteOnClose);
 
 	//connect LocalSettings close signal to re-construct site list
-	QObject::connect(_pLocalSettingsDlg, SIGNAL(destroyed()), this, SLOT(Initialize()));
+	QObject::connect(pLocalSettingsDlg, SIGNAL(destroyed()), this, SLOT(Initialize()));
 }
+
+
+void Jingan::Run()
+{
+	unsigned int EngineCounts = _ListOfTestEngine.size();
+	if (0 == EngineCounts)
+	{
+		QMessageBox::critical(this, QString("Error"), QString("Engine numbers is 0,check it please!"));
+		return;
+	}
+
+	_finishedEngineCounts = 0;
+
+	QString qText = ui.OperationPushButton->text();
+	if (QString("Run") == qText)
+	{
+		for (int i = 1; i <= EngineCounts; i++)
+		{
+			if (NULL != ui.TestEngineTableWidget->item(1, i - 1))
+				ui.TestEngineTableWidget->takeItem(1, i - 1);
+			if (NULL != ui.TestEngineTableWidget->item(2, i - 1))
+				ui.TestEngineTableWidget->takeItem(2, i - 1);
+			if (NULL != ui.TestEngineTableWidget->item(3, i - 1))
+				ui.TestEngineTableWidget->takeItem(3, i - 1);
+			if (NULL != ui.TestEngineTableWidget->item(4, i - 1))
+				ui.TestEngineTableWidget->takeItem(4, i - 1);
+			if (NULL != ui.TestEngineTableWidget->item(5, i - 1))
+				ui.TestEngineTableWidget->takeItem(5, i - 1);
+			if (NULL != ui.TestEngineTableWidget->cellWidget(6, i - 1))
+				ui.TestEngineTableWidget->removeCellWidget(6, i - 1);
+			if (NULL != ui.TestEngineTableWidget->cellWidget(7, i - 1))
+				ui.TestEngineTableWidget->removeCellWidget(7, i - 1);
+			if (NULL != ui.TestEngineTableWidget->item(8, i - 1))
+				ui.TestEngineTableWidget->takeItem(8, i - 1);
+		}
+
+		ui.OperationPushButton->setDisabled(true);
+		ui.actionLocalSettings->setDisabled(true);
+	}
+	else if (QString("Continue") == qText)
+	{
+		ui.OperationPushButton->setDisabled(true);
+		ui.actionLocalSettings->setDisabled(true);
+	}
+
+	for (int i = 1; i <= EngineCounts; i++)
+	{
+		if (!_qThreadArray[i - 1].isRunning())
+		{
+			_qThreadArray[i - 1].start();
+			_qThreadArray[i - 1].SetStopTag(false);
+		}
+
+		Syn_TestEngine::EngineState EngineStatus = _ListOfTestEngine[i - 1]->GetStatus();
+		if (Syn_TestEngine::error == EngineStatus)
+		{
+			_finishedEngineCounts += 1;
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 void Jingan::ClearTestEngines()
 {
@@ -160,7 +237,7 @@ void Jingan::keyPressEvent(QKeyEvent * ev)
 {
 	if (ev->key() == Qt::Key_Enter || ev->key() == Qt::Key_Return)
 	{
-		//Run();
+		Run();
 	}
 }
 

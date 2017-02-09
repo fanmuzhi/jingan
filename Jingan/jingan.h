@@ -41,6 +41,7 @@ public Q_SLOTS:
 
 	void CreateLocalSettings();
 
+	void Run();
 
 private:
 
