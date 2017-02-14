@@ -123,29 +123,34 @@ void SynThread::run()
 	}
 	else
 	{
-		dut_test_result *pTestData = NULL;
-		for (size_t t = 0; t < TestStepCounts; t++)
+		rc = _pTestEngine->Open();
+		if (rc == 0)
 		{
-			rc = _pTestEngine->ExecuteTestStep(ListOfTestStep[t]);
-			_pTestEngine->GetTestData(pTestData);
-			if (0 != rc || NULL == pTestData)
+			dut_test_result *pTestData = NULL;
+			for (size_t t = 0; t < TestStepCounts; t++)
 			{
-				QString strErrorCode = QString::number(rc, 16);
-				emit sendTestStep(EngineNumber, QString::fromStdString(ListOfTestStep[t]), "Fail(0x" + strErrorCode + ")");
-				emit sendTestData(EngineNumber, pTestData);
-				return;
-			}
-			else
-			{
-				QString strPassOrFail = QString::fromStdString(pTestData->map_teststep_ispass[ListOfTestStep[t]]);
-				if ("InitializationStep" == ListOfTestStep[t])
+				rc = _pTestEngine->ExecuteTestStep(ListOfTestStep[t]);
+				_pTestEngine->GetTestData(pTestData);
+				if (0 != rc || NULL == pTestData)
 				{
-					strPassOrFail = strPassOrFail + "_" + QString::fromStdString(pTestData->strSensorSerialNumber);
+					QString strErrorCode = QString::number(rc, 16);
+					emit sendTestStep(EngineNumber, QString::fromStdString(ListOfTestStep[t]), "Fail(0x" + strErrorCode + ")");
+					emit sendTestData(EngineNumber, pTestData);
+					return;
 				}
-				emit sendTestStep(EngineNumber, QString::fromStdString(ListOfTestStep[t]), strPassOrFail);
+				else
+				{
+					string sPassOrFail = pTestData->map_teststep_ispass[ListOfTestStep[t]];
+					QString strPassOrFail = QString::fromStdString(sPassOrFail);
+					if ("InitializationStep" == ListOfTestStep[t])
+					{
+						strPassOrFail = strPassOrFail + "_" + QString::fromStdString(pTestData->strSensorSerialNumber);
+					}
+					emit sendTestStep(EngineNumber, QString::fromStdString(ListOfTestStep[t]), strPassOrFail);
+				}
 			}
-		}
 
-		emit sendTestData(EngineNumber, pTestData);
+			emit sendTestData(EngineNumber, pTestData);
+		}
 	}
 }

@@ -16,13 +16,13 @@ uint32_t Syn_TestStepFactory::CreateBravoTestStep(string strTestStepName, string
 	uint32_t rc = 0;
 	opBravoTestStep = NULL;
 
-	if (NULL == pBravoModule)
-	{
-		return 1;
-	}
 	if (NULL == pDutUtils)
 	{
-		return 2;
+		return ERROR_DUTUTILS_NULL;
+	}
+	if (NULL == pBravoModule)
+	{
+		return ERROR_BRAVOMODULE_NULL;
 	}
 
 	if (string("InitializationStep") == strTestStepName)
@@ -35,7 +35,7 @@ uint32_t Syn_TestStepFactory::CreateBravoTestStep(string strTestStepName, string
 	}
 	else
 	{
-		rc = 3;
+		rc = ERROR_TESTSTEP_UNDEFINE;
 	}
 
 	return rc;

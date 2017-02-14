@@ -15,12 +15,19 @@ Ts_BravoInitializationStep::~Ts_BravoInitializationStep()
 
 void Ts_BravoInitializationStep::SetUp()
 {
+	Syn_Exception Exception(0);
 	if (NULL == _pSynModule)
 	{
+		Exception.SetError(ERROR_BRAVOMODULE_NULL);
+		Exception.SetDescription("BravoInitializationStep::_pSynModule is NULL!");
+		throw Exception;
 		return;
 	}
 	if (NULL == _pSynDutUtils)
 	{
+		Exception.SetError(ERROR_DUTUTILS_NULL);
+		Exception.SetDescription("BravoInitializationStep::_pSynDutUtils is NULL!");
+		throw Exception;
 		return;
 	}
 
@@ -38,17 +45,22 @@ void Ts_BravoInitializationStep::SetUp()
 void Ts_BravoInitializationStep::Execute()
 {
 	uint32_t rc = 0;
+	Syn_Exception Exception(0);
 
 	//PowerOn
 	_pSynModule->PowerOff();
 	rc = _pSynModule->PowerOn(_pSynDutUtils->Config_MT_Info.vddh_mv, _pSynDutUtils->Config_MT_Info.vdd_mv);
 	if (0 != rc)
 	{
+		Exception.SetError(rc);
+		throw Exception;
 		return;
 	}
 	rc = _pSynModule->FpTidleSet(0);
 	if (0 != rc)
 	{
+		Exception.SetError(rc);
+		throw Exception;
 		return;
 	}
 
@@ -56,6 +68,8 @@ void Ts_BravoInitializationStep::Execute()
 	rc = _pSynModule->FpGetVersion((uint8_t*)&get_version, sizeof(vcsfw_reply_get_version_t));
 	if (0 != rc)
 	{
+		Exception.SetError(rc);
+		throw Exception;
 		return;
 	}
 
@@ -90,6 +104,7 @@ void Ts_BravoInitializationStep::Execute()
 
 void Ts_BravoInitializationStep::ProcessData()
 {
+	_pSynDutUtils->_pDutTestResult->map_teststep_ispass.insert(map<string, string>::value_type("InitializationStep", "Pass"));
 	_InitTestData->pass = true;
 	_pSynDutUtils->_pDutTestResult->strSensorSerialNumber = _InitTestData->strSensorSerialNumber;
 }

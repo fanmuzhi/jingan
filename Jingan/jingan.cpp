@@ -21,11 +21,11 @@ Jingan::Jingan(QWidget *parent)
 	//Thread
 	for (int i = 1; i <= TESTENGINE_COUNTS_MAX; i++)
 	{
-		QObject::connect(&(_qThreadArray[i - 1]), SIGNAL(sendTestStep(unsigned int, const QString, QString)),
-							this, SLOT(ReceiveTestStep(uint32_t, const QString, QString)), Qt::ConnectionType(Qt::QueuedConnection));
+		QObject::connect(&(_qThreadArray[i - 1]), SIGNAL(sendTestStep(unsigned int, const QString, const QString)),
+			this, SLOT(ReceiveTestStep(unsigned int, const QString, const QString)), Qt::ConnectionType(Qt::QueuedConnection));
 
-		QObject::connect(&(_qThreadArray[i - 1]), SIGNAL(sendTestData(uint32_t, const dut_test_result *)),
-							this, SLOT(ReceiveTestResults(uint32_t, const dut_test_result *)), Qt::ConnectionType(Qt::QueuedConnection));
+		QObject::connect(&(_qThreadArray[i - 1]), SIGNAL(sendTestData(unsigned int, const dut_test_result *)),
+			this, SLOT(ReceiveTestResults(unsigned int, const dut_test_result *)), Qt::ConnectionType(Qt::QueuedConnection));
 	}
 
 	this->Initialize();
@@ -222,7 +222,7 @@ void Jingan::Run()
 	{
 		_qThreadArray[i - 1].SetFlagType(flagType);
 
-		if (Init == flagType)
+		if (Init == flagType || All == flagType)
 		{
 			if (!_qThreadArray[i - 1].isRunning())
 			{
@@ -248,19 +248,25 @@ void Jingan::Run()
 	}
 }
 
-void Jingan::ReceiveTestStep(uint32_t EngineNumber, const QString strTestStep, QString strPassOrFail)
+void Jingan::ReceiveTestStep(unsigned int EngineNumber, const QString strTestStep, const QString strPassOrFail)
 {
 	unsigned int iPos = EngineNumber - 1;
 
+	QString strPassOrFailResult = strPassOrFail;
 	//SerialNumber
 	if (QString("InitializationStep") == strTestStep)
 	{
 		QString strSensorSerialNumber = strPassOrFail.mid(5);
-		strPassOrFail = strPassOrFail.mid(0, 4);
+		strPassOrFailResult = strPassOrFail.mid(0, 4);
+
+		//State
+		QTableWidgetItem *itemSensorSerialNumber = new QTableWidgetItem(strSensorSerialNumber);
+		itemSensorSerialNumber->setTextAlignment(Qt::AlignCenter);
+		ui.TestEngineTableWidget->setItem(2, iPos, itemSensorSerialNumber);
 	}
 
 	//Display Results first
-	QString qsStepAndResult = strTestStep + QString(" : ") + strPassOrFail;
+	QString qsStepAndResult = strTestStep + QString(" : ") + strPassOrFailResult;
 	if (NULL != ui.TestEngineTableWidget->item(8, iPos))
 	{
 		QString qsTempContent = ui.TestEngineTableWidget->item(8, iPos)->text();
@@ -275,7 +281,7 @@ void Jingan::ReceiveTestStep(uint32_t EngineNumber, const QString strTestStep, Q
 		ui.TestEngineTableWidget->resizeRowToContents(8);
 	}
 
-	if (QString("pass") != strPassOrFail.toLower())
+	if (QString("pass") != strPassOrFailResult.toLower())
 	{
 		ui.TestEngineTableWidget->item(8, iPos)->setBackgroundColor(QColor(255, 0, 0));
 	}
@@ -286,7 +292,7 @@ void Jingan::ReceiveTestStep(uint32_t EngineNumber, const QString strTestStep, Q
 		//State
 		QTableWidgetItem *itemState = new QTableWidgetItem(QString("Error"));
 		itemState->setTextAlignment(Qt::AlignCenter);
-		ui.TestEngineTableWidget->setItem(2, iPos, itemState);
+		ui.TestEngineTableWidget->setItem(1, iPos, itemState);
 		itemState->setBackgroundColor(QColor(255, 0, 0));
 		return;
 	}
@@ -294,10 +300,10 @@ void Jingan::ReceiveTestStep(uint32_t EngineNumber, const QString strTestStep, Q
 	//State
 	QTableWidgetItem *itemState = new QTableWidgetItem(QString("Running"));
 	itemState->setTextAlignment(Qt::AlignCenter);
-	ui.TestEngineTableWidget->setItem(2, iPos, itemState);	
+	ui.TestEngineTableWidget->setItem(1, iPos, itemState);	
 }
 
-void Jingan::ReceiveTestResults(uint32_t EngineNumber, const dut_test_result *pTestData)
+void Jingan::ReceiveTestResults(unsigned int EngineNumber, const dut_test_result *pTestData)
 {
 	unsigned int iPos = EngineNumber - 1;
 
@@ -341,7 +347,7 @@ void Jingan::ReceiveTestResults(uint32_t EngineNumber, const dut_test_result *pT
 		//State
 		QTableWidgetItem *itemState = new QTableWidgetItem(QString("Error"));
 		itemState->setTextAlignment(Qt::AlignCenter);
-		ui.TestEngineTableWidget->setItem(2, iPos, itemState);
+		ui.TestEngineTableWidget->setItem(1, iPos, itemState);
 		itemState->setBackgroundColor(QColor(255, 0, 0));
 		//this->ManageButtonStatus(iFlag);
 		return;
@@ -349,6 +355,34 @@ void Jingan::ReceiveTestResults(uint32_t EngineNumber, const dut_test_result *pT
 
 	//int rowNumber = CurrentSysConfig._uiNumRows;
 	//int columnNumber = CurrentSysConfig._uiNumCols;
+
+	if (Final == flagType || All == flagType)
+	{
+		//writelog
+		_ListOfTestEngine[iPos]->WriteLog(_LocalSettingConfig.strLogFilePath.toStdString());
+		_ListOfTestEngine[iPos]->Close();
+
+		//State
+		QTableWidgetItem *itemState = new QTableWidgetItem(QString("Closed"));
+		itemState->setTextAlignment(Qt::AlignCenter);
+		ui.TestEngineTableWidget->setItem(1, iPos, itemState);
+
+		//display test
+		QString strTestResult("");
+		strTestResult = "Pass";
+		QTableWidgetItem *itemTestResult = new QTableWidgetItem(strTestResult);
+		if ("Pass" == strTestResult)
+		{
+			itemTestResult->setBackgroundColor(QColor(0, 255, 0));
+		}
+		else
+		{
+			itemTestResult->setBackgroundColor(QColor(255, 0, 0));
+		}
+		itemTestResult->setTextAlignment(Qt::AlignCenter);
+		ui.TestEngineTableWidget->setItem(5, iPos, itemTestResult);
+		
+	}
 
 	this->ManageButtonStatus(flagType);
 }

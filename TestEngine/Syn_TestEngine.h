@@ -12,10 +12,6 @@
 #include "Syn_TestStep.h"
 #include "Syn_TestStepFactory.h"
 
-#define ERROR_ENGINE_STATE	0x6001
-#define ERROR_ENGINE_DATA	0x6002
-#define ERROR_TESTSTEP		0x6003
-
 class Syn_TestEngine
 {
 public:
@@ -39,6 +35,8 @@ public:
 	void GetTestStepList(vector<string> &oListTeststepName);
 
 	uint32_t ExecuteTestStep(string TestStepName, ExcuteType Type = All);
+
+	uint32_t WriteLog(string strFolderPath, string strFileName = "");
 
 	inline EngineState GetStatus(){ return _State; }
 

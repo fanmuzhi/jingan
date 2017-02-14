@@ -11,6 +11,8 @@ using namespace std;
 
 #define	TESTENGINE_COUNTS_MAX	20
 
+#define	SW_VERSION				"ALPHA_UNRELEASE"
+
 struct FpFrame
 {
 	int16_t arrImage[160][160];

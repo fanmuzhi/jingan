@@ -12,12 +12,19 @@ Ts_BravoFinalizationStep::~Ts_BravoFinalizationStep()
 
 void Ts_BravoFinalizationStep::SetUp()
 {
+	Syn_Exception Exception(0);
 	if (NULL == _pSynModule)
 	{
+		Exception.SetError(ERROR_BRAVOMODULE_NULL);
+		Exception.SetDescription("BravoFinalizationStep::_pSynModule is NULL!");
+		throw Exception;
 		return;
 	}
 	if (NULL == _pSynDutUtils)
 	{
+		Exception.SetError(ERROR_DUTUTILS_NULL);
+		Exception.SetDescription("BravoFinalizationStep::_pSynDutUtils is NULL!");
+		throw Exception;
 		return;
 	}
 
@@ -44,6 +51,7 @@ void Ts_BravoFinalizationStep::Execute()
 
 void Ts_BravoFinalizationStep::ProcessData()
 {
+	_pSynDutUtils->_pDutTestResult->map_teststep_ispass.insert(map<string, string>::value_type("FinalizationStep", "Pass"));
 	_FinalizationTestData->pass = true;
 }
 

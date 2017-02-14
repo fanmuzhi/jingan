@@ -23,11 +23,11 @@ public:
 
 signals:
 
-	void sendTestStep(uint32_t EngineNumber, const QString strTestStep, QString strPassOrFail);
+	void sendTestStep(unsigned int EngineNumber, const QString strTestStep, const QString strPassOrFail);
 
-	void sendTestData(uint32_t EngineNumber, const dut_test_result *pTestData);
+	void sendTestData(unsigned int EngineNumber, const dut_test_result *pTestData);
 
-	void sendImage(uint32_t EngineNumber, const dut_test_result *pTestData);
+	void sendImage(unsigned int EngineNumber, const dut_test_result *pTestData);
 
 protected:
 

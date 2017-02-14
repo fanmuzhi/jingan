@@ -83,6 +83,7 @@
   <ItemGroup>
     <ClInclude Include="Syn_Config_Utils_MT.h" />
     <ClInclude Include="Syn_Dut_Utils.h" />
+    <ClInclude Include="Syn_Exception.h" />
     <ClInclude Include="Syn_Test_Utils.h" />
   </ItemGroup>
   <ItemGroup>

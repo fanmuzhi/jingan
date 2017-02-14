@@ -45,9 +45,9 @@ public Q_SLOTS:
 
 	void Run();
 
-	void ReceiveTestStep(uint32_t EngineNumber, const QString strTestStep, QString strPassOrFail);
+	void ReceiveTestStep(unsigned int EngineNumber, const QString strTestStep, const QString strPassOrFail);
 
-	void ReceiveTestResults(uint32_t EngineNumber, const dut_test_result *pTestData);
+	void ReceiveTestResults(unsigned int EngineNumber, const dut_test_result *pTestData);
 
 private:
 

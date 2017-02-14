@@ -1,5 +1,6 @@
 #pragma once
 #include "Syn_TestStep.h"
+#include "Syn_Exception.h"
 
 #include <windows.h>
 #include <time.h>

@@ -1,4 +1,18 @@
 #include "Syn_TestEngine.h"
+#include "Syn_Exception.h"
+
+//std
+#include <iostream>
+#include <io.h>
+#include <stdio.h>
+#include <fstream>
+#include <vector>
+#include <string>
+#include <time.h>
+#include <regex>
+
+//stat
+#include <sys/stat.h>
 
 Syn_TestEngine::Syn_TestEngine(uint32_t EngineNumber, string strDeviceSerNumber, string strConfigFilePath)
 :_TestEngineNumber(EngineNumber)
@@ -73,7 +87,7 @@ uint32_t Syn_TestEngine::Init()
 	string strDutController(_Config_MT_Info.strDutController);
 	devicetype DeviceType;
 	uint32_t clockrate = M5_CLOCKRATE;
-	if (std::string("MPC04") == strDutController)
+	if (string("MPC04") == strDutController)
 	{
 		DeviceType = spi_mpc04;
 		clockrate = MPC04_CLOCKRATE;
@@ -98,11 +112,11 @@ uint32_t Syn_TestEngine::Init()
 	{
 		SensorType = FpBravoModule::Denali;
 	}
-	else if (std::string("Hayes") == strModuleType)
+	else if (string("Hayes") == strModuleType)
 	{
 		SensorType = FpBravoModule::Hayes;
 	}
-	else if (std::string("Shasta") == strModuleType)
+	else if (string("Shasta") == strModuleType)
 	{
 		SensorType = FpBravoModule::Shasta;
 	}
@@ -131,7 +145,7 @@ uint32_t Syn_TestEngine::Open()
 
 	if (_State == running)
 	{
-		return ERROR_ENGINE_STATE;
+		return ERROR_TESTENGINE_STATE;
 	}
 
 	//Create DutUtils
@@ -167,7 +181,7 @@ uint32_t Syn_TestEngine::GetTestData(dut_test_result * &opTestData)
 
 	if (_State == error || _State != data_ready)
 	{
-		return ERROR_ENGINE_STATE;
+		return ERROR_TESTENGINE_STATE;
 	}
 
 	if (NULL != _pSynDutUtils)
@@ -180,14 +194,14 @@ uint32_t Syn_TestEngine::GetTestData(dut_test_result * &opTestData)
 
 	_State = error;
 
-	return ERROR_ENGINE_DATA;
+	return ERROR_TESTENGINE_DATA;
 }
 
 uint32_t Syn_TestEngine::Close()
 {
 	if (_State == running)
 	{
-		return ERROR_ENGINE_STATE;
+		return ERROR_TESTENGINE_STATE;
 	}
 
 	if (NULL != _pSynDutUtils)
@@ -201,7 +215,7 @@ uint32_t Syn_TestEngine::Close()
 	return 0;
 }
 
-void Syn_TestEngine::GetTestStepList(std::vector<std::string> &oListTeststepName)
+void Syn_TestEngine::GetTestStepList(vector<string> &oListTeststepName)
 {
 	oListTeststepName.clear();
 
@@ -217,11 +231,11 @@ uint32_t Syn_TestEngine::ExecuteTestStep(string TestStepName, ExcuteType Type)
 
 	if (_State == error)
 	{
-		ERROR_ENGINE_STATE;
+		return ERROR_TESTENGINE_STATE;
 	}
 	if (_State != idle && _State != data_ready)
 	{
-		return ERROR_ENGINE_STATE;
+		return ERROR_TESTENGINE_STATE;
 	}
 
 	string strArgsValue("");
@@ -231,7 +245,7 @@ uint32_t Syn_TestEngine::ExecuteTestStep(string TestStepName, ExcuteType Type)
 	if (0 != rc || NULL == pTestStep)
 	{
 		_State = error;
-		return ERROR_TESTSTEP;
+		return rc;
 	}
 
 	_State = running;
@@ -275,7 +289,7 @@ uint32_t Syn_TestEngine::ExecuteTestStep(string TestStepName, ExcuteType Type)
 
 		_State = data_ready;
 	}
-	catch (...)
+	catch (Syn_Exception ex)
 	{
 		try
 		{
@@ -286,8 +300,87 @@ uint32_t Syn_TestEngine::ExecuteTestStep(string TestStepName, ExcuteType Type)
 		pTestStep = NULL;
 
 		_State = error;
-		return ERROR_TESTSTEP;
+		//_strErrorMessage = ex.GetDescription();
+		//_uiErrorFlag = ex.GetError();
+		return ex.GetError();
 	}
+
+	return 0;
+}
+
+uint32_t Syn_TestEngine::WriteLog(string strFolderPath, string strFileName)
+{
+	if (-1 == _access(strFolderPath.c_str(), 2))
+	{
+		return ERROR_ENGINELOG_FOLDER;
+	}
+	if (NULL == _pSynDutUtils)
+	{
+		return ERROR_DUTUTILS_NULL;
+	}
+	if (NULL == _pSynDutUtils->_pDutTestResult)
+	{
+		return ERROR_TESTENGINE_DATA;
+	}
+
+	int RowNumber = _Config_MT_Info.rowNumber;
+	int ColumnNumber = _Config_MT_Info.columnNumber;
+
+	string strSensorSerialNumber = _pSynDutUtils->_pDutTestResult->strSensorSerialNumber;
+
+	string strFilePath("");
+	if (0 == strFileName.size())
+	{
+		strFilePath = strFolderPath + string("/") + strSensorSerialNumber + string(".csv");
+		int iCount(1);
+		struct stat buffer;
+		while (stat(strFilePath.c_str(), &buffer) == 0);
+		{
+			strFilePath = strFolderPath + string("/") + strSensorSerialNumber + "_" + to_string(iCount) + string(".csv");
+			iCount++;
+		}
+	}
+	else
+	{
+		if (string::npos != strFileName.find_first_of(".csv"))
+		{
+			strFilePath = strFolderPath + "\\" + strFileName;
+		}
+		else
+		{
+			strFilePath = strFolderPath + "\\" + strFileName + ".csv";
+		}
+	}
+
+	FILE *pFile = fopen(strFilePath.c_str(), "a");
+	if (NULL == pFile)
+	{
+		return ERROR_ENGINELOG_FILE;
+	}
+
+	//Basic info
+	fprintf(pFile, "%%%%%%%%%%%%%%%%%%%%%%\n");
+	fprintf(pFile, "MTLog,%d,%s\n", _TestEngineNumber, _strDeviceSerialNumber.c_str());
+
+	fprintf(pFile, "Version,%s\n", SW_VERSION);//Version
+
+	//Config file path
+	fprintf(pFile, "Config file,%s\n", _strConfigFilePath.c_str());
+
+	fprintf(pFile, "%%%%%%%%%%%%%%%%%%%%%%\n");
+
+	//fprintf(pFile, "\n---------------------\n");
+	const time_t t = time(NULL);
+	struct tm* current_time = localtime(&t);
+	fprintf(pFile, "Test time,%s\n", asctime(current_time));
+
+	//Sensor Serial Number
+	fprintf(pFile, "Sensor Serial Number,%s\n", strSensorSerialNumber.c_str());
+
+
+
+
+	fclose(pFile);
 
 	return 0;
 }

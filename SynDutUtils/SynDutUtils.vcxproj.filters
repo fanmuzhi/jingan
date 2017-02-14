@@ -27,6 +27,9 @@
     <ClInclude Include="Syn_Config_Utils_MT.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Syn_Exception.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Syn_Dut_Utils.cpp">
