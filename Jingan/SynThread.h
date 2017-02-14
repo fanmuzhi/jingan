@@ -5,6 +5,8 @@
 
 #include "Syn_TestEngine.h"
 
+enum FlagType{Init, Final, All};
+
 class SynThread : public QThread
 {
 	Q_OBJECT
@@ -17,13 +19,15 @@ public:
 
 	void SetStopTag(bool stopTag);
 
-	void SetTestStep(vector<string> iListOfTestStep);
+	void SetFlagType(FlagType iFlagType);
 
 signals:
 
 	void sendTestStep(uint32_t EngineNumber, const QString strTestStep, const QString strPassOrFail);
 
 	void sendTestData(uint32_t EngineNumber, const dut_test_result *pTestData);
+
+	void sendImage(uint32_t EngineNumber, const dut_test_result *pTestData);
 
 protected:
 
@@ -35,7 +39,7 @@ private:
 	
 	bool _stopped;
 
-	vector<string> _ListOfTestStep;
+	FlagType _flagType;
 };
 
 #endif // SYNTHREAD_H

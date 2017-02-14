@@ -53,6 +53,8 @@ enum class StateGetType{ FW_BL, LNA_BL, DM, CDM, REG32BLK, REG16BLK, DIMS, ACQOP
 
 enum class IotaFindType{ ReplyLength, GetData };
 
+enum class WOFCalibrateType{ Baseline, Signal };
+
 class SYNA_FPBRAVOMODULE_API FpBravoModule
 {
 
@@ -75,7 +77,7 @@ public:
 
 	virtual uint32_t FpGetVersion(uint8_t *arrVersion, uint32_t size, uint32_t timeout = TIMEOUT_VALUE);
 
-	virtual uint32_t FpGetStartInfo(uint8_t *arrVersion, uint32_t size, uint32_t timeout = TIMEOUT_VALUE);
+	virtual uint32_t FpGetStartInfo(uint8_t *arrStartInfo, uint32_t size, uint32_t timeout = TIMEOUT_VALUE);
 
 	virtual uint32_t FpLoadPatch(uint8_t* pPatch, uint32_t numBytes, uint32_t timeout = TIMEOUT_VALUE);
 
@@ -107,13 +109,15 @@ public:
 		type : IOTA_ITYPE
 		BIN(...BASE.bin etc.) include type, type default value set to zero!	
 	*/
-	virtual uint32_t FpIotawrite(uint8_t *arrIotadata, uint8_t size, uint16_t type, uint32_t timeout = TIMEOUT_VALUE);
+	virtual uint32_t FpIotawrite(uint8_t *arrIotadata, uint32_t size, uint16_t type, uint32_t timeout = TIMEOUT_VALUE);
 
 	virtual uint32_t FpPeek(uint32_t address, uint8_t opsize, uint32_t &ovalue, uint32_t timeout = TIMEOUT_VALUE);
 
 	virtual uint32_t FpPoke(uint32_t address, uint32_t value, uint8_t opsize = 4, uint32_t timeout = TIMEOUT_VALUE);
 
 	virtual uint32_t FpTestRun(uint8_t patchcmd, uint8_t *arrResponse, uint32_t size, uint32_t timeout = TIMEOUT_VALUE);
+
+	virtual uint32_t FpWOFCalibrate(WOFCalibrateType wofCalibrateType, uint8_t *arrResponse, uint32_t size, uint32_t timeout = TIMEOUT_VALUE);
 
 	virtual uint32_t checkBLMode(bool &mode) = 0;
 

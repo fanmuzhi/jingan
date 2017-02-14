@@ -43,6 +43,8 @@ public Q_SLOTS:
 
 	void Run();
 
+	void ReceiveTestStep(uint32_t EngineNumber, const QString strTestStep, const QString strPassOrFail);
+
 private:
 
 	Ui::JinganClass ui;

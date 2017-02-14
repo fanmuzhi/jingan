@@ -18,6 +18,12 @@ Jingan::Jingan(QWidget *parent)
 	//Testing Operation
 	QObject::connect(ui.OperationPushButton, SIGNAL(clicked()), this, SLOT(Run()));
 
+	//Thread
+	for (int i = 1; i <= TESTENGINE_COUNTS_MAX; i++)
+	{
+		QObject::connect(&(_qThreadArray[i - 1]), SIGNAL(sendTestStep(unsigned int, const QString, const QString)),
+							this, SLOT(ReceiveTestStep(unsigned int, const QString, const QString)), Qt::ConnectionType(Qt::QueuedConnection));
+	}
 
 	this->Initialize();
 }
@@ -103,6 +109,12 @@ void Jingan::Initialize()
 		ui.TestEngineTableWidget->removeColumn(t - 1);
 	}
 
+	for (size_t i = 0; i < EngineCounts; i++)
+	{
+		_qThreadArray[i].SetTestEngine(_ListOfTestEngine[i]);
+		_qThreadArray[i].SetStopTag(true);
+	}
+
 	ui.TestEngineTableWidget->setColumnCount(EngineCounts);
 	QStringList strListOfHeader;
 	for (size_t t = 1; t <= EngineCounts; t++)
@@ -155,9 +167,23 @@ void Jingan::Run()
 
 	_finishedEngineCounts = 0;
 
+	FlagType flagType;
+
 	QString qText = ui.OperationPushButton->text();
 	if (QString("Run") == qText)
 	{
+		flagType = All;
+		vector<string> list_teststep;
+		_ListOfTestEngine[0]->GetTestStepList(list_teststep);
+		for (size_t t = 0; t < list_teststep.size(); t++)
+		{
+			if ("WaitStimulus" == list_teststep[t])
+			{
+				flagType = Init;
+				break;
+			}
+		}
+
 		for (int i = 1; i <= EngineCounts; i++)
 		{
 			if (NULL != ui.TestEngineTableWidget->item(1, i - 1))
@@ -183,16 +209,32 @@ void Jingan::Run()
 	}
 	else if (QString("Continue") == qText)
 	{
+		flagType = Final;
+
 		ui.OperationPushButton->setDisabled(true);
 		ui.actionLocalSettings->setDisabled(true);
 	}
 
 	for (int i = 1; i <= EngineCounts; i++)
 	{
-		if (!_qThreadArray[i - 1].isRunning())
+		_qThreadArray[i - 1].SetFlagType(flagType);
+
+		if (Init == flagType)
 		{
+			if (!_qThreadArray[i - 1].isRunning())
+			{
+				_qThreadArray[i - 1].start();
+				_qThreadArray[i - 1].SetStopTag(false);
+			}
+		}
+		else
+		{
+			if (_qThreadArray[i - 1].isRunning())
+			{
+				_qThreadArray[i - 1].SetStopTag(true);
+			}
+
 			_qThreadArray[i - 1].start();
-			_qThreadArray[i - 1].SetStopTag(false);
 		}
 
 		Syn_TestEngine::EngineState EngineStatus = _ListOfTestEngine[i - 1]->GetStatus();
@@ -203,6 +245,61 @@ void Jingan::Run()
 	}
 }
 
+void Jingan::ReceiveTestStep(uint32_t EngineNumber, const QString strTestStep, const QString strPassOrFail)
+{
+	unsigned int iPos = EngineNumber - 1;
+
+	//Display Results first
+	QString qsStepAndResult = strTestStep + QString(" : ") + strPassOrFail;
+	if (NULL != ui.TestEngineTableWidget->item(8, iPos))
+	{
+		QString qsTempContent = ui.TestEngineTableWidget->item(8, iPos)->text();
+		ui.TestEngineTableWidget->item(8, iPos)->setText(qsTempContent + QString("\n") + qsStepAndResult);
+		ui.TestEngineTableWidget->resizeRowToContents(8);
+	}
+	else
+	{
+		QTableWidgetItem *item = new QTableWidgetItem(qsStepAndResult);
+		item->setTextAlignment(Qt::AlignCenter);
+		ui.TestEngineTableWidget->setItem(8, iPos, item);
+		ui.TestEngineTableWidget->resizeRowToContents(8);
+	}
+
+	if (QString("pass") != strPassOrFail.toLower())
+	{
+		ui.TestEngineTableWidget->item(8, iPos)->setBackgroundColor(QColor(255, 0, 0));
+	}
+
+	Syn_TestEngine::EngineState EngineStatus = _ListOfTestEngine[iPos]->GetStatus();
+	if (Syn_TestEngine::error == EngineStatus)
+	{
+		//State
+		QTableWidgetItem *itemState = new QTableWidgetItem(QString("Error"));
+		itemState->setTextAlignment(Qt::AlignCenter);
+		ui.TestEngineTableWidget->setItem(2, iPos, itemState);
+		itemState->setBackgroundColor(QColor(255, 0, 0));
+		return;
+	}
+
+	//State
+	QTableWidgetItem *itemState = new QTableWidgetItem(QString("Running"));
+	itemState->setTextAlignment(Qt::AlignCenter);
+	ui.TestEngineTableWidget->setItem(2, iPos, itemState);
+
+	//SerialNumber
+	if (QString("InitializationStep") == strTestStep)
+	{
+		/*Syn_DutTestInfo *pTestInfo = NULL;
+		_ListOfSitePtr[iPos]->GetTestInfo(pTestInfo);
+		if (NULL != pTestInfo)
+		{
+			QString strSerialumber = TransformSerialnumber(pTestInfo->_getVerInfo.serial_number, 6);
+			QTableWidgetItem *itemSerialNumber = new QTableWidgetItem(strSerialumber);
+			itemSerialNumber->setTextAlignment(Qt::AlignCenter);
+			ui.TestTableWidget->setItem(1, iPos, itemSerialNumber);
+		}*/
+	}
+}
 
 
 

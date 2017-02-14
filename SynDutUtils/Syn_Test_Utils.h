@@ -11,6 +11,11 @@ using namespace std;
 
 #define	TESTENGINE_COUNTS_MAX	20
 
+struct FpFrame
+{
+	int16_t arrImage[160][160];
+};
+
 enum TestDataType{ Initialization, ROMTest, RAMTest, ProgrammingMFW, MFWCheck, ProgrammingIOTA, CurrentTest, SleepCurrentTest, DRdyTest, WOF_Baseline, Calibrate, AcqImgNoFinger, WaitStimulus, AcqImgFinger, WOF_Signal, SNRTest, BubbleTest, Imperfections, IOTACheck, Finalization };
 
 struct SynTestData
@@ -32,4 +37,13 @@ struct InitializationTestData : public SynTestData
 
 	//result
 	string strSensorSerialNumber;
+};
+
+struct CalibrateTestData : public SynTestData
+{
+	//parameter
+
+	//result
+	int16_t FWBaseline[10000];
+	int16_t LNABaseline[10000];
 };
