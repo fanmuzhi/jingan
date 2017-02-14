@@ -334,10 +334,12 @@ uint32_t Syn_TestEngine::WriteLog(string strFolderPath, string strFileName)
 		strFilePath = strFolderPath + string("/") + strSensorSerialNumber + string(".csv");
 		int iCount(1);
 		struct stat buffer;
-		while (stat(strFilePath.c_str(), &buffer) == 0);
+		bool fileExists = stat(strFilePath.c_str(), &buffer) == 0 ? true : false;
+		while (fileExists)
 		{
 			strFilePath = strFolderPath + string("/") + strSensorSerialNumber + "_" + to_string(iCount) + string(".csv");
 			iCount++;
+			fileExists = stat(strFilePath.c_str(), &buffer) == 0 ? true : false;
 		}
 	}
 	else
@@ -367,9 +369,8 @@ uint32_t Syn_TestEngine::WriteLog(string strFolderPath, string strFileName)
 	//Config file path
 	fprintf(pFile, "Config file,%s\n", _strConfigFilePath.c_str());
 
-	fprintf(pFile, "%%%%%%%%%%%%%%%%%%%%%%\n");
+	fprintf(pFile, "%%%%%%%%%%%%%%%%%%%%%%\n\n");
 
-	//fprintf(pFile, "\n---------------------\n");
 	const time_t t = time(NULL);
 	struct tm* current_time = localtime(&t);
 	fprintf(pFile, "Test time,%s\n", asctime(current_time));

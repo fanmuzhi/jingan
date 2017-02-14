@@ -360,28 +360,40 @@ void Jingan::ReceiveTestResults(unsigned int EngineNumber, const dut_test_result
 	{
 		//writelog
 		_ListOfTestEngine[iPos]->WriteLog(_LocalSettingConfig.strLogFilePath.toStdString());
-		_ListOfTestEngine[iPos]->Close();
 
 		//State
 		QTableWidgetItem *itemState = new QTableWidgetItem(QString("Closed"));
 		itemState->setTextAlignment(Qt::AlignCenter);
 		ui.TestEngineTableWidget->setItem(1, iPos, itemState);
 
-		//display test
 		QString strTestResult("");
-		strTestResult = "Pass";
+		if (1 == pTestData->list_bincodes.size() && "1" == (pTestData->list_bincodes)[0])
+			strTestResult = "Pass";
+		else
+			strTestResult = "Fail";
 		QTableWidgetItem *itemTestResult = new QTableWidgetItem(strTestResult);
 		if ("Pass" == strTestResult)
-		{
 			itemTestResult->setBackgroundColor(QColor(0, 255, 0));
-		}
 		else
-		{
 			itemTestResult->setBackgroundColor(QColor(255, 0, 0));
-		}
+
 		itemTestResult->setTextAlignment(Qt::AlignCenter);
 		ui.TestEngineTableWidget->setItem(5, iPos, itemTestResult);
 		
+		//BinCode
+		QString strBincodes("");
+		for (size_t i = 1; i <= pTestData->list_bincodes.size(); i++)
+		{
+			if (1 == i)
+				strBincodes += QString::fromStdString(pTestData->list_bincodes[i - 1]);
+			else
+				strBincodes = strBincodes + QString(" , ") + QString::fromStdString(pTestData->list_bincodes[i - 1]);
+		}
+		QTableWidgetItem *itemBincodes = new QTableWidgetItem(strBincodes);
+		itemBincodes->setTextAlignment(Qt::AlignCenter);
+		ui.TestEngineTableWidget->setItem(4, iPos, itemBincodes);
+
+		_ListOfTestEngine[iPos]->Close();
 	}
 
 	this->ManageButtonStatus(flagType);

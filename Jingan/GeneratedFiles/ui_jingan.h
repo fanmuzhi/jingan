@@ -127,7 +127,7 @@ public:
         QTableWidgetItem *___qtablewidgetitem3 = TestEngineTableWidget->verticalHeaderItem(3);
         ___qtablewidgetitem3->setText(QApplication::translate("JinganClass", "SNR", 0));
         QTableWidgetItem *___qtablewidgetitem4 = TestEngineTableWidget->verticalHeaderItem(4);
-        ___qtablewidgetitem4->setText(QApplication::translate("JinganClass", "Bincode", 0));
+        ___qtablewidgetitem4->setText(QApplication::translate("JinganClass", "Bincodes", 0));
         QTableWidgetItem *___qtablewidgetitem5 = TestEngineTableWidget->verticalHeaderItem(5);
         ___qtablewidgetitem5->setText(QApplication::translate("JinganClass", "Pass/Fail", 0));
         QTableWidgetItem *___qtablewidgetitem6 = TestEngineTableWidget->verticalHeaderItem(6);

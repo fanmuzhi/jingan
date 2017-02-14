@@ -53,6 +53,11 @@ void Ts_BravoFinalizationStep::ProcessData()
 {
 	_pSynDutUtils->_pDutTestResult->map_teststep_ispass.insert(map<string, string>::value_type("FinalizationStep", "Pass"));
 	_FinalizationTestData->pass = true;
+
+	if (0 == _pSynDutUtils->_pDutTestResult->list_bincodes.size())
+	{
+		_pSynDutUtils->_pDutTestResult->list_bincodes.push_back("1");
+	}
 }
 
 void Ts_BravoFinalizationStep::CleanUp()
@@ -61,4 +66,5 @@ void Ts_BravoFinalizationStep::CleanUp()
 
 	SynTestData *pSynTestData = static_cast<SynTestData*>(_FinalizationTestData);
 	_pSynDutUtils->_pDutTestResult->list_testdata.push_back(pSynTestData);
+
 }
