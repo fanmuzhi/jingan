@@ -32,6 +32,8 @@ public:
 	QString TransformEngineStatus(Syn_TestEngine::EngineState EngineState);
 
 	void keyPressEvent(QKeyEvent * ev);
+
+	void ManageButtonStatus(FlagType flag);
 	
 public Q_SLOTS:
 
@@ -43,7 +45,9 @@ public Q_SLOTS:
 
 	void Run();
 
-	void ReceiveTestStep(uint32_t EngineNumber, const QString strTestStep, const QString strPassOrFail);
+	void ReceiveTestStep(uint32_t EngineNumber, const QString strTestStep, QString strPassOrFail);
+
+	void ReceiveTestResults(uint32_t EngineNumber, const dut_test_result *pTestData);
 
 private:
 

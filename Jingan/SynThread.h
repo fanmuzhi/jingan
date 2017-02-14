@@ -23,7 +23,7 @@ public:
 
 signals:
 
-	void sendTestStep(uint32_t EngineNumber, const QString strTestStep, const QString strPassOrFail);
+	void sendTestStep(uint32_t EngineNumber, const QString strTestStep, QString strPassOrFail);
 
 	void sendTestData(uint32_t EngineNumber, const dut_test_result *pTestData);
 

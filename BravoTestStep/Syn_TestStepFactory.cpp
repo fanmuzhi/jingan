@@ -1,6 +1,7 @@
 #include "Syn_TestStepFactory.h"
 #include "Syn_BravoFingerprintTest.h"
 #include "Ts_BravoInitializationStep.h"
+#include "Ts_BravoFinalizationStep.h"
 
 Syn_TestStepFactory::Syn_TestStepFactory()
 {
@@ -24,9 +25,13 @@ uint32_t Syn_TestStepFactory::CreateBravoTestStep(string strTestStepName, string
 		return 2;
 	}
 
-	if (std::string("InitializationStep") == strTestStepName)
+	if (string("InitializationStep") == strTestStepName)
 	{
 		opBravoTestStep = new Ts_BravoInitializationStep(strTestStepName, pBravoModule, pDutUtils);
+	}
+	else if (string("FinalizationStep") == strTestStepName)
+	{
+		opBravoTestStep = new Ts_BravoFinalizationStep(strTestStepName, pBravoModule, pDutUtils);
 	}
 	else
 	{

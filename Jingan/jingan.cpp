@@ -21,8 +21,11 @@ Jingan::Jingan(QWidget *parent)
 	//Thread
 	for (int i = 1; i <= TESTENGINE_COUNTS_MAX; i++)
 	{
-		QObject::connect(&(_qThreadArray[i - 1]), SIGNAL(sendTestStep(unsigned int, const QString, const QString)),
-							this, SLOT(ReceiveTestStep(unsigned int, const QString, const QString)), Qt::ConnectionType(Qt::QueuedConnection));
+		QObject::connect(&(_qThreadArray[i - 1]), SIGNAL(sendTestStep(unsigned int, const QString, QString)),
+							this, SLOT(ReceiveTestStep(uint32_t, const QString, QString)), Qt::ConnectionType(Qt::QueuedConnection));
+
+		QObject::connect(&(_qThreadArray[i - 1]), SIGNAL(sendTestData(uint32_t, const dut_test_result *)),
+							this, SLOT(ReceiveTestResults(uint32_t, const dut_test_result *)), Qt::ConnectionType(Qt::QueuedConnection));
 	}
 
 	this->Initialize();
@@ -245,9 +248,16 @@ void Jingan::Run()
 	}
 }
 
-void Jingan::ReceiveTestStep(uint32_t EngineNumber, const QString strTestStep, const QString strPassOrFail)
+void Jingan::ReceiveTestStep(uint32_t EngineNumber, const QString strTestStep, QString strPassOrFail)
 {
 	unsigned int iPos = EngineNumber - 1;
+
+	//SerialNumber
+	if (QString("InitializationStep") == strTestStep)
+	{
+		QString strSensorSerialNumber = strPassOrFail.mid(5);
+		strPassOrFail = strPassOrFail.mid(0, 4);
+	}
 
 	//Display Results first
 	QString qsStepAndResult = strTestStep + QString(" : ") + strPassOrFail;
@@ -284,26 +294,115 @@ void Jingan::ReceiveTestStep(uint32_t EngineNumber, const QString strTestStep, c
 	//State
 	QTableWidgetItem *itemState = new QTableWidgetItem(QString("Running"));
 	itemState->setTextAlignment(Qt::AlignCenter);
-	ui.TestEngineTableWidget->setItem(2, iPos, itemState);
-
-	//SerialNumber
-	if (QString("InitializationStep") == strTestStep)
-	{
-		/*Syn_DutTestInfo *pTestInfo = NULL;
-		_ListOfSitePtr[iPos]->GetTestInfo(pTestInfo);
-		if (NULL != pTestInfo)
-		{
-			QString strSerialumber = TransformSerialnumber(pTestInfo->_getVerInfo.serial_number, 6);
-			QTableWidgetItem *itemSerialNumber = new QTableWidgetItem(strSerialumber);
-			itemSerialNumber->setTextAlignment(Qt::AlignCenter);
-			ui.TestTableWidget->setItem(1, iPos, itemSerialNumber);
-		}*/
-	}
+	ui.TestEngineTableWidget->setItem(2, iPos, itemState);	
 }
 
+void Jingan::ReceiveTestResults(uint32_t EngineNumber, const dut_test_result *pTestData)
+{
+	unsigned int iPos = EngineNumber - 1;
 
+	FlagType flagType;
+	bool bWaitStimulus(false);
+	std::vector<std::string> listOfTestStepName;
+	_ListOfTestEngine[iPos]->GetTestStepList(listOfTestStepName);
+	if (0 != listOfTestStepName.size())
+	{
+		for (size_t i = 0; i < listOfTestStepName.size(); i++)
+		{
+			if (std::string("WaitStimulus") == listOfTestStepName[i])
+			{
+				bWaitStimulus = true;
+				break;
+			}
+		}
+	}
+	if (bWaitStimulus)
+	{
+		QString qText = ui.OperationPushButton->text();
+		if (QString("Run") == qText)
+		{
+			flagType = Init;
+		}
+		else if (QString("Continue") == qText)
+		{
+			flagType = Final;
+		}
+	}
+	else
+	{
+		flagType = All;
+	}
 
+	_finishedEngineCounts += 1;
 
+	Syn_TestEngine::EngineState Status = _ListOfTestEngine[iPos]->GetStatus();
+	if (Syn_TestEngine::error == Status)
+	{
+		//State
+		QTableWidgetItem *itemState = new QTableWidgetItem(QString("Error"));
+		itemState->setTextAlignment(Qt::AlignCenter);
+		ui.TestEngineTableWidget->setItem(2, iPos, itemState);
+		itemState->setBackgroundColor(QColor(255, 0, 0));
+		//this->ManageButtonStatus(iFlag);
+		return;
+	}
+
+	//int rowNumber = CurrentSysConfig._uiNumRows;
+	//int columnNumber = CurrentSysConfig._uiNumCols;
+
+	this->ManageButtonStatus(flagType);
+}
+
+void Jingan::ManageButtonStatus(FlagType flag)
+{
+	if (_finishedEngineCounts == _ListOfTestEngine.size())
+	{
+		bool bAllFailed(true);
+		for (size_t i = 1; i <= _ListOfTestEngine.size(); i++)
+		{
+			Syn_TestEngine::EngineState Status = _ListOfTestEngine[i - 1]->GetStatus();
+			if (Syn_TestEngine::error != Status)
+			{
+				bAllFailed = false;
+				break;
+			}
+		}
+
+		if (bAllFailed)
+		{
+
+			//if all failed,reset it to init
+			ui.OperationPushButton->setText(QString("Run"));
+			ui.OperationPushButton->setDisabled(false);
+			//ui.actionBinCodes->setDisabled(false);
+			ui.actionLocalSettings->setDisabled(false);
+		}
+		else
+		{
+			if (Init == flag)
+			{
+				ui.OperationPushButton->setText(QString("Continue"));
+				ui.OperationPushButton->setDisabled(false);
+
+				//DisplayImage In time
+			}
+			else if (Final == flag)
+			{
+				ui.OperationPushButton->setText(QString("Run"));
+				ui.OperationPushButton->setDisabled(false);
+				//ui.actionBinCodes->setDisabled(false);
+				ui.actionLocalSettings->setDisabled(false);
+			}
+			else
+			{
+				ui.OperationPushButton->setText(QString("Run"));
+				ui.OperationPushButton->setDisabled(false);
+				//ui.actionBinCodes->setDisabled(false);
+				ui.actionLocalSettings->setDisabled(false);
+			}
+		}
+	}
+}
 
 
 

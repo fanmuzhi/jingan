@@ -47,3 +47,11 @@ struct CalibrateTestData : public SynTestData
 	int16_t FWBaseline[10000];
 	int16_t LNABaseline[10000];
 };
+
+struct FinalizationTestData : public SynTestData
+{
+	//parameter
+
+	//result
+
+};
