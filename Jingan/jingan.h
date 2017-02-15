@@ -13,6 +13,7 @@
 #include "LocalSettings.h"
 #include "LocalSettingsConfig.h"
 #include "SynThread.h"
+#include "SynImagingThread.h"
 
 //std
 #include <vector>
@@ -34,6 +35,8 @@ public:
 	void keyPressEvent(QKeyEvent * ev);
 
 	void ManageButtonStatus(FlagType flag);
+
+	void bpp16tobpp8(int16_t *image, uint8_t *newimage, const int num_rows, const int num_cols);
 	
 public Q_SLOTS:
 
@@ -49,11 +52,14 @@ public Q_SLOTS:
 
 	void ReceiveTestResults(unsigned int EngineNumber, const dut_test_result *pTestData);
 
+	void ReceivingImage(unsigned int EngineNumber, const dut_test_result *pTestData);
+
 private:
 
 	Ui::JinganClass ui;
 
 	SynThread _qThreadArray[TESTENGINE_COUNTS_MAX];
+	SynImagingThread _qImagingThreadArray[TESTENGINE_COUNTS_MAX];
 	vector<Syn_TestEngine*> _ListOfTestEngine;
 
 	LocalSettingConfig_t _LocalSettingConfig;

@@ -43,7 +43,7 @@ void Ts_BravoFinalizationStep::Execute()
 {
 	uint32_t rc = 0;
 
-	//PowerOn
+	//PowerOff
 	_pSynModule->PowerOff();
 	
 	_FinalizationTestData->executed = true;
@@ -66,5 +66,4 @@ void Ts_BravoFinalizationStep::CleanUp()
 
 	SynTestData *pSynTestData = static_cast<SynTestData*>(_FinalizationTestData);
 	_pSynDutUtils->_pDutTestResult->list_testdata.push_back(pSynTestData);
-
 }

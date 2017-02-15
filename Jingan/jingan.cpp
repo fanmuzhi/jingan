@@ -26,6 +26,9 @@ Jingan::Jingan(QWidget *parent)
 
 		QObject::connect(&(_qThreadArray[i - 1]), SIGNAL(sendTestData(unsigned int, const dut_test_result *)),
 			this, SLOT(ReceiveTestResults(unsigned int, const dut_test_result *)), Qt::ConnectionType(Qt::QueuedConnection));
+
+		QObject::connect(&(_qImagingThreadArray[i - 1]), SIGNAL(sendImage(unsigned int, const dut_test_result *)),
+			this, SLOT(ReceivingImage(unsigned int, const dut_test_result *)), Qt::ConnectionType(Qt::QueuedConnection));
 	}
 
 	this->Initialize();
@@ -116,6 +119,9 @@ void Jingan::Initialize()
 	{
 		_qThreadArray[i].SetTestEngine(_ListOfTestEngine[i]);
 		_qThreadArray[i].SetStopTag(true);
+
+		_qImagingThreadArray[i].SetTestEngine(_ListOfTestEngine[i]);
+		_qImagingThreadArray[i].SetStopTag(true);
 	}
 
 	ui.TestEngineTableWidget->setColumnCount(EngineCounts);
@@ -220,24 +226,17 @@ void Jingan::Run()
 
 	for (int i = 1; i <= EngineCounts; i++)
 	{
-		_qThreadArray[i - 1].SetFlagType(flagType);
-
-		if (Init == flagType || All == flagType)
+		if (_qImagingThreadArray[i - 1].isRunning())
 		{
-			if (!_qThreadArray[i - 1].isRunning())
-			{
-				_qThreadArray[i - 1].start();
-				_qThreadArray[i - 1].SetStopTag(false);
-			}
+			_qImagingThreadArray[i - 1].SetStopTag(true);
+			_qImagingThreadArray[i - 1].wait();
 		}
-		else
-		{
-			if (_qThreadArray[i - 1].isRunning())
-			{
-				_qThreadArray[i - 1].SetStopTag(true);
-			}
 
+		if (!_qThreadArray[i - 1].isRunning())
+		{
 			_qThreadArray[i - 1].start();
+			_qThreadArray[i - 1].SetStopTag(false);
+			_qThreadArray[i - 1].SetFlagType(flagType);
 		}
 
 		Syn_TestEngine::EngineState EngineStatus = _ListOfTestEngine[i - 1]->GetStatus();
@@ -258,11 +257,15 @@ void Jingan::ReceiveTestStep(unsigned int EngineNumber, const QString strTestSte
 	{
 		QString strSensorSerialNumber = strPassOrFail.mid(5);
 		strPassOrFailResult = strPassOrFail.mid(0, 4);
-
-		//State
-		QTableWidgetItem *itemSensorSerialNumber = new QTableWidgetItem(strSensorSerialNumber);
-		itemSensorSerialNumber->setTextAlignment(Qt::AlignCenter);
-		ui.TestEngineTableWidget->setItem(2, iPos, itemSensorSerialNumber);
+		if ("pass" == strPassOrFailResult.toLower())
+		{
+			//State
+			QTableWidgetItem *itemSensorSerialNumber = new QTableWidgetItem(strSensorSerialNumber);
+			itemSensorSerialNumber->setTextAlignment(Qt::AlignCenter);
+			ui.TestEngineTableWidget->setItem(2, iPos, itemSensorSerialNumber);
+		}
+		else
+			strPassOrFailResult = strPassOrFail;
 	}
 
 	//Display Results first
@@ -431,6 +434,15 @@ void Jingan::ManageButtonStatus(FlagType flag)
 				ui.OperationPushButton->setDisabled(false);
 
 				//DisplayImage In time
+				//DisplayImage In time
+				for (size_t i = 1; i <= _ListOfTestEngine.size(); i++)
+				{
+					if (!_qImagingThreadArray[i - 1].isRunning())
+					{
+						_qImagingThreadArray[i - 1].SetStopTag(false);
+						_qImagingThreadArray[i - 1].start();
+					}
+				}
 			}
 			else if (Final == flag)
 			{
@@ -450,9 +462,86 @@ void Jingan::ManageButtonStatus(FlagType flag)
 	}
 }
 
+void Jingan::ReceivingImage(unsigned int EngineNumber, const dut_test_result *pTestData)
+{
+	unsigned int iPos = EngineNumber - 1;
+	if (NULL == pTestData)
+		return;
 
+	bool CalibrateExcuted(false);
+	WaitStilumusTestData *waitStilimusdata = NULL;
+	for (size_t t = 0; t < pTestData->list_testdata.size(); t++)
+	{
+		if (NULL != waitStilimusdata&&CalibrateExcuted)
+			break;
+		SynTestData *Test_data = pTestData->list_testdata[t];
+		if (NULL != Test_data)
+		{
+			if ("Calibrate" == Test_data->data_name)
+			{
+				CalibrateExcuted = true;
+				//break;
+			}
+			else if ("WaitStimulus" == Test_data->data_name)
+			{
+				waitStilimusdata = static_cast<WaitStilumusTestData*>(Test_data);
+			}
+			else
+				continue;
+		}
+	}
+	if (!CalibrateExcuted)
+		return;
 
+	uint32_t rowNumber = 144;
+	uint32_t columnNumber = 56;
+	uint8_t *arrImage8bit = new uint8_t[rowNumber*columnNumber];
+	bpp16tobpp8(waitStilimusdata->FrameData, arrImage8bit, rowNumber, columnNumber);
 
+	QVector<QRgb> vcolorTable;
+	for (int i = 0; i < 256; i++)
+	{
+		vcolorTable.append(qRgb(i, i, i));
+	}
+	QByteArray data;
+	data.resize((rowNumber)*(columnNumber));
+	for (int m = 0; m < rowNumber*columnNumber; m++)
+	{
+		data[m] = arrImage8bit[m];
+	}
+	QImage Image((const uchar*)data.constData(), columnNumber, rowNumber, columnNumber, QImage::Format_Indexed8);
+	Image.setColorTable(vcolorTable);
+	delete[] arrImage8bit; arrImage8bit = NULL;
+
+	//display
+	QLabel *pImageLabel = NULL;
+	if (NULL != ui.TestEngineTableWidget->cellWidget(7, iPos))
+		pImageLabel = static_cast<QLabel*>(ui.TestEngineTableWidget->cellWidget(7, iPos));
+	else
+		pImageLabel = new QLabel();
+
+	pImageLabel->setPixmap(QPixmap::fromImage(Image));
+	pImageLabel->setAlignment(Qt::AlignCenter);
+	ui.TestEngineTableWidget->setCellWidget(7, iPos, pImageLabel);
+	ui.TestEngineTableWidget->resizeRowToContents(7);
+}
+
+void Jingan::bpp16tobpp8(int16_t *image, uint8_t *newimage, const int num_rows, const int num_cols)
+{
+	int i, n;
+	//unsigned char *ptr;
+	int v;
+
+	n = num_rows*num_cols;
+	//ptr = (unsigned char*)image;
+
+	for (i = 0; i < n; ++i) {
+		v = ((int)image[i] + 3500) * 255 / 7000;
+		if (v < 0) v = 0;
+		if (v > 255) v = 255;
+		newimage[i] = (unsigned char)v;
+	}
+}
 
 
 

@@ -378,8 +378,69 @@ uint32_t Syn_TestEngine::WriteLog(string strFolderPath, string strFileName)
 	//Sensor Serial Number
 	fprintf(pFile, "Sensor Serial Number,%s\n", strSensorSerialNumber.c_str());
 
+	CalibrateTestData *calibrationTestData = NULL;
 
+	//Teststep info
+	for (size_t t = 0; t < _pSynDutUtils->_pDutTestResult->list_testdata.size(); t++)
+	{
+		SynTestData *Test_data = _pSynDutUtils->_pDutTestResult->list_testdata[t];
+		if (NULL == Test_data)
+			continue;
 
+		string strTestStepName = Test_data->data_name;
+		if ("InitializationStep" == strTestStepName)
+		{
+			InitializationTestData *InitTestData = static_cast<InitializationTestData*>(Test_data);
+			if (NULL != InitTestData)
+				fprintf(pFile, "\nInitialization,%s,%d ms\n", InitTestData->pass ? "Pass" : "Fail", InitTestData->test_time);
+		}
+		else if ("Calibrate" == strTestStepName)
+		{
+			calibrationTestData = static_cast<CalibrateTestData*>(Test_data);
+			if (NULL != calibrationTestData)
+			{
+				fprintf(pFile, "\nCalibrate,%s,%.0f ms\n", calibrationTestData->pass ? "Pass" : "Fail", calibrationTestData->test_time);
+			}
+		}
+		else if ("FinalizationStep" == strTestStepName)
+		{
+			FinalizationTestData *FinalTestData = static_cast<FinalizationTestData*>(Test_data);
+			if (NULL != FinalTestData)
+				fprintf(pFile, "\nFinalization,%s,%d ms\n", FinalTestData->pass ? "Pass" : "Fail", FinalTestData->test_time);
+		}
+		else
+		{
+			continue;
+		}
+	}
+
+	//FW_BL && LNA_BL
+	if (NULL != calibrationTestData)
+	{
+		int k = 0;
+		fprintf(pFile, "\nFW_BL");
+		for (int i = 0; i < RowNumber; i++)
+		{
+			fprintf(pFile, "\n");
+			for (int j = 0; j < ColumnNumber; j++)
+			{
+				fprintf(pFile, "%d,", calibrationTestData->FWBaseline[k]);
+				k++;
+			}
+		}
+
+		fprintf(pFile, "\n\nLNA_BL");
+		k = 0;
+		for (int i = 0; i < RowNumber; i++)
+		{
+			fprintf(pFile, "\n");
+			for (int j = 0; j < ColumnNumber; j++)
+			{
+				fprintf(pFile, "%d,", calibrationTestData->LNABaseline[k]);
+				k++;
+			}
+		}
+	}
 
 	fclose(pFile);
 

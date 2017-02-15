@@ -27,8 +27,6 @@ signals:
 
 	void sendTestData(unsigned int EngineNumber, const dut_test_result *pTestData);
 
-	void sendImage(unsigned int EngineNumber, const dut_test_result *pTestData);
-
 protected:
 
 	void run();

@@ -87,19 +87,6 @@ void SynThread::run()
 			}
 			emit sendTestData(EngineNumber, pTestData);
 		}
-
-		_pTestEngine->ExecuteTestStep(ListOfTestStep[iWaitStimulusPosition], Syn_TestEngine::Setup);
-		while (!_stopped)
-		{
-			Syn_TestEngine::EngineState Status = _pTestEngine->GetStatus();
-			if (Syn_TestEngine::error != Status)
-			{
-				rc = _pTestEngine->ExecuteTestStep(ListOfTestStep[iWaitStimulusPosition], Syn_TestEngine::Excute);
-				_pTestEngine->GetTestData(pTestData);
-				emit sendImage(EngineNumber, pTestData);
-			}
-		}
-		_pTestEngine->ExecuteTestStep(ListOfTestStep[iWaitStimulusPosition], Syn_TestEngine::Cleanup);
 	}
 	else if (Final == _flagType)
 	{

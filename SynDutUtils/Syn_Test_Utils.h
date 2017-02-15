@@ -13,14 +13,17 @@ using namespace std;
 
 #define	SW_VERSION				"ALPHA_UNRELEASE"
 
+#define BRAVO_IMAGE_RAWDATA_MAX 10000
+
 struct FpFrame
 {
 	int16_t arrImage[160][160];
 };
 
-enum TestDataType{ Initialization, ROMTest, RAMTest, ProgrammingMFW, MFWCheck, ProgrammingIOTA, CurrentTest, SleepCurrentTest, 
-					DRdyTest, WOF_Baseline, Calibrate, AcqImgNoFinger, WaitStimulus, AcqImgFinger, WOF_Signal, SNRTest, BubbleTest, 
-					Imperfections, IOTACheck, Finalization };
+typedef enum TestDataType{ Initialization, ROMTest, RAMTest, ProgrammingMFW, MFWCheck, ProgrammingIOTA, CurrentTest, SleepCurrentTest, 
+							DRdyTest, WOF_Baseline, Calibrate, AcqImgNoFinger, WaitStimulus, AcqImgFinger, WOF_Signal, SNRTest, BubbleTest, 
+							Imperfections, IOTACheck, Finalization }
+TestData_Type_t;
 
 struct SynTestData
 {
@@ -48,8 +51,16 @@ struct CalibrateTestData : public SynTestData
 	//parameter
 
 	//result
-	int16_t FWBaseline[10000];
-	int16_t LNABaseline[10000];
+	int16_t FWBaseline[BRAVO_IMAGE_RAWDATA_MAX];
+	int16_t LNABaseline[BRAVO_IMAGE_RAWDATA_MAX];
+};
+
+struct WaitStilumusTestData : public SynTestData
+{
+	//parameter
+
+	//result
+	int16_t FrameData[BRAVO_IMAGE_RAWDATA_MAX];
 };
 
 struct FinalizationTestData : public SynTestData

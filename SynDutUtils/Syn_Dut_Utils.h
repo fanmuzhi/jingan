@@ -12,6 +12,7 @@ typedef struct dut_test_result_t
 	vector<string> list_bincodes;
 	map<string, string>	map_teststep_ispass;
 
+	//map<TestData_Type_t, SynTestData*> map_Testdata;
 	vector<SynTestData*> list_testdata;
 }dut_test_result;
 

@@ -115,4 +115,6 @@ void Ts_BravoInitializationStep::CleanUp()
 
 	SynTestData *pSynTestData = static_cast<SynTestData*>(_InitTestData);
 	_pSynDutUtils->_pDutTestResult->list_testdata.push_back(pSynTestData);
+
+	//_pSynDutUtils->_pDutTestResult->map_Testdata.insert(map<TestData_Type_t, SynTestData*>::value_type(Initialization, pSynTestData));
 }

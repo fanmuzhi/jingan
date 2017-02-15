@@ -1,6 +1,8 @@
 #include "Syn_TestStepFactory.h"
 #include "Syn_BravoFingerprintTest.h"
 #include "Ts_BravoInitializationStep.h"
+#include "Ts_BravoCalibrate.h"
+#include "Ts_BravoWaitStimulus.h"
 #include "Ts_BravoFinalizationStep.h"
 
 Syn_TestStepFactory::Syn_TestStepFactory()
@@ -28,6 +30,14 @@ uint32_t Syn_TestStepFactory::CreateBravoTestStep(string strTestStepName, string
 	if (string("InitializationStep") == strTestStepName)
 	{
 		opBravoTestStep = new Ts_BravoInitializationStep(strTestStepName, pBravoModule, pDutUtils);
+	}
+	else if (string("Calibrate") == strTestStepName)
+	{
+		opBravoTestStep = new Ts_BravoCalibrate(strTestStepName, pBravoModule, pDutUtils);
+	}
+	else if (string("WaitStimulus") == strTestStepName)
+	{
+		opBravoTestStep = new Ts_BravoWaitStimulus(strTestStepName, pBravoModule, pDutUtils);
 	}
 	else if (string("FinalizationStep") == strTestStepName)
 	{
