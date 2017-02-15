@@ -25,7 +25,7 @@ uint32_t Syn_BravoFingerprintTest::ParseTestStepArgs(const string &strArgsValue,
 	unsigned int iLength = strArgsValue.length();
 	if (0 == iLength)
 	{
-		return 1;
+		return ERROR_TSETSTEP_ARGSLENGTH;
 	}
 
 	string strTempValue = strArgsValue;
@@ -47,4 +47,29 @@ uint32_t Syn_BravoFingerprintTest::ParseTestStepArgs(const string &strArgsValue,
 	}
 
 	return 0;
+}
+
+SynTestData * Syn_BravoFingerprintTest::RetrieveTestData(string strTestStepName)
+{
+	SynTestData *pTestData = NULL;
+
+	if (NULL == _pSynDutUtils)
+		return NULL;
+	if (NULL == _pSynDutUtils->_pDutTestResult)
+		return NULL;
+
+	for (size_t t = 1; t <= _pSynDutUtils->_pDutTestResult->list_testdata.size(); t++)
+	{
+		SynTestData *Test_data = _pSynDutUtils->_pDutTestResult->list_testdata[t - 1];
+		if (NULL != Test_data)
+		{
+			if (strTestStepName == Test_data->data_name)
+			{
+				pTestData = _pSynDutUtils->_pDutTestResult->list_testdata[t];
+				break;
+			}
+		}
+	}
+
+	return pTestData;
 }

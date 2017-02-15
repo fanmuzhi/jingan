@@ -16,6 +16,8 @@ public:
 
 	uint32_t ParseTestStepArgs(const string &strArgsValue, vector<string> &oListOfArgValue, string strSymbol = " ");
 
+	SynTestData * RetrieveTestData(string strTestStepName);
+
 protected:
 
 	ULONGLONG _start_time, _finish_time;

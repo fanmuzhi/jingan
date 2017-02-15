@@ -46,6 +46,14 @@ struct InitializationTestData : public SynTestData
 	string strSensorSerialNumber;
 };
 
+struct ProgrammingMFTestData : public SynTestData
+{
+	//parameter
+
+	//result
+	bool MF_Exists;
+};
+
 struct CalibrateTestData : public SynTestData
 {
 	//parameter
