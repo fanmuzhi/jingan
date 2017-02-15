@@ -35,27 +35,8 @@ void Ts_BravoWaitStimulus::SetUp()
 	ParseTestStepArgs(strTestArgs, listOfArgValue);
 	size_t iListSize = listOfArgValue.size();
 
-	bool waitStilumusExcuted(false);
-	for (size_t t = 0; t < _pSynDutUtils->_pDutTestResult->list_testdata.size(); t++)
-	{
-		SynTestData *Test_data = _pSynDutUtils->_pDutTestResult->list_testdata[t];
-		if (NULL != Test_data)
-		{
-			if ("WaitStimulus" == Test_data->data_name)
-			{
-				waitStilumusExcuted = true;
-				break;
-			}
-		}
-	}
-
-	if (!waitStilumusExcuted)
-	{
-		_WaitStilumusTestData = new WaitStilumusTestData();
-		_WaitStilumusTestData->data_name = _strName;
-		SynTestData *pSynTestData = static_cast<SynTestData*>(_WaitStilumusTestData);
-		_pSynDutUtils->_pDutTestResult->list_testdata.push_back(pSynTestData);
-	}
+	RetrieveWaitStilumus();
+	_WaitStilumusTestData->data_name = _strName;
 }
 
 void Ts_BravoWaitStimulus::Execute()
@@ -79,49 +60,19 @@ void Ts_BravoWaitStimulus::Execute()
 	if (!CalibrateExcuted)
 		return;
 
-	bool waitStilumusExists(false);
-	for (size_t t = 0; t < _pSynDutUtils->_pDutTestResult->list_testdata.size(); t++)
-	{
-		SynTestData *Test_data = _pSynDutUtils->_pDutTestResult->list_testdata[t];
-		if (NULL != Test_data)
-		{
-			if ("WaitStimulus" == Test_data->data_name)
-			{
-				waitStilumusExists = true;
-				_WaitStilumusTestData = static_cast<WaitStilumusTestData*>(_pSynDutUtils->_pDutTestResult->list_testdata[t]);
-				break;
-			}
-		}
-	}
-	if (NULL == _WaitStilumusTestData)
-	{
-		_WaitStilumusTestData = new WaitStilumusTestData();
-		_WaitStilumusTestData->data_name = _strName;
-		SynTestData *pSynTestData = static_cast<SynTestData*>(_WaitStilumusTestData);
-		_pSynDutUtils->_pDutTestResult->list_testdata.push_back(pSynTestData);
-	}
+	RetrieveWaitStilumus();
 
 	uint32_t rowNumber = _pSynDutUtils->Config_MT_Info.rowNumber;
 	uint32_t columnNumber = _pSynDutUtils->Config_MT_Info.columnNumber;
 	uint8_t *arrFrame = new uint8_t[rowNumber*columnNumber*2];
-	rc = _pSynModule->FpFrameRead(arrFrame, rowNumber * columnNumber * 2);
+	rc = _pSynModule->FpFrameRead(arrFrame, rowNumber * columnNumber * 2, 15);
+	_pSynModule->FpFrameFinish();
 	if (0 == rc)
 	{
 		memcpy(_WaitStilumusTestData->FrameData, arrFrame, rowNumber*columnNumber * 2);
-		for (size_t t = 0; t < _pSynDutUtils->_pDutTestResult->list_testdata.size(); t++)
-		{
-			SynTestData *Test_data = _pSynDutUtils->_pDutTestResult->list_testdata[t];
-			if (NULL != Test_data)
-			{
-				if ("WaitStimulus" == Test_data->data_name)
-				{
-					waitStilumusExists = true;
-					SynTestData *pSynTestData = static_cast<WaitStilumusTestData*>(_WaitStilumusTestData);
-					_pSynDutUtils->_pDutTestResult->list_testdata[t] = pSynTestData;
-					break;
-				}
-			}
-		}
+		_WaitStilumusTestData->executed = true;
+		_WaitStilumusTestData->pass = true;
+		StoreWaitStilumus();
 	}
 
 	delete[] arrFrame;
@@ -134,9 +85,17 @@ void Ts_BravoWaitStimulus::ProcessData()
 
 void Ts_BravoWaitStimulus::CleanUp()
 {
+	RetrieveWaitStilumus();
+
 	_WaitStilumusTestData->test_time = 0;
 
-	bool waitStilumusExists(false);
+	StoreWaitStilumus();
+}
+
+
+void Ts_BravoWaitStimulus::RetrieveWaitStilumus()
+{
+	bool WaitStilumusExists(false);
 	for (size_t t = 0; t < _pSynDutUtils->_pDutTestResult->list_testdata.size(); t++)
 	{
 		SynTestData *Test_data = _pSynDutUtils->_pDutTestResult->list_testdata[t];
@@ -144,17 +103,45 @@ void Ts_BravoWaitStimulus::CleanUp()
 		{
 			if ("WaitStimulus" == Test_data->data_name)
 			{
-				waitStilumusExists = true;
-				SynTestData *pSynTestData = static_cast<WaitStilumusTestData*>(_WaitStilumusTestData);
-				_pSynDutUtils->_pDutTestResult->list_testdata[t] = pSynTestData;
+				WaitStilumusExists = true;
+				_WaitStilumusTestData = static_cast<WaitStilumusTestData*>(_pSynDutUtils->_pDutTestResult->list_testdata[t]);
 				break;
 			}
 		}
 	}
 
-	if (!waitStilumusExists)
+	if (!WaitStilumusExists)
 	{
+		_WaitStilumusTestData = new WaitStilumusTestData();
+		_WaitStilumusTestData->data_name = _strName;
 		SynTestData *pSynTestData = static_cast<SynTestData*>(_WaitStilumusTestData);
 		_pSynDutUtils->_pDutTestResult->list_testdata.push_back(pSynTestData);
+	}
+}
+
+void Ts_BravoWaitStimulus::StoreWaitStilumus()
+{
+	if (NULL == !_WaitStilumusTestData)
+	{
+		bool WaitStilumusExists(false);
+		for (size_t t = 0; t < _pSynDutUtils->_pDutTestResult->list_testdata.size(); t++)
+		{
+			SynTestData *Test_data = _pSynDutUtils->_pDutTestResult->list_testdata[t];
+			if (NULL != Test_data)
+			{
+				if ("WaitStimulus" == Test_data->data_name)
+				{
+					WaitStilumusExists = true;
+					_pSynDutUtils->_pDutTestResult->list_testdata[t] = static_cast<SynTestData*>(_WaitStilumusTestData);
+					break;
+				}
+			}
+		}
+
+		if (!WaitStilumusExists)
+		{
+			SynTestData *pSynTestData = static_cast<SynTestData*>(_WaitStilumusTestData);
+			_pSynDutUtils->_pDutTestResult->list_testdata.push_back(pSynTestData);
+		}
 	}
 }

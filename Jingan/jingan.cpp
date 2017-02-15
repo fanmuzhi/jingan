@@ -469,29 +469,35 @@ void Jingan::ReceivingImage(unsigned int EngineNumber, const dut_test_result *pT
 		return;
 
 	bool CalibrateExcuted(false);
-	WaitStilumusTestData *waitStilimusdata = NULL;
 	for (size_t t = 0; t < pTestData->list_testdata.size(); t++)
 	{
-		if (NULL != waitStilimusdata&&CalibrateExcuted)
-			break;
 		SynTestData *Test_data = pTestData->list_testdata[t];
 		if (NULL != Test_data)
 		{
 			if ("Calibrate" == Test_data->data_name)
 			{
 				CalibrateExcuted = true;
-				//break;
+				break;
 			}
-			else if ("WaitStimulus" == Test_data->data_name)
-			{
-				waitStilimusdata = static_cast<WaitStilumusTestData*>(Test_data);
-			}
-			else
-				continue;
+			
 		}
 	}
 	if (!CalibrateExcuted)
 		return;
+
+	WaitStilumusTestData *waitStilimusdata = NULL;
+	for (size_t t = 0; t < pTestData->list_testdata.size(); t++)
+	{
+		SynTestData *Test_data = pTestData->list_testdata[t];
+		if (NULL != Test_data)
+		{
+			if ("WaitStimulus" == Test_data->data_name)
+			{
+				waitStilimusdata = static_cast<WaitStilumusTestData*>(Test_data);
+				break;
+			}
+		}
+	}
 
 	uint32_t rowNumber = 144;
 	uint32_t columnNumber = 56;

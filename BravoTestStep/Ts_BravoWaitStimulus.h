@@ -18,6 +18,12 @@ public:
 
 protected:
 
+	void RetrieveWaitStilumus();
+
+	void StoreWaitStilumus();
+
+protected:
+
 	WaitStilumusTestData *_WaitStilumusTestData;
 };
 
