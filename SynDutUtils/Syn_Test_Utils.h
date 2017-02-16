@@ -74,6 +74,33 @@ struct CalibrateTestData : public SynTestData
 	int16_t LNABaseline[BRAVO_IMAGE_RAWDATA_MAX];
 };
 
+struct SimpleFpFrame
+{
+	int16_t arrImage[BRAVO_IMAGE_RAWDATA_MAX];
+};
+
+struct AcqImageNoFingerTestData : public SynTestData
+{
+	//parameter
+	unsigned int numFrame;
+
+	//result
+	vector<SimpleFpFrame*> ListOfImageNoFinger;//temp var : need modify
+
+	int16_t arrImage[BRAVO_IMAGE_RAWDATA_MAX];
+};
+
+struct AcqImageFingerTestData : public SynTestData
+{
+	//parameter
+	unsigned int numFrame;
+
+	//result
+	vector<SimpleFpFrame*> ListOfImageFinger;//temp var : need modify
+
+	int16_t arrImage[BRAVO_IMAGE_RAWDATA_MAX];
+};
+
 struct WaitStilumusTestData : public SynTestData
 {
 	//parameter

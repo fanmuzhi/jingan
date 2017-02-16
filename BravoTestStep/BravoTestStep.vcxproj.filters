@@ -45,6 +45,12 @@
     <ClInclude Include="Ts_BravoProgrammingIOTA.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Ts_BravoAcqImgNoFinger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Ts_BravoAcqImgFinger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Syn_TestStepFactory.cpp">
@@ -69,6 +75,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Ts_BravoProgrammingIOTA.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Ts_BravoAcqImgNoFinger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Ts_BravoAcqImgFinger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -16,6 +16,7 @@
 #define ERROR_BL_MODE				0x1502
 #define ERROR_PARAM_UNDEFINE		0x1502
 #define ERROR_TYPE					0x1503
+#define ERROR_PARAMETER				0x1504
 
 typedef enum{ OFF_REPLYSENT, CMDWAIT, CMDPROC, REPLY };
 
@@ -40,6 +41,8 @@ typedef struct Bravo_Sensor_Status
 	unsigned int ALIVE;
 	unsigned int EP1INSIZE;//Only in Denali/Hayes
 	unsigned int SOFTSTATE2;//Only in Denali/Hayes
+	//unsigned int SOFTSTATE2_ACQNUM;//Only in Denali/Hayes
+	//unsigned int SOFTSTATE2_EVNUM;//Only in Denali/Hayes
 }Bravo_Sensor_Status_t;
 
 enum class FlashReadType{ MISSION_FW, IOTA, FIB };
@@ -95,7 +98,7 @@ public:
 
 	virtual uint32_t FpStateGet(StateGetType Type, uint8_t *arr, uint32_t size, uint32_t timeout = TIMEOUT_VALUE);
 
-	virtual uint32_t FpFrameRead(uint8_t *arrImage, uint32_t size, uint32_t delaytime = 0, uint32_t timeout = TIMEOUT_VALUE);
+	virtual uint32_t FpFrameRead(uint8_t *arrImage, uint32_t size, uint32_t timeout = TIMEOUT_VALUE);
 
 	virtual uint32_t FpFrameFinish(uint32_t timeout = TIMEOUT_VALUE);
 
@@ -117,7 +120,9 @@ public:
 
 	virtual uint32_t FpTestRun(uint8_t patchcmd, uint8_t *arrResponse, uint32_t size, uint32_t timeout = TIMEOUT_VALUE);
 
-	virtual uint32_t FpWOFCalibrate(WOFCalibrateType wofCalibrateType, uint8_t *arrResponse, uint32_t size, uint32_t timeout = TIMEOUT_VALUE);
+	virtual uint32_t FpWOFBaseline(uint8_t *arrResponse, uint32_t size, uint32_t timeout = TIMEOUT_VALUE);
+
+	virtual uint32_t FpWOFSignal(uint8_t* arrCMD, uint32_t numBytes, uint8_t *arrResponse, uint32_t size, uint32_t timeout = TIMEOUT_VALUE);
 
 	virtual uint32_t checkBLMode(bool &mode) = 0;
 

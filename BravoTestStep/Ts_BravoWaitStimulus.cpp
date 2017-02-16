@@ -65,7 +65,7 @@ void Ts_BravoWaitStimulus::Execute()
 	uint32_t rowNumber = _pSynDutUtils->Config_MT_Info.rowNumber;
 	uint32_t columnNumber = _pSynDutUtils->Config_MT_Info.columnNumber;
 	uint8_t *arrFrame = new uint8_t[rowNumber*columnNumber*2];
-	rc = _pSynModule->FpFrameRead(arrFrame, rowNumber * columnNumber * 2, 15);
+	rc = _pSynModule->FpFrameRead(arrFrame, rowNumber * columnNumber * 2);
 	_pSynModule->FpFrameFinish();
 	if (0 == rc)
 	{

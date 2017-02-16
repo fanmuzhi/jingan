@@ -356,8 +356,15 @@ void Jingan::ReceiveTestResults(unsigned int EngineNumber, const dut_test_result
 		return;
 	}
 
-	//int rowNumber = CurrentSysConfig._uiNumRows;
-	//int columnNumber = CurrentSysConfig._uiNumCols;
+	uint32_t rowNumber(0), columnNumber(0);
+	_ListOfTestEngine[iPos]->GetRowColumn(rowNumber, columnNumber);
+
+	QVector<QRgb> vcolorTable;
+	for (int i = 0; i < 256; i++)
+	{
+		vcolorTable.append(qRgb(i, i, i));
+	}
+	QByteArray data;
 
 	if (Final == flagType || All == flagType)
 	{
@@ -396,7 +403,81 @@ void Jingan::ReceiveTestResults(unsigned int EngineNumber, const dut_test_result
 		itemBincodes->setTextAlignment(Qt::AlignCenter);
 		ui.TestEngineTableWidget->setItem(4, iPos, itemBincodes);
 
+		//image
+		for (size_t t = 0; t < pTestData->list_testdata.size(); t++)
+		{
+			SynTestData *pSingleTestData = (pTestData->list_testdata)[t];
+			if (NULL != pSingleTestData)
+			{
+				if ("AcqImgFinger" == pSingleTestData->data_name)
+				{
+					AcqImageFingerTestData *pImgaeFingerTestData = static_cast<AcqImageFingerTestData*>(pSingleTestData);
+					if (NULL != pImgaeFingerTestData)
+					{
+						int k = 0;
+						data.resize((rowNumber)*(columnNumber));
+						uint8_t *arrImage8bit = new uint8_t[rowNumber*columnNumber];
+						bpp16tobpp8(pImgaeFingerTestData->arrImage, arrImage8bit, rowNumber, columnNumber);
+						for (int m = 0; m < rowNumber*columnNumber; m++)
+						{
+							data[m] = arrImage8bit[m];
+						}
+						QImage Image((const uchar*)data.constData(), columnNumber, rowNumber, columnNumber, QImage::Format_Indexed8);
+						Image.setColorTable(vcolorTable);
+						delete[] arrImage8bit; arrImage8bit = NULL;
+
+						//display
+						QLabel *pImageLabel = NULL;
+						if (NULL != ui.TestEngineTableWidget->cellWidget(7, iPos))
+							pImageLabel = static_cast<QLabel*>(ui.TestEngineTableWidget->cellWidget(7, iPos));
+						else
+							pImageLabel = new QLabel();
+
+						pImageLabel->setPixmap(QPixmap::fromImage(Image));
+						pImageLabel->setAlignment(Qt::AlignCenter);
+						ui.TestEngineTableWidget->setCellWidget(7, iPos, pImageLabel);
+						ui.TestEngineTableWidget->resizeRowToContents(7);
+					}
+				}
+			}
+		}
+
 		_ListOfTestEngine[iPos]->Close();
+	}
+	else
+	{
+		for (size_t t = 0; t < pTestData->list_testdata.size(); t++)
+		{
+			SynTestData *pSingleTestData = (pTestData->list_testdata)[t];
+			if (NULL != pSingleTestData)
+			{
+				if ("AcqImgNoFinger" == pSingleTestData->data_name)
+				{
+					AcqImageNoFingerTestData *pImgaeNoFingerTestData = static_cast<AcqImageNoFingerTestData*>(pSingleTestData);
+					if (NULL != pImgaeNoFingerTestData)
+					{
+						int k = 0;
+						data.resize((rowNumber)*(columnNumber));
+						uint8_t *arrImage8bit = new uint8_t[rowNumber*columnNumber];
+						bpp16tobpp8(pImgaeNoFingerTestData->arrImage, arrImage8bit, rowNumber, columnNumber);
+						for (int m = 0; m < rowNumber*columnNumber; m++)
+						{
+							data[m] = arrImage8bit[m];
+						}
+						QImage Image((const uchar*)data.constData(), columnNumber, rowNumber, columnNumber, QImage::Format_Indexed8);
+						Image.setColorTable(vcolorTable);
+						delete[] arrImage8bit; arrImage8bit = NULL;
+
+						//display
+						QLabel *pImageLabel = new QLabel();
+						pImageLabel->setPixmap(QPixmap::fromImage(Image));
+						pImageLabel->setAlignment(Qt::AlignCenter);
+						ui.TestEngineTableWidget->setCellWidget(6, iPos, pImageLabel);
+						ui.TestEngineTableWidget->resizeRowToContents(6);
+					}
+				}
+			}
+		}
 	}
 
 	this->ManageButtonStatus(flagType);

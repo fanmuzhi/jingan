@@ -198,7 +198,7 @@ void Ts_BravoProgrammingIOTA::Execute()
 
 		//add tag : fw_bl && lna_bl 
 		vcsfw_frame_tag_t FrameBase_FW_BL_tag;
-		FrameBase_FW_BL_tag.nwords = (rowNumber * columnNumber) >> 1;
+		FrameBase_FW_BL_tag.nwords = (rowNumber * columnNumber * 2) / sizeof(uint32_t);//number of 32-bit to follow
 		FrameBase_FW_BL_tag.flags = 0x20;
 		FrameBase_FW_BL_tag.tagid = VCSFW_FRAME_TAG_FW_BL;
 		uint8_t *arr_FW_BL = new uint8_t[rowNumber * columnNumber * 2 + sizeof(vcsfw_frame_tag_t)];
@@ -216,7 +216,7 @@ void Ts_BravoProgrammingIOTA::Execute()
 		}
 
 		vcsfw_frame_tag_t FrameBase_LNA_BL_tag;
-		FrameBase_LNA_BL_tag.nwords = (rowNumber * columnNumber) >> 1;
+		FrameBase_LNA_BL_tag.nwords = (rowNumber * columnNumber * 2) / sizeof(uint32_t);//number of 32-bit to follow
 		FrameBase_LNA_BL_tag.flags = 0x20;
 		FrameBase_LNA_BL_tag.tagid = VCSFW_FRAME_TAG_LNA_BL;
 		uint8_t *arr_LNA_BL = new uint8_t[rowNumber*columnNumber * 2 + sizeof(vcsfw_frame_tag_t)];
