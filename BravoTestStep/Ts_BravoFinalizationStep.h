@@ -18,6 +18,6 @@ public:
 
 protected:
 
-	FinalizationTestData *_FinalizationTestData;
+	FinalizationTestData *_pFinalizationTestData;
 };
 

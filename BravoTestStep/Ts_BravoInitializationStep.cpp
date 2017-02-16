@@ -1,11 +1,8 @@
 #include "Ts_BravoInitializationStep.h"
 
-#include "vcsfw\vcsTypes.h"
-#include "vcsfw\vcsfw_v4.h"
-
 Ts_BravoInitializationStep::Ts_BravoInitializationStep(string &strName, FpBravoModule * &pSynModule, Syn_Dut_Utils * &pSynDutUtils)
 :Syn_BravoFingerprintTest(strName, pSynModule, pSynDutUtils)
-, _InitTestData(NULL)
+, _pInitTestData(NULL)
 {
 }
 
@@ -38,8 +35,8 @@ void Ts_BravoInitializationStep::SetUp()
 	ParseTestStepArgs(strTestArgs, listOfArgValue);
 	size_t iListSize = listOfArgValue.size();
 	
-	_InitTestData = new InitializationTestData();
-	_InitTestData->data_name = _strName;
+	_pInitTestData = new InitializationTestData();
+	_pInitTestData->data_name = _strName;
 }
 
 void Ts_BravoInitializationStep::Execute()
@@ -76,45 +73,44 @@ void Ts_BravoInitializationStep::Execute()
 	//copy serial number to string
 	char SingleNumber[3] = { 0 };
 	sprintf(SingleNumber, "%02X", (get_version.serial_number)[0]);
-	_InitTestData->strSensorSerialNumber.push_back(SingleNumber[0]);
-	_InitTestData->strSensorSerialNumber.push_back(SingleNumber[1]);
+	_pInitTestData->strSensorSerialNumber.push_back(SingleNumber[0]);
+	_pInitTestData->strSensorSerialNumber.push_back(SingleNumber[1]);
 
 	sprintf(SingleNumber, "%02X", (get_version.serial_number)[1]);
-	_InitTestData->strSensorSerialNumber.push_back(SingleNumber[0]);
-	_InitTestData->strSensorSerialNumber.push_back(SingleNumber[1]);
+	_pInitTestData->strSensorSerialNumber.push_back(SingleNumber[0]);
+	_pInitTestData->strSensorSerialNumber.push_back(SingleNumber[1]);
 	
 	sprintf(SingleNumber, "%02X", (get_version.serial_number)[2]);
-	_InitTestData->strSensorSerialNumber.push_back(SingleNumber[0]);
-	_InitTestData->strSensorSerialNumber.push_back(SingleNumber[1]);
+	_pInitTestData->strSensorSerialNumber.push_back(SingleNumber[0]);
+	_pInitTestData->strSensorSerialNumber.push_back(SingleNumber[1]);
 
 	sprintf(SingleNumber, "%02X", (get_version.serial_number)[3]);
-	_InitTestData->strSensorSerialNumber.push_back(SingleNumber[0]);
-	_InitTestData->strSensorSerialNumber.push_back(SingleNumber[1]);
+	_pInitTestData->strSensorSerialNumber.push_back(SingleNumber[0]);
+	_pInitTestData->strSensorSerialNumber.push_back(SingleNumber[1]);
 
 	sprintf(SingleNumber, "%02X", (get_version.serial_number)[4]);
-	_InitTestData->strSensorSerialNumber.push_back(SingleNumber[0]);
-	_InitTestData->strSensorSerialNumber.push_back(SingleNumber[1]);
+	_pInitTestData->strSensorSerialNumber.push_back(SingleNumber[0]);
+	_pInitTestData->strSensorSerialNumber.push_back(SingleNumber[1]);
 
 	sprintf(SingleNumber, "%02X", (get_version.serial_number)[5]);
-	_InitTestData->strSensorSerialNumber.push_back(SingleNumber[0]);
-	_InitTestData->strSensorSerialNumber.push_back(SingleNumber[1]);
+	_pInitTestData->strSensorSerialNumber.push_back(SingleNumber[0]);
+	_pInitTestData->strSensorSerialNumber.push_back(SingleNumber[1]);
 
-	_InitTestData->executed = true;
+	_pInitTestData->executed = true;
 }
 
 void Ts_BravoInitializationStep::ProcessData()
 {
 	_pSynDutUtils->_pDutTestResult->map_teststep_ispass.insert(map<string, string>::value_type("InitializationStep", "Pass"));
-	_InitTestData->pass = true;
-	_pSynDutUtils->_pDutTestResult->strSensorSerialNumber = _InitTestData->strSensorSerialNumber;
+	_pInitTestData->pass = true;
+	_pSynDutUtils->_pDutTestResult->strSensorSerialNumber = _pInitTestData->strSensorSerialNumber;
 }
 
 void Ts_BravoInitializationStep::CleanUp()
 {
-	CalculateTestTime(_InitTestData->test_time);
+	CalculateTestTime(_pInitTestData->test_time);
 
-	SynTestData *pSynTestData = static_cast<SynTestData*>(_InitTestData);
-	_pSynDutUtils->_pDutTestResult->list_testdata.push_back(pSynTestData);
-
-	//_pSynDutUtils->_pDutTestResult->map_Testdata.insert(map<TestData_Type_t, SynTestData*>::value_type(Initialization, pSynTestData));
+	//SynTestData *pSynTestData = static_cast<SynTestData*>(_pInitTestData);
+	//_pSynDutUtils->_pDutTestResult->list_testdata.push_back(pSynTestData);
+	StoreTestData(_pInitTestData->data_name, static_cast<SynTestData*>(_pInitTestData));
 }

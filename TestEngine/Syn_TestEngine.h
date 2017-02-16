@@ -38,6 +38,12 @@ public:
 
 	uint32_t WriteLog(string strFolderPath, string strFileName = "");
 
+	inline void GetRowColumn(uint32_t &rowNumber, uint32_t &columnNumber)
+	{
+		rowNumber = _Config_MT_Info.rowNumber;
+		columnNumber = _Config_MT_Info.columnNumber;
+	}
+
 	inline EngineState GetStatus(){ return _State; }
 
 	inline void GetTestEngineNumber(unsigned int &oEngineNumber){ oEngineNumber = _TestEngineNumber; };

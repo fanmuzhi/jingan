@@ -1,6 +1,8 @@
 #include "Syn_TestStepFactory.h"
 #include "Syn_BravoFingerprintTest.h"
 #include "Ts_BravoInitializationStep.h"
+#include "Ts_BravoProgrammingMF.h"
+#include "Ts_BravoProgrammingIOTA.h"
 #include "Ts_BravoCalibrate.h"
 #include "Ts_BravoWaitStimulus.h"
 #include "Ts_BravoFinalizationStep.h"
@@ -30,6 +32,14 @@ uint32_t Syn_TestStepFactory::CreateBravoTestStep(string strTestStepName, string
 	if (string("InitializationStep") == strTestStepName)
 	{
 		opBravoTestStep = new Ts_BravoInitializationStep(strTestStepName, pBravoModule, pDutUtils);
+	}
+	else if (string("ProgrammingMissionFirmware") == strTestStepName)
+	{
+		opBravoTestStep = new Ts_BravoProgrammingMF(strTestStepName, pBravoModule, pDutUtils);
+	}
+	else if (std::string::npos != strTestStepName.find("ProgrammingIOTA"))
+	{
+		opBravoTestStep = new Ts_BravoProgrammingIOTA(strTestStepName, pBravoModule, pDutUtils);
 	}
 	else if (string("Calibrate") == strTestStepName)
 	{

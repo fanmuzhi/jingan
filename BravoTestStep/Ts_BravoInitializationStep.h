@@ -18,6 +18,6 @@ public:
 
 protected:
 
-	InitializationTestData *_InitTestData;
+	InitializationTestData *_pInitTestData;
 };
 

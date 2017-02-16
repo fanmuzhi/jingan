@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <LocalSettings>
     <SysConfigFile>C:/Users/jezhang/Desktop/denali.xml</SysConfigFile>
-    <LogFilePath>C:/Users/jezhang/Desktop</LogFilePath>
+    <LogFilePath>C:/logfiles/Bravo</LogFilePath>
     <EngineNumbers>1</EngineNumbers>
     <TestEngine1>FT12GAHM</TestEngine1>
     <DeviceType>M5</DeviceType>

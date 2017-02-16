@@ -2,7 +2,7 @@
 
 Ts_BravoCalibrate::Ts_BravoCalibrate(string &strName, FpBravoModule * &pSynModule, Syn_Dut_Utils * &pSynDutUtils)
 :Syn_BravoFingerprintTest(strName, pSynModule, pSynDutUtils)
-,_CalibrateTestData(NULL)
+, _pCalibrateTestData(NULL)
 {
 }
 
@@ -35,8 +35,8 @@ void Ts_BravoCalibrate::SetUp()
 	ParseTestStepArgs(strTestArgs, listOfArgValue);
 	size_t iListSize = listOfArgValue.size();
 
-	_CalibrateTestData = new CalibrateTestData();
-	_CalibrateTestData->data_name = _strName;
+	_pCalibrateTestData = new CalibrateTestData();
+	_pCalibrateTestData->data_name = _strName;
 }
 
 void Ts_BravoCalibrate::Execute()
@@ -67,7 +67,7 @@ void Ts_BravoCalibrate::Execute()
 		throw Exception;
 		return;
 	}
-	memcpy(_CalibrateTestData->FWBaseline, arr_FW_BaseLine, size);
+	memcpy(_pCalibrateTestData->FWBaseline, arr_FW_BaseLine, size);
 	delete[] arr_FW_BaseLine;
 	arr_FW_BaseLine = NULL;
 
@@ -82,27 +82,25 @@ void Ts_BravoCalibrate::Execute()
 		throw Exception;
 		return;
 	}
-	memcpy(_CalibrateTestData->LNABaseline, arr_LNA_BaseLine, size);
+	memcpy(_pCalibrateTestData->LNABaseline, arr_LNA_BaseLine, size);
 	delete[] arr_LNA_BaseLine;
 	arr_LNA_BaseLine = NULL;
 	
-	_CalibrateTestData->executed = true;
-	_CalibrateTestData->pass = true;
+	_pCalibrateTestData->executed = true;
+	_pCalibrateTestData->pass = true;
 }
 
 void Ts_BravoCalibrate::ProcessData()
 {
-	if (_CalibrateTestData->pass)
+	if (_pCalibrateTestData->pass)
 		_pSynDutUtils->_pDutTestResult->map_teststep_ispass.insert(map<string, string>::value_type("Calibrate", "Pass"));
 	else
 		_pSynDutUtils->_pDutTestResult->map_teststep_ispass.insert(map<string, string>::value_type("Calibrate", "Fail"));
-
 }
 
 void Ts_BravoCalibrate::CleanUp()
 {
-	CalculateTestTime(_CalibrateTestData->test_time);
+	CalculateTestTime(_pCalibrateTestData->test_time);
 
-	SynTestData *pSynTestData = static_cast<SynTestData*>(_CalibrateTestData);
-	_pSynDutUtils->_pDutTestResult->list_testdata.push_back(pSynTestData);
+	StoreTestData(_pCalibrateTestData->data_name, static_cast<SynTestData*>(_pCalibrateTestData));
 }

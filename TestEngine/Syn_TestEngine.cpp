@@ -371,9 +371,13 @@ uint32_t Syn_TestEngine::WriteLog(string strFolderPath, string strFileName)
 
 	fprintf(pFile, "%%%%%%%%%%%%%%%%%%%%%%\n\n");
 
-	const time_t t = time(NULL);
-	struct tm* current_time = localtime(&t);
-	fprintf(pFile, "Test time,%s\n", asctime(current_time));
+	time_t rawtime;
+	struct tm * timeinfo;
+	wchar_t buffer[80];
+	time(&rawtime);
+	timeinfo = localtime(&rawtime);
+	wcsftime(buffer, 80, L"%d-%b-%Y %I:%M:%S %p %Z", timeinfo);
+	fprintf(pFile, "Test time,%ls\n\n", buffer);
 
 	//Sensor Serial Number
 	fprintf(pFile, "Sensor Serial Number,%s\n", strSensorSerialNumber.c_str());

@@ -2,7 +2,7 @@
 
 Ts_BravoFinalizationStep::Ts_BravoFinalizationStep(string &strName, FpBravoModule * &pSynModule, Syn_Dut_Utils * &pSynDutUtils)
 :Syn_BravoFingerprintTest(strName, pSynModule, pSynDutUtils)
-, _FinalizationTestData(NULL)
+, _pFinalizationTestData(NULL)
 {
 }
 
@@ -35,8 +35,8 @@ void Ts_BravoFinalizationStep::SetUp()
 	ParseTestStepArgs(strTestArgs, listOfArgValue);
 	size_t iListSize = listOfArgValue.size();
 
-	_FinalizationTestData = new FinalizationTestData();
-	_FinalizationTestData->data_name = _strName;
+	_pFinalizationTestData = new FinalizationTestData();
+	_pFinalizationTestData->data_name = _strName;
 }
 
 void Ts_BravoFinalizationStep::Execute()
@@ -46,13 +46,13 @@ void Ts_BravoFinalizationStep::Execute()
 	//PowerOff
 	_pSynModule->PowerOff();
 	
-	_FinalizationTestData->executed = true;
+	_pFinalizationTestData->executed = true;
 }
 
 void Ts_BravoFinalizationStep::ProcessData()
 {
 	_pSynDutUtils->_pDutTestResult->map_teststep_ispass.insert(map<string, string>::value_type("FinalizationStep", "Pass"));
-	_FinalizationTestData->pass = true;
+	_pFinalizationTestData->pass = true;
 
 	if (0 == _pSynDutUtils->_pDutTestResult->list_bincodes.size())
 	{
@@ -62,8 +62,9 @@ void Ts_BravoFinalizationStep::ProcessData()
 
 void Ts_BravoFinalizationStep::CleanUp()
 {
-	CalculateTestTime(_FinalizationTestData->test_time);
+	CalculateTestTime(_pFinalizationTestData->test_time);
 
-	SynTestData *pSynTestData = static_cast<SynTestData*>(_FinalizationTestData);
-	_pSynDutUtils->_pDutTestResult->list_testdata.push_back(pSynTestData);
+	//SynTestData *pSynTestData = static_cast<SynTestData*>(_pFinalizationTestData);
+	//_pSynDutUtils->_pDutTestResult->list_testdata.push_back(pSynTestData);
+	StoreTestData(_pFinalizationTestData->data_name, static_cast<SynTestData*>(_pFinalizationTestData));
 }

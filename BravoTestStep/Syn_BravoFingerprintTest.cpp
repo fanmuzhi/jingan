@@ -65,11 +65,40 @@ SynTestData * Syn_BravoFingerprintTest::RetrieveTestData(string strTestStepName)
 		{
 			if (strTestStepName == Test_data->data_name)
 			{
-				pTestData = _pSynDutUtils->_pDutTestResult->list_testdata[t];
+				pTestData = _pSynDutUtils->_pDutTestResult->list_testdata[t - 1];
 				break;
 			}
 		}
 	}
 
 	return pTestData;
+}
+
+void Syn_BravoFingerprintTest::StoreTestData(string strTestStepName, SynTestData *pTestData)
+{
+	if (NULL == pTestData)
+		return;
+	if (NULL == _pSynDutUtils)
+		return;
+	if (NULL == _pSynDutUtils->_pDutTestResult)
+		return;
+
+	bool IsExists(false);
+	for (size_t t = 1; t <= _pSynDutUtils->_pDutTestResult->list_testdata.size(); t++)
+	{
+
+		SynTestData *Test_data = _pSynDutUtils->_pDutTestResult->list_testdata[t - 1];
+		if (NULL != Test_data)
+		{
+			if (strTestStepName == Test_data->data_name)
+			{
+				_pSynDutUtils->_pDutTestResult->list_testdata[t - 1] = pTestData;
+				IsExists = true;
+				break;
+			}
+		}
+	}
+
+	if (!IsExists)
+		_pSynDutUtils->_pDutTestResult->list_testdata.push_back(pTestData);
 }

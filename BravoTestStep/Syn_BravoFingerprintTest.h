@@ -5,6 +5,9 @@
 #include <windows.h>
 #include <time.h>
 
+#include "vcsfw\vcsTypes.h"
+#include "vcsfw\vcsfw_v4.h"
+
 class Syn_BravoFingerprintTest : public Syn_TestStep
 {
 public:
@@ -17,6 +20,8 @@ public:
 	uint32_t ParseTestStepArgs(const string &strArgsValue, vector<string> &oListOfArgValue, string strSymbol = " ");
 
 	SynTestData * RetrieveTestData(string strTestStepName);
+
+	void Syn_BravoFingerprintTest::StoreTestData(string strTestStepName, SynTestData *pTestData);
 
 protected:
 

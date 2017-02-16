@@ -111,6 +111,8 @@ xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\FpBridge.dll" 
     <ClInclude Include="Ts_BravoCalibrate.h" />
     <ClInclude Include="Ts_BravoFinalizationStep.h" />
     <ClInclude Include="Ts_BravoInitializationStep.h" />
+    <ClInclude Include="Ts_BravoProgrammingIOTA.h" />
+    <ClInclude Include="Ts_BravoProgrammingMF.h" />
     <ClInclude Include="Ts_BravoWaitStimulus.h" />
   </ItemGroup>
   <ItemGroup>
@@ -119,6 +121,8 @@ xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\FpBridge.dll" 
     <ClCompile Include="Ts_BravoCalibrate.cpp" />
     <ClCompile Include="Ts_BravoFinalizationStep.cpp" />
     <ClCompile Include="Ts_BravoInitializationStep.cpp" />
+    <ClCompile Include="Ts_BravoProgrammingIOTA.cpp" />
+    <ClCompile Include="Ts_BravoProgrammingMF.cpp" />
     <ClCompile Include="Ts_BravoWaitStimulus.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

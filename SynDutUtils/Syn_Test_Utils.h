@@ -51,7 +51,18 @@ struct ProgrammingMFTestData : public SynTestData
 	//parameter
 
 	//result
-	bool MF_Exists;
+	uint8_t FirmwareBuildNumber;//firmware, not mission firmware
+	uint8_t ExistsMissionFirmwareNumber;//if not exists, set to 0
+};
+
+struct ProgrammingIOTATestData : public SynTestData
+{
+	//parameter
+	uint8_t IOTAType;//0:bin, 1:data
+
+	//result
+	//0:"ProgrammingIOTATestData_BIN"
+	//1:"ProgrammingIOTATestData_DATA"
 };
 
 struct CalibrateTestData : public SynTestData

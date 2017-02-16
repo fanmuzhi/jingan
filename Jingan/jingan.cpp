@@ -499,8 +499,8 @@ void Jingan::ReceivingImage(unsigned int EngineNumber, const dut_test_result *pT
 		}
 	}
 
-	uint32_t rowNumber = 144;
-	uint32_t columnNumber = 56;
+	uint32_t rowNumber(0), columnNumber(0);
+	_ListOfTestEngine[iPos]->GetRowColumn(rowNumber, columnNumber);
 	uint8_t *arrImage8bit = new uint8_t[rowNumber*columnNumber];
 	bpp16tobpp8(waitStilimusdata->FrameData, arrImage8bit, rowNumber, columnNumber);
 

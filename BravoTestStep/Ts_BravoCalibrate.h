@@ -18,6 +18,6 @@ public:
 
 protected:
 
-	CalibrateTestData *_CalibrateTestData;
+	CalibrateTestData *_pCalibrateTestData;
 };
 
