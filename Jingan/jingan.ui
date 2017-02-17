@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>JinganClass</class>
+ <widget class="QMainWindow" name="JinganClass">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>571</width>
+    <height>609</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Jingan</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QTableWidget" name="TestEngineTableWidget">
+      <property name="selectionBehavior">
+       <enum>QAbstractItemView::SelectRows</enum>
+      </property>
+      <row>
+       <property name="text">
+        <string>TestEngine</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>Status</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>SerialNumber</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>SNR</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>Bincodes</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>Pass/Fail</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>Image(NoFinger)</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>Image(FakeFinger)</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>TestStep</string>
+       </property>
+      </row>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QPushButton" name="OperationPushButton">
+      <property name="text">
+       <string>Run</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>571</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionExit"/>
+   </widget>
+   <widget class="QMenu" name="menuOption">
+    <property name="title">
+     <string>Option</string>
+    </property>
+    <addaction name="actionLocalSettings"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuOption"/>
+  </widget>
+  <widget class="QToolBar" name="mainToolBar">
+   <attribute name="toolBarArea">
+    <enum>BottomToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionExit">
+   <property name="text">
+    <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionLocalSettings">
+   <property name="text">
+    <string>LocalSettings</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources>
+  <include location="jingan.qrc"/>
+ </resources>
+ <connections/>
+</ui>

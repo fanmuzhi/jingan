@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{7C3DF039-6BA0-4ED9-A3F7-3D197D354017}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>BravoTestStep</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)SynDutUtils;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <PreBuildEvent>
+      <Command>xcopy /y "$(SolutionDir)..\changning\FpBravoModule\FpBravoModule.h" "$(SolutionDir)include\"
+xcopy /y "$(SolutionDir)..\changning\FpBridge\syn_bridge.h" "$(SolutionDir)include\"
+xcopy /y "$(SolutionDir)..\changning\FpBridge\syn_devicemanager.h" "$(SolutionDir)include\"
+xcopy /y "$(SolutionDir)..\changning\include\vcsfw" "$(SolutionDir)include\vcsfw\"</Command>
+    </PreBuildEvent>
+    <PreLinkEvent>
+      <Command>xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\FpBravoModule.lib" "$(SolutionDir)$(Platform)\$(Configuration)\"
+xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\FpBravoModule.dll" "$(SolutionDir)$(Platform)\$(Configuration)\"
+xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\FpBridge.lib" "$(SolutionDir)$(Platform)\$(Configuration)\"
+xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\FpBridge.dll" "$(SolutionDir)$(Platform)\$(Configuration)\"</Command>
+    </PreLinkEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)SynDutUtils;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <PreBuildEvent>
+      <Command>xcopy /y "$(SolutionDir)..\changning\FpBravoModule\FpBravoModule.h" "$(SolutionDir)include\"
+xcopy /y "$(SolutionDir)..\changning\FpBridge\syn_bridge.h" "$(SolutionDir)include\"
+xcopy /y "$(SolutionDir)..\changning\FpBridge\syn_devicemanager.h" "$(SolutionDir)include\"
+xcopy /y "$(SolutionDir)..\changning\include\vcsfw" "$(SolutionDir)include\vcsfw\"</Command>
+    </PreBuildEvent>
+    <PreLinkEvent>
+      <Command>xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\FpBravoModule.lib" "$(SolutionDir)$(Platform)\$(Configuration)\"
+xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\FpBravoModule.dll" "$(SolutionDir)$(Platform)\$(Configuration)\"
+xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\FpBridge.lib" "$(SolutionDir)$(Platform)\$(Configuration)\"
+xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\FpBridge.dll" "$(SolutionDir)$(Platform)\$(Configuration)\"</Command>
+    </PreLinkEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Syn_BravoFingerprintTest.h" />
+    <ClInclude Include="Syn_TestStep.h" />
+    <ClInclude Include="Syn_TestStepFactory.h" />
+    <ClInclude Include="Ts_BravoAcqImgFinger.h" />
+    <ClInclude Include="Ts_BravoAcqImgNoFinger.h" />
+    <ClInclude Include="Ts_BravoCalibrate.h" />
+    <ClInclude Include="Ts_BravoFinalizationStep.h" />
+    <ClInclude Include="Ts_BravoInitializationStep.h" />
+    <ClInclude Include="Ts_BravoProgrammingIOTA.h" />
+    <ClInclude Include="Ts_BravoProgrammingMF.h" />
+    <ClInclude Include="Ts_BravoSNRTest.h" />
+    <ClInclude Include="Ts_BravoWaitStimulus.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Syn_BravoFingerprintTest.cpp" />
+    <ClCompile Include="Syn_TestStepFactory.cpp" />
+    <ClCompile Include="Ts_BravoAcqImgFinger.cpp" />
+    <ClCompile Include="Ts_BravoAcqImgNoFinger.cpp" />
+    <ClCompile Include="Ts_BravoCalibrate.cpp" />
+    <ClCompile Include="Ts_BravoFinalizationStep.cpp" />
+    <ClCompile Include="Ts_BravoInitializationStep.cpp" />
+    <ClCompile Include="Ts_BravoProgrammingIOTA.cpp" />
+    <ClCompile Include="Ts_BravoProgrammingMF.cpp" />
+    <ClCompile Include="Ts_BravoSNRTest.cpp" />
+    <ClCompile Include="Ts_BravoWaitStimulus.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
