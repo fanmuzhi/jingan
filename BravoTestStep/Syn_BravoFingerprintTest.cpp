@@ -102,3 +102,20 @@ void Syn_BravoFingerprintTest::StoreTestData(string strTestStepName, SynTestData
 	if (!IsExists)
 		_pSynDutUtils->_pDutTestResult->list_testdata.push_back(pTestData);
 }
+
+void Syn_BravoFingerprintTest::bpp16tobpp8(int16_t *image, uint8_t *newimage, const int num_rows, const int num_cols)
+{
+	int i, n;
+	//unsigned char *ptr;
+	int v;
+
+	n = num_rows*num_cols;
+	//ptr = (unsigned char*)image;
+
+	for (i = 0; i < n; ++i) {
+		v = ((int)image[i] + 3500) * 255 / 7000;
+		if (v < 0) v = 0;
+		if (v > 255) v = 255;
+		newimage[i] = (unsigned char)v;
+	}
+}

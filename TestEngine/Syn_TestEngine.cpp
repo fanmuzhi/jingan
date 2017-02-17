@@ -382,9 +382,12 @@ uint32_t Syn_TestEngine::WriteLog(string strFolderPath, string strFileName)
 	//Sensor Serial Number
 	fprintf(pFile, "Sensor Serial Number,%s\n", strSensorSerialNumber.c_str());
 
-	CalibrateTestData *calibrationTestData = NULL;
-	AcqImageNoFingerTestData *acqImageNoFingerTestData = NULL;
-	AcqImageFingerTestData *acqImageFingerTestData = NULL;
+	CalibrateTestData *pCalibrationTestData = NULL;
+	AcqImageNoFingerTestData *pAcqImageNoFingerTestData = NULL;
+	AcqImageFingerTestData *pAcqImageFingerTestData = NULL;
+	WOF_BaselineTestData *pWOF_BaselineTestData = NULL;
+	WOF_SignalTestData *pWOF_SignalTestData = NULL;
+	FinalizationTestData *pFinalTestData = NULL;
 
 	//Teststep info
 	for (size_t t = 0; t < _pSynDutUtils->_pDutTestResult->list_testdata.size(); t++)
@@ -396,17 +399,17 @@ uint32_t Syn_TestEngine::WriteLog(string strFolderPath, string strFileName)
 		string strTestStepName = Test_data->data_name;
 		if ("InitializationStep" == strTestStepName)
 		{
-			InitializationTestData *InitTestData = static_cast<InitializationTestData*>(Test_data);
-			if (NULL != InitTestData)
-				fprintf(pFile, "\nInitialization,%s,%d ms\n", InitTestData->pass ? "Pass" : "Fail", InitTestData->test_time);
+			InitializationTestData *pInitTestData = static_cast<InitializationTestData*>(Test_data);
+			if (NULL != pInitTestData)
+				fprintf(pFile, "\nInitialization,%s,%.f ms\n", pInitTestData->pass ? "Pass" : "Fail", pInitTestData->test_time);
 		}
 		else if ("ProgrammingMissionFirmware" == strTestStepName)
 		{
-			ProgrammingMFTestData *ProgrammingMissionFWTestData = static_cast<ProgrammingMFTestData*>(Test_data);
-			if (NULL != ProgrammingMissionFWTestData)
+			ProgrammingMFTestData *pProgrammingMFTestData = static_cast<ProgrammingMFTestData*>(Test_data);
+			if (NULL != pProgrammingMFTestData)
 			{
-				fprintf(pFile, "\nProgrammingMissionFirmware,%s,%.0f ms,Firmware buildnumber,last MissionFirmware build number\n", ProgrammingMissionFWTestData->pass ? "Pass" : "Fail", ProgrammingMissionFWTestData->test_time);
-				fprintf(pFile, ",,,%d,%d\n", ProgrammingMissionFWTestData->FirmwareBuildNumber,ProgrammingMissionFWTestData->ExistsMissionFirmwareNumber);
+				fprintf(pFile, "\nProgrammingMissionFirmware,%s,%.0f ms,Firmware buildnumber,last MissionFirmware build number\n", pProgrammingMFTestData->pass ? "Pass" : "Fail", pProgrammingMFTestData->test_time);
+				fprintf(pFile, ",,,%d,%d\n", pProgrammingMFTestData->FirmwareBuildNumber, pProgrammingMFTestData->ExistsMissionFirmwareNumber);
 			}
 		}
 		else if ("ProgrammingIOTA_BIN" == strTestStepName)
@@ -419,15 +422,15 @@ uint32_t Syn_TestEngine::WriteLog(string strFolderPath, string strFileName)
 		}
 		else if ("Calibrate" == strTestStepName)
 		{
-			calibrationTestData = static_cast<CalibrateTestData*>(Test_data);
-			if (NULL != calibrationTestData)
+			pCalibrationTestData = static_cast<CalibrateTestData*>(Test_data);
+			if (NULL != pCalibrationTestData)
 			{
-				fprintf(pFile, "\nCalibrate,%s,%.0f ms\n", calibrationTestData->pass ? "Pass" : "Fail", calibrationTestData->test_time);
+				fprintf(pFile, "\nCalibrate,%s,%.0f ms\n", pCalibrationTestData->pass ? "Pass" : "Fail", pCalibrationTestData->test_time);
 			}
 		}
 		else if ("AcqImgNoFinger" == strTestStepName)
 		{
-			acqImageNoFingerTestData = static_cast<AcqImageNoFingerTestData*>(Test_data);
+			pAcqImageNoFingerTestData = static_cast<AcqImageNoFingerTestData*>(Test_data);
 			/*if (NULL != acqImageNoFingerTestData)
 			{
 				fprintf(pFile, "\nCalibrate,%s,%.0f ms\n", calibrationTestData->pass ? "Pass" : "Fail", calibrationTestData->test_time);
@@ -435,7 +438,15 @@ uint32_t Syn_TestEngine::WriteLog(string strFolderPath, string strFileName)
 		}
 		else if ("AcqImgFinger" == strTestStepName)
 		{
-			acqImageFingerTestData = static_cast<AcqImageFingerTestData*>(Test_data);
+			pAcqImageFingerTestData = static_cast<AcqImageFingerTestData*>(Test_data);
+		}
+		else if ("WOF_Baseline" == strTestStepName)
+		{
+			pWOF_BaselineTestData = static_cast<WOF_BaselineTestData*>(Test_data);
+		}
+		else if ("WOF_Signal" == strTestStepName)
+		{
+			pWOF_SignalTestData = static_cast<WOF_SignalTestData*>(Test_data);
 		}
 		else if ("SNRTest" == strTestStepName)
 		{
@@ -456,9 +467,7 @@ uint32_t Syn_TestEngine::WriteLog(string strFolderPath, string strFileName)
 		}
 		else if ("FinalizationStep" == strTestStepName)
 		{
-			FinalizationTestData *FinalTestData = static_cast<FinalizationTestData*>(Test_data);
-			if (NULL != FinalTestData)
-				fprintf(pFile, "\nFinalization,%s,%d ms\n", FinalTestData->pass ? "Pass" : "Fail", FinalTestData->test_time);
+			pFinalTestData = static_cast<FinalizationTestData*>(Test_data);
 		}
 		else
 		{
@@ -466,8 +475,26 @@ uint32_t Syn_TestEngine::WriteLog(string strFolderPath, string strFileName)
 		}
 	}
 
+	//WOF
+	if (NULL != pWOF_BaselineTestData || NULL != pWOF_SignalTestData)
+	{
+		fprintf(pFile, "\nWOF,%s,%.0f ms,", pWOF_SignalTestData->pass ? "Pass" : "Fail", pWOF_BaselineTestData->test_time+pWOF_SignalTestData->test_time);
+		fprintf(pFile, "SelectedGain,SelectedOffset,SelectedSignal,Gain1,Offset1,Signal1,Gain2,Offset2,Signal2,Gain3,Offset3,Signal3,Gain4,Offset4,Signal4,Gain5,Offset5,Signal5\n");
+		fprintf(pFile, ",,,");
+
+		fprintf(pFile, "%d,%d,%d,", pWOF_SignalTestData->selectedGain, pWOF_SignalTestData->selectedOffset, pWOF_SignalTestData->selectedSingal);
+
+		for (int i = 0; i<BRAVO_WOF_COUNTS_MAX; i++)
+			fprintf(pFile, "%d,%d,%d,", pWOF_BaselineTestData->arrWOFBaseline[i], pWOF_BaselineTestData->arrWOFOffset[i], pWOF_SignalTestData->arrWOFSignal[i]);
+		fprintf(pFile, "\n");
+	}
+
+
+	if (NULL != pFinalTestData)
+		fprintf(pFile, "\nFinalization,%s,%.f ms\n", pFinalTestData->pass ? "Pass" : "Fail", pFinalTestData->test_time);
+
 	//FW_BL && LNA_BL
-	if (NULL != calibrationTestData)
+	if (NULL != pCalibrationTestData)
 	{
 		int k = 0;
 		fprintf(pFile, "\nFW_BL");
@@ -476,7 +503,7 @@ uint32_t Syn_TestEngine::WriteLog(string strFolderPath, string strFileName)
 			fprintf(pFile, "\n");
 			for (int j = 0; j < ColumnNumber; j++)
 			{
-				fprintf(pFile, "%d,", calibrationTestData->FWBaseline[k]);
+				fprintf(pFile, "%d,", pCalibrationTestData->FWBaseline[k]);
 				k++;
 			}
 		}
@@ -488,15 +515,15 @@ uint32_t Syn_TestEngine::WriteLog(string strFolderPath, string strFileName)
 			fprintf(pFile, "\n");
 			for (int j = 0; j < ColumnNumber; j++)
 			{
-				fprintf(pFile, "%d,", calibrationTestData->LNABaseline[k]);
+				fprintf(pFile, "%d,", pCalibrationTestData->LNABaseline[k]);
 				k++;
 			}
 		}
 	}
 
-	if (NULL != acqImageNoFingerTestData)
+	if (NULL != pAcqImageNoFingerTestData)
 	{
-		fprintf(pFile, "\n\nAverage No Finger,%s,%.0f ms", acqImageNoFingerTestData->pass ? "Pass" : "Fail", acqImageNoFingerTestData->test_time);
+		fprintf(pFile, "\n\nAverage No Finger,%s,%.0f ms", pAcqImageNoFingerTestData->pass ? "Pass" : "Fail", pAcqImageNoFingerTestData->test_time);
 
 		int k = 0;
 		for (int i = 0; i < RowNumber; i++)
@@ -504,22 +531,22 @@ uint32_t Syn_TestEngine::WriteLog(string strFolderPath, string strFileName)
 			fprintf(pFile, "\n");
 			for (int j = 0; j < ColumnNumber; j++)
 			{
-				fprintf(pFile, "%d,", acqImageNoFingerTestData->arrImage[k]);
+				fprintf(pFile, "%d,", pAcqImageNoFingerTestData->arrImage[k]);
 				k++;
 			}
 		}
 	}
 
-	if (NULL != acqImageFingerTestData)
+	if (NULL != pAcqImageFingerTestData)
 	{
-		fprintf(pFile, "\n\nNormalized Finger,%s,%.0f ms", acqImageFingerTestData->pass ? "Pass" : "Fail", acqImageFingerTestData->test_time);
+		fprintf(pFile, "\n\nNormalized Finger,%s,%.0f ms", pAcqImageFingerTestData->pass ? "Pass" : "Fail", pAcqImageFingerTestData->test_time);
 		int k = 0;
 		for (int i = 0; i < RowNumber; i++)
 		{
 			fprintf(pFile, "\n");
 			for (int j = 0; j < ColumnNumber; j++)
 			{
-				fprintf(pFile, "%d,", acqImageFingerTestData->arrImage[k]);
+				fprintf(pFile, "%d,", pAcqImageFingerTestData->arrImage[k]);
 				k++;
 			}
 		}

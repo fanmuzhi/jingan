@@ -21,7 +21,9 @@ public:
 
 	SynTestData * RetrieveTestData(string strTestStepName);
 
-	void Syn_BravoFingerprintTest::StoreTestData(string strTestStepName, SynTestData *pTestData);
+	void StoreTestData(string strTestStepName, SynTestData *pTestData);
+
+	void bpp16tobpp8(int16_t *image, uint8_t *newimage, const int num_rows, const int num_cols);
 
 protected:
 

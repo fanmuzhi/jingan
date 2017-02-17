@@ -7,7 +7,10 @@
 #include "Ts_BravoAcqImgNoFinger.h"
 #include "Ts_BravoWaitStimulus.h"
 #include "Ts_BravoAcqImgFinger.h"
+#include "Ts_BravoWOF_Baseline.h"
+#include "Ts_BravoWOF_Signal.h"
 #include "Ts_BravoSNRTest.h"
+#include "Ts_BravoImperfections.h"
 #include "Ts_BravoFinalizationStep.h"
 
 Syn_TestStepFactory::Syn_TestStepFactory()
@@ -44,6 +47,7 @@ uint32_t Syn_TestStepFactory::CreateBravoTestStep(string strTestStepName, string
 	{
 		opBravoTestStep = new Ts_BravoProgrammingIOTA(strTestStepName, pBravoModule, pDutUtils);
 	}
+
 	else if (string("Calibrate") == strTestStepName)
 	{
 		opBravoTestStep = new Ts_BravoCalibrate(strTestStepName, pBravoModule, pDutUtils);
@@ -60,9 +64,21 @@ uint32_t Syn_TestStepFactory::CreateBravoTestStep(string strTestStepName, string
 	{
 		opBravoTestStep = new Ts_BravoAcqImgFinger(strTestStepName, pBravoModule, pDutUtils);
 	}
+	else if (string("WOF_Baseline") == strTestStepName)
+	{
+		opBravoTestStep = new Ts_BravoWOF_Baseline(strTestStepName, pBravoModule, pDutUtils);
+	}
+	else if (string("WOF_Signal") == strTestStepName)
+	{
+		opBravoTestStep = new Ts_BravoWOF_Signal(strTestStepName, pBravoModule, pDutUtils);
+	}
 	else if (string("SNRTest") == strTestStepName)
 	{
 		opBravoTestStep = new Ts_BravoSNRTest(strTestStepName, pBravoModule, pDutUtils);
+	}
+	else if (string("Imperfections") == strTestStepName)
+	{
+		opBravoTestStep = new Ts_BravoImperfections(strTestStepName, pBravoModule, pDutUtils);
 	}
 	else if (string("FinalizationStep") == strTestStepName)
 	{
