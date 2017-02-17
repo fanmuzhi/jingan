@@ -389,6 +389,26 @@ void Jingan::ReceiveTestResults(unsigned int EngineNumber, const dut_test_result
 
 		itemTestResult->setTextAlignment(Qt::AlignCenter);
 		ui.TestEngineTableWidget->setItem(5, iPos, itemTestResult);
+
+		//snr
+		for (size_t t = 0; t < pTestData->list_testdata.size(); t++)
+		{
+			SynTestData *pSingleTestData = (pTestData->list_testdata)[t];
+			if (NULL != pSingleTestData)
+			{
+				if ("SNRTest" == pSingleTestData->data_name)
+				{
+					SNRTestData *pSNRTestData = static_cast<SNRTestData*>(pSingleTestData);
+					if (NULL != pSNRTestData)
+					{
+						QTableWidgetItem *itemSNR = new QTableWidgetItem(QString::number(pSNRTestData->snrValue));
+						itemSNR->setTextAlignment(Qt::AlignCenter);
+						ui.TestEngineTableWidget->setItem(3, iPos, itemSNR);
+					}
+					break;
+				}
+			}
+		}
 		
 		//BinCode
 		QString strBincodes("");
@@ -438,6 +458,8 @@ void Jingan::ReceiveTestResults(unsigned int EngineNumber, const dut_test_result
 						ui.TestEngineTableWidget->setCellWidget(7, iPos, pImageLabel);
 						ui.TestEngineTableWidget->resizeRowToContents(7);
 					}
+
+					break;
 				}
 			}
 		}
@@ -475,6 +497,8 @@ void Jingan::ReceiveTestResults(unsigned int EngineNumber, const dut_test_result
 						ui.TestEngineTableWidget->setCellWidget(6, iPos, pImageLabel);
 						ui.TestEngineTableWidget->resizeRowToContents(6);
 					}
+
+					break;
 				}
 			}
 		}

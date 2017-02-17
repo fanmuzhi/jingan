@@ -437,6 +437,15 @@ uint32_t Syn_TestEngine::WriteLog(string strFolderPath, string strFileName)
 		{
 			acqImageFingerTestData = static_cast<AcqImageFingerTestData*>(Test_data);
 		}
+		else if ("SNRTest" == strTestStepName)
+		{
+			SNRTestData *pSNRTestData = static_cast<SNRTestData*>(Test_data);
+			if (NULL != pSNRTestData)
+			{
+				fprintf(pFile, "\nSNRTest(simply),%s,%.0f ms,SNR,Signal,Noise\n", pSNRTestData->pass ? "Pass" : "Fail", pSNRTestData->test_time);
+				fprintf(pFile, ",,,%f,%d,%f\n", pSNRTestData->snrValue, pSNRTestData->signalValue, pSNRTestData->noiseValue);
+			}
+		}
 		else if ("ProgrammingIOTA_DATA" == strTestStepName)
 		{
 			ProgrammingIOTATestData *ProgrammingIOTADATATestData = static_cast<ProgrammingIOTATestData*>(Test_data);

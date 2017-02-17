@@ -7,6 +7,7 @@
 #include "Ts_BravoAcqImgNoFinger.h"
 #include "Ts_BravoWaitStimulus.h"
 #include "Ts_BravoAcqImgFinger.h"
+#include "Ts_BravoSNRTest.h"
 #include "Ts_BravoFinalizationStep.h"
 
 Syn_TestStepFactory::Syn_TestStepFactory()
@@ -58,6 +59,10 @@ uint32_t Syn_TestStepFactory::CreateBravoTestStep(string strTestStepName, string
 	else if (string("AcqImgFinger") == strTestStepName)
 	{
 		opBravoTestStep = new Ts_BravoAcqImgFinger(strTestStepName, pBravoModule, pDutUtils);
+	}
+	else if (string("SNRTest") == strTestStepName)
+	{
+		opBravoTestStep = new Ts_BravoSNRTest(strTestStepName, pBravoModule, pDutUtils);
 	}
 	else if (string("FinalizationStep") == strTestStepName)
 	{

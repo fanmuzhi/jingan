@@ -109,6 +109,21 @@ struct WaitStilumusTestData : public SynTestData
 	int16_t FrameData[BRAVO_IMAGE_RAWDATA_MAX];
 };
 
+struct SNRTestData : public SynTestData
+{
+	//simply : waiting for new snr algorithm release
+
+	//parameter
+	uint32_t snrLimit;
+	uint32_t signalLimit;
+	uint32_t noiseLimit;
+
+	//result
+	double   snrValue;
+	uint32_t signalValue;
+	double   noiseValue;
+};
+
 struct FinalizationTestData : public SynTestData
 {
 	//parameter

@@ -2,7 +2,8 @@
 <LocalSettings>
     <SysConfigFile>C:/Users/jezhang/Desktop/shasta_square.xml</SysConfigFile>
     <LogFilePath>C:/logfiles/Bravo</LogFilePath>
-    <EngineNumbers>1</EngineNumbers>
+    <EngineNumbers>2</EngineNumbers>
     <TestEngine1>FT12GAHM</TestEngine1>
+    <TestEngine2>FTHIT0E</TestEngine2>
     <DeviceType>M5</DeviceType>
 </LocalSettings>

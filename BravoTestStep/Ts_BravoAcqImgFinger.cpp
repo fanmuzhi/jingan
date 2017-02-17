@@ -63,7 +63,12 @@ void Ts_BravoAcqImgFinger::Execute()
 		}
 	}
 	if (!CalibrateExcuted)
+	{
+		Exception.SetError(ERROR_TSETSTEP_UNEXCUTED);
+		Exception.SetDescription("Ts_BravoAcqImgFinger::Calibrate is not excuted!");
+		throw Exception;
 		return;
+	}
 
 	bool IsPass = false;
 	uint32_t rowNumber = _pSynDutUtils->Config_MT_Info.rowNumber;
