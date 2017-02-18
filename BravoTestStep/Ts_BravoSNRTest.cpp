@@ -1,5 +1,7 @@
 #include "Ts_BravoSNRTest.h"
 
+typedef float(_stdcall *snrTest)(unsigned char*, unsigned char*, int, int, int, int *, float *, float fcrop);
+
 Ts_BravoSNRTest::Ts_BravoSNRTest(string &strName, FpBravoModule * &pSynModule, Syn_Dut_Utils * &pSynDutUtils)
 :Syn_BravoFingerprintTest(strName, pSynModule, pSynDutUtils)
 , _pSNRTestData(NULL)
@@ -79,10 +81,12 @@ void Ts_BravoSNRTest::Execute()
 
 	uint32_t rowNumber = _pSynDutUtils->Config_MT_Info.rowNumber;
 	uint32_t columnNumber = _pSynDutUtils->Config_MT_Info.columnNumber;
+
+	unsigned int frameNumbers = pAcqImageNoFingerTestData->numFrame;
 	
-	uint8_t *arr8bitsFrameNoFingerAll = new uint8_t[rowNumber*columnNumber * 30];
-	uint8_t *arr8bitsFrameFingerAll = new uint8_t[rowNumber*columnNumber * 30];
-	for (unsigned int i = 0; i < 30 ; i++)
+	uint8_t *arr8bitsFrameNoFingerAll = new uint8_t[rowNumber*columnNumber * frameNumbers];
+	uint8_t *arr8bitsFrameFingerAll = new uint8_t[rowNumber*columnNumber * frameNumbers];
+	for (unsigned int i = 0; i < frameNumbers; i++)
 	{
 		uint8_t *arr8bitFrameNoFinger = new uint8_t[rowNumber*columnNumber];
 		uint8_t *arr8bitFrameFinger = new uint8_t[rowNumber*columnNumber];
@@ -100,7 +104,6 @@ void Ts_BravoSNRTest::Execute()
 	}
 
 	HINSTANCE hdll = NULL;
-	typedef float(_stdcall *snrTest)(unsigned char*, unsigned char*, int, int, int, int *, float *, float fcrop);
 	snrTest snrTestFunc;
 	//use huawei snr as temp, waitng for new snr algorithm release
 	HINSTANCE hDLL = LoadLibrary(TEXT("snrtest.dll"));
@@ -111,7 +114,7 @@ void Ts_BravoSNRTest::Execute()
 		{
 			try
 			{
-				snrValue = snrTestFunc(arr8bitsFrameNoFingerAll, arr8bitsFrameFingerAll, columnNumber, rowNumber, 30, &signalValue, &noiseValue, 0.2f);
+				snrValue = snrTestFunc(arr8bitsFrameNoFingerAll, arr8bitsFrameFingerAll, columnNumber, rowNumber, frameNumbers, &signalValue, &noiseValue, 0.2f);
 			}
 			catch (...)
 			{
@@ -158,21 +161,4 @@ void Ts_BravoSNRTest::CleanUp()
 		_pSynDutUtils->_pDutTestResult->list_bincodes.push_back("119");
 
 	StoreTestData(_pSNRTestData->data_name, static_cast<SynTestData*>(_pSNRTestData));
-}
-
-void Ts_BravoSNRTest::bpp16tobpp8(int16_t *image, uint8_t *newimage, const int num_rows, const int num_cols)
-{
-	int i, n;
-	//unsigned char *ptr;
-	int v;
-
-	n = num_rows*num_cols;
-	//ptr = (unsigned char*)image;
-
-	for (i = 0; i < n; ++i) {
-		v = ((int)image[i] + 3500) * 255 / 7000;
-		if (v < 0) v = 0;
-		if (v > 255) v = 255;
-		newimage[i] = (unsigned char)v;
-	}
 }

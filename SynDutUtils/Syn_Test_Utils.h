@@ -14,6 +14,8 @@ using namespace std;
 #define	SW_VERSION				"ALPHA_UNRELEASE"
 
 #define BRAVO_IMAGE_RAWDATA_MAX 10000
+#define MAXROW 200
+#define MAXCOL 200
 
 struct FpFrame
 {
@@ -101,6 +103,31 @@ struct AcqImageFingerTestData : public SynTestData
 	int16_t arrImage[BRAVO_IMAGE_RAWDATA_MAX];
 };
 
+#define BRAVO_WOF_DATA_MAX			20
+#define BRAVO_WOF_COUNTS_MAX		5
+
+struct WOF_BaselineTestData : public SynTestData
+{
+	//parameter
+	int gainNumbers;
+
+	//result
+	uint16_t arrWOFBaseline[BRAVO_WOF_COUNTS_MAX];
+	uint16_t arrWOFOffset[BRAVO_WOF_COUNTS_MAX];
+};
+
+struct WOF_SignalTestData : public SynTestData
+{
+	//parameter
+	int lowSignalLimit;
+	int highSignalLimit;
+
+	//result
+	uint16_t arrWOFSignal[BRAVO_WOF_COUNTS_MAX];
+
+	uint16_t selectedGain, selectedOffset, selectedSingal;
+};
+
 struct WaitStilumusTestData : public SynTestData
 {
 	//parameter
@@ -122,6 +149,27 @@ struct SNRTestData : public SynTestData
 	double   snrValue;
 	uint32_t signalValue;
 	double   noiseValue;
+};
+
+struct ImperfectionsTestData : public SynTestData
+{
+	//parameter
+	int m_peggedThreshold;
+	int m_flooredThreshold;
+	int m_maxAdjacentPixelsAllowed;
+	int numFrames;
+
+	//result
+	int avg[MAXROW][MAXCOL];
+	int consecutive_pegged_rows[MAXROW - 2];
+	int consecutive_floored_rows[MAXROW - 2];
+	int consecutive_pegged_cols[MAXCOL - 3];
+	int consecutive_floored_cols[MAXCOL - 3];
+
+	int floored_ROW;
+	int pegged_ROW;
+	int floored_COL;
+	int pegged_COL;
 };
 
 struct FinalizationTestData : public SynTestData

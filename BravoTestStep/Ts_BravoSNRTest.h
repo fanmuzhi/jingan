@@ -16,8 +16,6 @@ public:
 
 	virtual void CleanUp();
 
-	void bpp16tobpp8(int16_t *image, uint8_t *newimage, const int num_rows, const int num_cols);
-
 protected:
 
 	SNRTestData *_pSNRTestData;
