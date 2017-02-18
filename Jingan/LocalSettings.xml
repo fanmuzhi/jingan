@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <LocalSettings>
-    <SysConfigFile>C:/Users/jezhang/Desktop/shasta_square.xml</SysConfigFile>
-    <LogFilePath>C:/logfiles/Bravo</LogFilePath>
-    <EngineNumbers>2</EngineNumbers>
-    <TestEngine1>FT12GAHM</TestEngine1>
-    <TestEngine2>FTHIT0E</TestEngine2>
+    <SysConfigFile>D:/projects/MTconfig/Shasta/shasta_square.xml</SysConfigFile>
+    <LogFilePath>D:/logfiles</LogFilePath>
+    <EngineNumbers>1</EngineNumbers>
+    <TestEngine1>FT2SUKK</TestEngine1>
     <DeviceType>M5</DeviceType>
 </LocalSettings>
