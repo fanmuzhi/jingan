@@ -353,6 +353,7 @@ void Jingan::ReceiveTestResults(unsigned int EngineNumber, const dut_test_result
 		ui.TestEngineTableWidget->setItem(1, iPos, itemState);
 		itemState->setBackgroundColor(QColor(255, 0, 0));
 		this->ManageButtonStatus(flagType);
+		_ListOfTestEngine[iPos]->Close();
 		return;
 	}
 
