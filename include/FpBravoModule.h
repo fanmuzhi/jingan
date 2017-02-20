@@ -98,7 +98,7 @@ public:
 
 	virtual uint32_t FpStateGet(StateGetType Type, uint8_t *arr, uint32_t size, uint32_t timeout = TIMEOUT_VALUE);
 
-	virtual uint32_t FpFrameRead(uint8_t *arrImage, uint32_t size, uint32_t delaytime = 0, uint32_t timeout = TIMEOUT_VALUE);
+	virtual uint32_t FpFrameRead(uint8_t *arrImage, uint32_t size, uint32_t timeout = TIMEOUT_VALUE);
 
 	virtual uint32_t FpFrameFinish(uint32_t timeout = TIMEOUT_VALUE);
 
