@@ -151,8 +151,17 @@ struct SNRTestData : public SynTestData
 	double   noiseValue;
 };
 
+#define QNTY_BUBBLE_CHECK_ZONES 7
+
 struct ImperfectionsTestData : public SynTestData
 {
+	typedef struct bubble_check_zone_data_s
+	{
+		uint32_t    nBubbleMeasure_x10;
+		uint32_t	nSignBubbleMeasure;
+		uint32_t   n_pixels;
+	} bubble_check_zone_data_t;
+
 	//parameter
 	int m_peggedThreshold;
 	int m_flooredThreshold;
@@ -160,16 +169,10 @@ struct ImperfectionsTestData : public SynTestData
 	int numFrames;
 
 	//result
-	int avg[MAXROW][MAXCOL];
-	int consecutive_pegged_rows[MAXROW - 2];
-	int consecutive_floored_rows[MAXROW - 2];
-	int consecutive_pegged_cols[MAXCOL - 3];
-	int consecutive_floored_cols[MAXCOL - 3];
-
-	int floored_ROW;
-	int pegged_ROW;
-	int floored_COL;
-	int pegged_COL;
+	int16_t avgFrame[BRAVO_IMAGE_RAWDATA_MAX];
+	int16_t rngFrame[BRAVO_IMAGE_RAWDATA_MAX];
+	bubble_check_zone_data_t bubble_check_data[QNTY_BUBBLE_CHECK_ZONES];
+	//uint32_t bubble_check_data[QNTY_BUBBLE_CHECK_ZONES];
 };
 
 struct FinalizationTestData : public SynTestData

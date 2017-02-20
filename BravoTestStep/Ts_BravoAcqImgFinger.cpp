@@ -94,14 +94,21 @@ void Ts_BravoAcqImgFinger::Execute()
 	_pAcqImageFingerTestData->pass = IsPass;
 
 	unsigned int currentSize = _pAcqImageFingerTestData->ListOfImageFinger.size();
-	if (1 == currentSize)
+	//caculate avg
+	int32_t temp = 0;
+	for (unsigned int i = 0; i < rowNumber*columnNumber; i++)
 	{
-		memcpy(_pAcqImageFingerTestData->arrImage, &(_pAcqImageFingerTestData->ListOfImageFinger[0]->arrImage), rowNumber * columnNumber * 2);
-	}
-	else
-	{
-		unsigned int midPosition = currentSize / 2;
-		memcpy(_pAcqImageFingerTestData->arrImage, &(_pAcqImageFingerTestData->ListOfImageFinger[midPosition]->arrImage), rowNumber * columnNumber * 2);
+		for (unsigned int j = 0; j < currentSize; j++)
+		{
+			temp += _pAcqImageFingerTestData->ListOfImageFinger[j]->arrImage[i];
+		}
+
+		int16_t result = (double)temp / currentSize;
+		if (result > 32767 || result < -32768)
+			result = result > 32767 ? (int16_t)32767 : (int16_t)-32768;
+
+		_pAcqImageFingerTestData->arrImage[i] = result;
+		temp = 0;
 	}
 }
 

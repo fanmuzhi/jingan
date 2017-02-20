@@ -1,12 +1,5 @@
 #include "Ts_BravoImperfections.h"
 
-static int16_t quick_mask[3][3] =
-{
-	{ -1, 0, -1 },
-	{ 0, 4, 0 },
-	{ -1, 0, -1 }
-};
-
 Ts_BravoImperfections::Ts_BravoImperfections(string &strName, FpBravoModule * &pSynModule, Syn_Dut_Utils * &pSynDutUtils)
 : Syn_BravoFingerprintTest(strName, pSynModule, pSynDutUtils)
 , _pImperfectionsTestData(NULL)
@@ -97,13 +90,13 @@ void Ts_BravoImperfections::Execute()
 	frame1->frame_rows = rowNumber;
 	frame2->frame_cols = colNumber;
 	frame2->frame_rows = rowNumber;
-	for (int i = 0; i<colNumber*rowNumber; i++)
+	for (unsigned int i = 0; i<colNumber*rowNumber; i++)
 	{
 		frame1->data[i] = 32767;
 		frame2->data[i] = -32768;
 	}
 
-	for (int i = 0; i<colNumber*rowNumber; i++)
+	for (unsigned int i = 0; i<colNumber*rowNumber; i++)
 	{
 		val1 = pAcqImageNoFingerTestData->arrImage[i];
 		if (val1 < frame1->data[i])
@@ -116,7 +109,7 @@ void Ts_BravoImperfections::Execute()
 		}
 	}
 	/* Calculate an average frame and range frame */
-	for (int i = 0; i<colNumber*rowNumber; i++)
+	for (unsigned int i = 0; i<colNumber*rowNumber; i++)
 	{
 		val1 = frame1->data[i]; //AVG
 		val2 = frame2->data[i]; //RNG
@@ -136,7 +129,7 @@ void Ts_BravoImperfections::Execute()
 	 *		frame1->data will be the image test needs to work on.
 	 *		frame2->data can be used to store gradient
 	 */
-	int16_t val3, val4;
+	//int16_t val3, val4;
 	int32_t r, c, a, b, rows, cols;
 	int32_t gx, gy;
 	uint32_t gxx, gyy;
@@ -146,7 +139,7 @@ void Ts_BravoImperfections::Execute()
 	gyy = 0;
 
 	//	0) Clear the buffer that will hold filtered image
-	for (int i = 0; i<colNumber*rowNumber; i++)
+	for (unsigned int i = 0; i<colNumber*rowNumber; i++)
 	{
 		frame2->data[i] = 0;
 	}
@@ -171,58 +164,69 @@ void Ts_BravoImperfections::Execute()
 	} /* ends loop over r */
 	/*End Convolution Here*/
 
-	//	2) Find the gradient per zone and convert to a scalar value 
+	//2) Find the gradient per zone and convert to a scalar value 
 	/* exclude border pixels for convenience */
-	for (int i = 0; i<colNumber*rowNumber; i++)
+	for (unsigned int i = 0; i<colNumber*rowNumber; i++)
 	{
 		frame1->data[i] = 0;
 	}
 
-	//for (r = 2; r < rows - 2; ++r) {
-	//	for (c = 2; c < cols - 2; ++c) {
+	for (r = 2; r < rows - 2; ++r) {
+		for (c = 2; c < cols - 2; ++c) {
+			/* gradient */
+			gx = (frame2->data[r*colNumber + c + 1] / 50 - frame2->data[r*colNumber + c - 1] / 50);
+			gy = (frame2->data[(r + 1)*colNumber + c] / 50 - frame2->data[(r - 1)*colNumber + c] / 50);
 
+			sum = testSqrt((uint32_t)(gx*gx) + (uint32_t)(gy*gy));
 
+			frame1->data[r*cols + c] = sum;
+		}
+	}
 
-	//		/* gradient */
-	//		gx = (frame2->data[r*TEST_QNTY_RX + c + 1] / 50 - frame2->data[r*TEST_QNTY_RX + c - 1] / 50);
-	//		gy = (frame2->data[(r + 1)*TEST_QNTY_RX + c] / 50 - frame2->data[(r - 1)*TEST_QNTY_RX + c] / 50);
+	//frame1 is holding the gradient			
 
-	//		sum = testSqrt((uint32_t)(gx*gx) + (uint32_t)(gy*gy));
+	uint32_t nTotal;
+	uint32_t sum_unsigned = 0;
+	//results->parameter[TEST_PARAMETER_BUBBLE_MEASURE_BEGIN] = 0xEFBEADDE;
 
-	//		frame1->data[r*cols + c] = sum;
-	//	}
-	//}
+	uint32_t FailedAreaCounts = 0;
+	int32_t f;
+	/* Calculate Bubble Measure */
+	for (unsigned int i = 0; i<QNTY_BUBBLE_CHECK_ZONES; i++)
+	{
+		gx = 0;
+		gxx = 0;
+		nTotal = 0;
 
+		for (r = bubble_area_limit[i].low_left.y; r <= bubble_area_limit[i].up_right.y; r++)
+		{
+			f = r * colNumber + bubble_area_limit[i].low_left.x;
+			for (c = bubble_area_limit[i].low_left.x; c <= bubble_area_limit[i].up_right.x; c++, f++)
+			{
+				nTotal = frame1->data[f] + nTotal;
+			}
+		}
 
+		r = bubble_area_limit[i].up_right.y - bubble_area_limit[i].low_left.y + 1;
+		c = bubble_area_limit[i].up_right.x - bubble_area_limit[i].low_left.x + 1;
 
+		sum_unsigned = (nTotal) / (r * c);
 
+		_pImperfectionsTestData->bubble_check_data[i].nBubbleMeasure_x10 = sum_unsigned;
+		_pImperfectionsTestData->bubble_check_data[i].n_pixels = (r * c);
+		//results->parameter[TEST_PARAMETER_BUBBLE_MEASURE_X100 + i] = sum_unsigned;
 
+		if (_pImperfectionsTestData->bubble_check_data[i].nBubbleMeasure_x10 > _pImperfectionsTestData->m_peggedThreshold || _pImperfectionsTestData->bubble_check_data[i].nBubbleMeasure_x10 < _pImperfectionsTestData->m_flooredThreshold)
+		{
+			FailedAreaCounts += 1;
+		}
+	}
 
+	if (FailedAreaCounts > 0)
+		_pImperfectionsTestData->pass = false;
+	else
+		_pImperfectionsTestData->pass = true;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	_pImperfectionsTestData->pass = true;
 }
 
 void Ts_BravoImperfections::ProcessData()
@@ -238,3 +242,79 @@ void Ts_BravoImperfections::CleanUp()
 	
 	StoreTestData(_pImperfectionsTestData->data_name, static_cast<SynTestData*>(_pImperfectionsTestData));
 }
+
+uint32_t Ts_BravoImperfections::testSqrt(uint32_t y)
+{
+	uint32_t    x_old;
+	uint32_t    x_new;
+	uint32_t    testy;
+	uint32_t    nbits;
+	uint32_t    i;
+
+	if (0 == y)
+	{
+		return (0);
+	}
+
+	/* select a good starting value using binary logarithms: */
+	nbits = (4 * 8);    /*  */
+	for (i = 4, testy = 16;; i += 2, testy <<= 2)
+	{
+		if (i >= nbits || y <= testy)
+		{
+			x_old = (1 << (i / 2));       /* x_old = sqrt(testy) */
+			break;
+		}
+	}
+
+	/* x_old >= sqrt(y) */
+	/* use the Babylonian method to arrive at the integer square root: */
+	for (;;)
+	{
+		x_new = (y / x_old + x_old) / 2;
+		if (x_old <= x_new)
+		{
+			break;
+		}
+		x_old = x_new;
+	}
+
+	/* make sure that the answer is right: */
+	if (x_old * x_old > y || (x_old + 1) * (x_old + 1) <= y)
+	{
+		return (0);
+	}
+
+	return (x_old);
+}
+
+//bubbletest_const_params_t Ts_BravoImperfections::bubbletest_const_params = 
+//{
+//	.n_bubble_areas = QNTY_BUBBLE_CHECK_ZONES,
+//	.bubble_areas[0] = { .low_left = { .y = 2, .x = 2 }, .up_right = { .y = (115 - 2), .x = (55 - 2) }, .limit_set = 0 }, // 0 = All pixels 
+//	.bubble_areas[1] = { .low_left = { .y = 2, .x = 2 }, .up_right = { .y = (2 + 38 - 1), .x = (2 + 26 - 1) }, .limit_set = 1 }, // 1 = Lower Left 
+//	.bubble_areas[2] = { .low_left = { .y = (2 + 38), .x = 2 }, .up_right = { .y = (2 + 38 + 37 - 1), .x = (2 + 26 - 1) }, .limit_set = 1 }, // 2 = Lower Right 
+//	.bubble_areas[3] = { .low_left = { .y = (2 + 38 + 37), .x = 2 }, .up_right = { .y = (115 - 2), .x = (2 + 26 - 1) }, .limit_set = 1 }, // 3 = Middle Left  
+//	.bubble_areas[4] = { .low_left = { .y = 2, .x = (2 + 26) }, .up_right = { .y = (2 + 38 - 1), .x = (55 - 2) }, .limit_set = 1 }, // 4 = Middle Right 
+//	.bubble_areas[5] = { .low_left = { .y = (2 + 38), .x = (2 + 26) }, .up_right = { .y = (2 + 38 + 37 - 1), .x = (55 - 2) }, .limit_set = 1 }, // 5 = Upper Left 
+//	.bubble_areas[6] = { .low_left = { .y = (2 + 38 + 37), .x = (2 + 26) }, .up_right = { .y = (115 - 2), .x = (55 - 2) }, .limit_set = 1 } // 6 = Upper Right 
+//}
+
+
+area_limit_type_t Ts_BravoImperfections::bubble_area_limit[QNTY_BUBBLE_CHECK_ZONES] =
+{
+	{ { 0, 0 }, { (80), (88) }, {0} },// 0 = All pixels 
+	{ { 2, 2 }, { (2 + 26 - 1), (2 + 38 - 1) }, {1} },// 1 = Lower Left 
+	{ { 2, (2 + 38) }, { (2 + 26 - 1), (2 + 38 + 37 - 1) }, { 1 } }, // 2 = Lower Right
+	{ { 2, (2 + 38 + 37) }, { (2 + 26 - 1), (115 - 2) }, { 1 } }, // 3 = Middle Left
+	{ { (2 + 26), 2 }, { (55 - 2), (2 + 38 - 1), }, { 1 } }, // 4 = Middle Right
+	{ { (2 + 26), (2 + 38) }, { (55 - 2), (2 + 38 + 37 - 1), }, { 1 } }, // 5 = Upper Left 
+	{ { (2 + 26), (2 + 38 + 37) }, { (55 - 2), (115 - 2), }, { 1 } }, // 6 = Upper Right
+};
+
+int16_t Ts_BravoImperfections::quick_mask[3][3] =
+{
+	{ -1, 0, -1 },
+	{ 0, 4, 0 },
+	{ -1, 0, -1 }
+};
