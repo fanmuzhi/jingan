@@ -52,18 +52,6 @@ void Ts_BravoProgrammingIOTA::Execute()
 	uint32_t rc = 0;
 	Syn_Exception Exception(0);
 
-	//add bincode check, todo......
-
-
-
-
-
-
-
-
-
-
-
 	Syn_Patch_Info IOTAWritePatch;
 	if (!_pSynDutUtils->Config_MT_Info.GetPatchInfo("iotawrite", IOTAWritePatch))
 	{
@@ -98,6 +86,8 @@ void Ts_BravoProgrammingIOTA::Execute()
 		throw Exception;
 		return;
 	}
+
+	_pProgrammingIOTATestData->executed = true;
 
 	if (0 == _pProgrammingIOTATestData->IOTAType)
 	{
@@ -186,6 +176,14 @@ void Ts_BravoProgrammingIOTA::Execute()
 	}
 	else
 	{
+		//add bincode check
+		unsigned int bincodesCounts = _pSynDutUtils->_pDutTestResult->list_bincodes.size();
+		if (0 != bincodesCounts)
+		{
+			_pProgrammingIOTATestData->pass = false;
+			return;
+		}
+
 		uint32_t rowNumber = _pSynDutUtils->Config_MT_Info.rowNumber;
 		uint32_t columnNumber = _pSynDutUtils->Config_MT_Info.columnNumber;
 
@@ -354,6 +352,10 @@ void Ts_BravoProgrammingIOTA::Execute()
 
 void Ts_BravoProgrammingIOTA::ProcessData()
 {
+	if (!_pProgrammingIOTATestData->pass)
+	{
+		_pSynDutUtils->_pDutTestResult->list_bincodes.push_back("153");
+	}
 	_pSynDutUtils->_pDutTestResult->map_teststep_ispass.insert(map<string, string>::value_type(_pProgrammingIOTATestData->data_name, _pProgrammingIOTATestData->pass ? "Pass" : "Fail"));
 }
 
