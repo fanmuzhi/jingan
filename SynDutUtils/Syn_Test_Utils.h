@@ -67,6 +67,15 @@ struct ProgrammingIOTATestData : public SynTestData
 	//1:"ProgrammingIOTATestData_DATA"
 };
 
+struct DrdyTestData : public SynTestData
+{
+	//parameter
+
+	//result
+	uint8_t arrHiStates[5];
+	uint8_t	arrLoStates[5];
+};
+
 struct CalibrateTestData : public SynTestData
 {
 	//parameter
@@ -136,6 +145,22 @@ struct WaitStilumusTestData : public SynTestData
 	int16_t FrameData[BRAVO_IMAGE_RAWDATA_MAX];
 };
 
+struct CurrentTestData : public SynTestData
+{
+	//parameter
+	int m_nLowGain;		//Gain used for ADC1 and ADC4:
+	int m_nHighGain;	//Gain used for ADC1 and ADC4:
+
+	float m_nImageAcqDigMax_uA;
+	float m_nImageAcqAnaMax_uA;
+	float m_nImageAcqDigMin_uA;
+	float m_nImageAcqAnaMin_uA;
+
+	//result
+	float ImageAcqDigCurrent_uA;
+	float ImageAcqAnaCurrent_uA;
+};
+
 struct SNRTestData : public SynTestData
 {
 	//simply : waiting for new snr algorithm release
@@ -163,8 +188,8 @@ struct ImperfectionsTestData : public SynTestData
 	} bubble_check_zone_data_t;
 
 	//parameter
-	int m_peggedThreshold;
-	int m_flooredThreshold;
+	uint32_t m_peggedThreshold;
+	uint32_t m_flooredThreshold;
 	int m_maxAdjacentPixelsAllowed;
 	int numFrames;
 
@@ -173,6 +198,21 @@ struct ImperfectionsTestData : public SynTestData
 	int16_t rngFrame[BRAVO_IMAGE_RAWDATA_MAX];
 	bubble_check_zone_data_t bubble_check_data[QNTY_BUBBLE_CHECK_ZONES];
 	//uint32_t bubble_check_data[QNTY_BUBBLE_CHECK_ZONES];
+};
+
+struct SharpnessData : public SynTestData
+{
+	//parameter
+	int  limit;
+
+	//result
+	float SHARPNESS[4];//SHARPNESS[0]->Z1, SHARPNESS[1]->Z2, SHARPNESS[2]->Z3, SHARPNESS[3]->OVERALL
+	int	  Gx[MAXROW][MAXCOL];
+	int	  Gy[MAXROW][MAXCOL];
+	int	  h[MAXCOL];
+	int	  g[MAXROW][MAXCOL];
+	int	  pImg_t[MAXROW][MAXCOL];
+	float percent;
 };
 
 struct FinalizationTestData : public SynTestData

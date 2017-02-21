@@ -72,6 +72,8 @@ public:
 
 	void SetBridge(syn_bridge *ipSynBridge);
 
+	void GetBridge(syn_bridge * &opSynBridge);
+
 	virtual uint32_t PowerOn(uint32_t vcc, uint32_t spivcc, uint32_t timeout = TIMEOUT_VALUE);
 
 	virtual uint32_t PowerOff(uint32_t timeout = TIMEOUT_VALUE);
@@ -102,7 +104,7 @@ public:
 
 	virtual uint32_t FpFrameFinish(uint32_t timeout = TIMEOUT_VALUE);
 
-	virtual uint32_t FpGetImage(uint8_t *arrImage, uint32_t size, uint32_t timeout = TIMEOUT_VALUE);
+	virtual uint32_t FpGetImage(uint8_t *arrImage, uint32_t size, uint32_t *arrValue, uint32_t timeout = TIMEOUT_VALUE);
 
 	virtual uint32_t FpUpdateADCOffsets(uint32_t arrAdcbaselines[4], uint32_t timeout = TIMEOUT_VALUE);
 

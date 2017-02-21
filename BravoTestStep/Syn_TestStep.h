@@ -39,7 +39,7 @@ protected:
 	string _strName;
 
 	FpBravoModule *_pSynModule;
-	//syn_bridge	  *_pSynBridge;
+	syn_bridge	  *_pSynBridge;
 
 	Syn_Dut_Utils *_pSynDutUtils;
 };
