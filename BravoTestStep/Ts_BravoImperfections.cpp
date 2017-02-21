@@ -70,7 +70,7 @@ void Ts_BravoImperfections::Execute()
 		throw Exception;
 		return;
 	}
-	AcqImageNoFingerTestData *pAcqImageNoFingerTestData = static_cast<AcqImageNoFingerTestData*>(RetrieveTestData("AcqImgFinger"));
+	AcqImageFingerTestData *pAcqImageFingerTestData = static_cast<AcqImageFingerTestData*>(RetrieveTestData("AcqImgFinger"));
 	if (NULL == pCalibrateData)
 	{
 		Exception.SetError(ERROR_TSETSTEP_UNEXCUTED);
@@ -98,7 +98,7 @@ void Ts_BravoImperfections::Execute()
 
 	for (unsigned int i = 0; i<colNumber*rowNumber; i++)
 	{
-		val1 = pAcqImageNoFingerTestData->arrImage[i];
+		val1 = pAcqImageFingerTestData->arrImage[i];
 		if (val1 < frame1->data[i])
 		{
 			frame1->data[i] = val1;
