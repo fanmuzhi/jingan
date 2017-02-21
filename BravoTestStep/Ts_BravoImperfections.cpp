@@ -70,7 +70,8 @@ void Ts_BravoImperfections::Execute()
 		throw Exception;
 		return;
 	}
-	AcqImageNoFingerTestData *pAcqImageNoFingerTestData = static_cast<AcqImageNoFingerTestData*>(RetrieveTestData("AcqImgFinger"));
+	//AcqImageNoFingerTestData *pAcqImageNoFingerTestData = static_cast<AcqImageNoFingerTestData*>(RetrieveTestData("AcqImgFinger"));
+	AcqImageFingerTestData *pAcqImageFingerTestData = static_cast<AcqImageFingerTestData*>(RetrieveTestData("AcqImgFinger"));
 	if (NULL == pCalibrateData)
 	{
 		Exception.SetError(ERROR_TSETSTEP_UNEXCUTED);
@@ -98,7 +99,7 @@ void Ts_BravoImperfections::Execute()
 
 	for (unsigned int i = 0; i<colNumber*rowNumber; i++)
 	{
-		val1 = pAcqImageNoFingerTestData->arrImage[i];
+		val1 = pAcqImageFingerTestData->arrImage[i];
 		if (val1 < frame1->data[i])
 		{
 			frame1->data[i] = val1;
@@ -303,13 +304,13 @@ uint32_t Ts_BravoImperfections::testSqrt(uint32_t y)
 
 area_limit_type_t Ts_BravoImperfections::bubble_area_limit[QNTY_BUBBLE_CHECK_ZONES] =
 {
-	{ { 0, 0 }, { (80), (88) }, {0} },// 0 = All pixels 
-	{ { 2, 2 }, { (2 + 26 - 1), (2 + 38 - 1) }, {1} },// 1 = Lower Left 
-	{ { 2, (2 + 38) }, { (2 + 26 - 1), (2 + 38 + 37 - 1) }, { 1 } }, // 2 = Lower Right
-	{ { 2, (2 + 38 + 37) }, { (2 + 26 - 1), (115 - 2) }, { 1 } }, // 3 = Middle Left
-	{ { (2 + 26), 2 }, { (55 - 2), (2 + 38 - 1), }, { 1 } }, // 4 = Middle Right
-	{ { (2 + 26), (2 + 38) }, { (55 - 2), (2 + 38 + 37 - 1), }, { 1 } }, // 5 = Upper Left 
-	{ { (2 + 26), (2 + 38 + 37) }, { (55 - 2), (115 - 2), }, { 1 } }, // 6 = Upper Right
+	{ { 0, 0 },                    { (80), (88) },                      { 0 } }, // 0 = All pixels 
+	{ { 2, 2 },                    { (2 + 26 - 1), (2 + 38 - 1) },      { 1 } }, // 1 = Lower Left 
+	{ { 2, (2 + 38) },             { (2 + 26 - 1), (2 + 38 + 37 - 1) }, { 1 } }, // 2 = Lower Right
+	{ { 2, (2 + 38 + 37) },        { (2 + 26 - 1), (88 - 2) },          { 1 } }, // 3 = Middle Left
+	{ { (2 + 26), 2 },             { (55 - 2),     (2 + 38 - 1), },     { 1 } }, // 4 = Middle Right
+	{ { (2 + 26), (2 + 38) },      { (55 - 2),     (2 + 38 + 37 - 1), },{ 1 } }, // 5 = Upper Left 
+	{ { (2 + 26), (2 + 38 + 37) }, { (55 - 2),     (88 - 2), },         { 1 } }, // 6 = Upper Right
 };
 
 int16_t Ts_BravoImperfections::quick_mask[3][3] =
