@@ -187,6 +187,13 @@ struct ImperfectionsTestData : public SynTestData
 		uint32_t   n_pixels;
 	} bubble_check_zone_data_t;
 
+	typedef struct half_word_frame_data_s
+	{
+		uint32_t   frame_cols;
+		uint32_t   frame_rows;
+		int16_t    data[BRAVO_IMAGE_RAWDATA_MAX];
+	} half_word_frame_data_t;
+
 	//parameter
 	uint32_t m_peggedThreshold;
 	uint32_t m_flooredThreshold;
@@ -194,8 +201,9 @@ struct ImperfectionsTestData : public SynTestData
 	int numFrames;
 
 	//result
-	int16_t avgFrame[BRAVO_IMAGE_RAWDATA_MAX];
-	int16_t rngFrame[BRAVO_IMAGE_RAWDATA_MAX];
+	half_word_frame_data_t frame1;//AVG
+	half_word_frame_data_t frame2;//RNG
+
 	bubble_check_zone_data_t bubble_check_data[QNTY_BUBBLE_CHECK_ZONES];
 	//uint32_t bubble_check_data[QNTY_BUBBLE_CHECK_ZONES];
 };

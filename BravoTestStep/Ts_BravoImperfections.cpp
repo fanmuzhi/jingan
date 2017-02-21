@@ -84,44 +84,42 @@ void Ts_BravoImperfections::Execute()
 	int32_t ix;
 	int32_t sum;
 	
-	half_word_frame_data_t *frame1 = new half_word_frame_data_t();
-	half_word_frame_data_t *frame2 = new half_word_frame_data_t();
-	frame1->frame_cols = colNumber;
-	frame1->frame_rows = rowNumber;
-	frame2->frame_cols = colNumber;
-	frame2->frame_rows = rowNumber;
+	_pImperfectionsTestData->frame1.frame_cols = colNumber;
+	_pImperfectionsTestData->frame1.frame_rows = rowNumber;
+	_pImperfectionsTestData->frame2.frame_cols = colNumber;
+	_pImperfectionsTestData->frame2.frame_rows = rowNumber;
 	for (unsigned int i = 0; i<colNumber*rowNumber; i++)
 	{
-		frame1->data[i] = 32767;
-		frame2->data[i] = -32768;
+		_pImperfectionsTestData->frame1.data[i] = 32767;
+		_pImperfectionsTestData->frame2.data[i] = -32768;
 	}
 
 	for (unsigned int i = 0; i<colNumber*rowNumber; i++)
 	{
 		val1 = pAcqImageFingerTestData->arrImage[i];
-		if (val1 < frame1->data[i])
+		if (val1 < _pImperfectionsTestData->frame1.data[i])
 		{
-			frame1->data[i] = val1;
+			_pImperfectionsTestData->frame1.data[i] = val1;
 		}
-		if (val1 > frame2->data[i])
+		if (val1 > _pImperfectionsTestData->frame2.data[i])
 		{
-			frame2->data[i] = val1;
+			_pImperfectionsTestData->frame2.data[i] = val1;
 		}
 	}
 	/* Calculate an average frame and range frame */
 	for (unsigned int i = 0; i<colNumber*rowNumber; i++)
 	{
-		val1 = frame1->data[i]; //AVG
-		val2 = frame2->data[i]; //RNG
+		val1 = _pImperfectionsTestData->frame1.data[i]; //AVG
+		val2 = _pImperfectionsTestData->frame2.data[i]; //RNG
 		base = pCalibrateData->FWBaseline[i];
 
-		frame2->data[i] = val2 - val1; /* Range = Maximum - Minimum */
-		frame1->data[i] = val1 + frame2->data[i] / 2;  /* Minimum + Range/2 */
+		_pImperfectionsTestData->frame2.data[i] = val2 - val1; /* Range = Maximum - Minimum */
+		_pImperfectionsTestData->frame1.data[i] = val1 + _pImperfectionsTestData->frame2.data[i] / 2;  /* Minimum + Range/2 */
 
-		ix = frame1->data[i] - base;
+		ix = _pImperfectionsTestData->frame1.data[i] - base;
 		if (ix < -32768) ix = -32768;
 		if (ix > 32767) ix = 32767;
-		frame1->data[i] = (int16_t)ix;
+		_pImperfectionsTestData->frame1.data[i] = (int16_t)ix;
 	}
 
 	/*
@@ -133,15 +131,15 @@ void Ts_BravoImperfections::Execute()
 	int32_t r, c, a, b, rows, cols;
 	int32_t gx, gy;
 	uint32_t gxx, gyy;
-	rows = frame1->frame_rows;
-	cols = frame1->frame_cols;
+	rows = _pImperfectionsTestData->frame1.frame_rows;
+	cols = _pImperfectionsTestData->frame1.frame_cols;
 	gxx = 0;
 	gyy = 0;
 
 	//	0) Clear the buffer that will hold filtered image
 	for (unsigned int i = 0; i<colNumber*rowNumber; i++)
 	{
-		frame2->data[i] = 0;
+		_pImperfectionsTestData->frame2.data[i] = 0;
 	}
 
 	//	1) Convolve test image with the quick_mask kernel and
@@ -154,12 +152,12 @@ void Ts_BravoImperfections::Execute()
 			for (a = -1; a<2; a++) {
 				for (b = -1; b<2; b++) {
 					//Ethan 12/19/16: Get more data.
-					sum = sum + frame1->data[(r + a)*cols + (c + b)] * quick_mask[a + 1][b + 1];
-					//sum = sum + frame1->data[(r + a)*cols + (c + b)] / 100 * quick_mask[a + 1][b + 1];
+					sum = sum + _pImperfectionsTestData->frame1.data[(r + a)*cols + (c + b)] * quick_mask[a + 1][b + 1];
+					//sum = sum + _pImperfectionsTestData->frame1.data[(r + a)*cols + (c + b)] / 100 * quick_mask[a + 1][b + 1];
 				}
 			}
 
-			frame2->data[r * cols + c] = sum;
+			_pImperfectionsTestData->frame2.data[r * cols + c] = sum;
 		} /* ends loop over c */
 	} /* ends loop over r */
 	/*End Convolution Here*/
@@ -168,18 +166,18 @@ void Ts_BravoImperfections::Execute()
 	/* exclude border pixels for convenience */
 	for (unsigned int i = 0; i<colNumber*rowNumber; i++)
 	{
-		frame1->data[i] = 0;
+		_pImperfectionsTestData->frame1.data[i] = 0;
 	}
 
 	for (r = 2; r < rows - 2; ++r) {
 		for (c = 2; c < cols - 2; ++c) {
 			/* gradient */
-			gx = (frame2->data[r*colNumber + c + 1] / 50 - frame2->data[r*colNumber + c - 1] / 50);
-			gy = (frame2->data[(r + 1)*colNumber + c] / 50 - frame2->data[(r - 1)*colNumber + c] / 50);
+			gx = (_pImperfectionsTestData->frame2.data[r*colNumber + c + 1] / 50 - _pImperfectionsTestData->frame2.data[r*colNumber + c - 1] / 50);
+			gy = (_pImperfectionsTestData->frame2.data[(r + 1)*colNumber + c] / 50 - _pImperfectionsTestData->frame2.data[(r - 1)*colNumber + c] / 50);
 
 			sum = testSqrt((uint32_t)(gx*gx) + (uint32_t)(gy*gy));
 
-			frame1->data[r*cols + c] = sum;
+			_pImperfectionsTestData->frame1.data[r*cols + c] = sum;
 		}
 	}
 
@@ -203,7 +201,7 @@ void Ts_BravoImperfections::Execute()
 			f = r * colNumber + bubble_area_limit[i].low_left.x;
 			for (c = bubble_area_limit[i].low_left.x; c <= bubble_area_limit[i].up_right.x; c++, f++)
 			{
-				nTotal = frame1->data[f] + nTotal;
+				nTotal = _pImperfectionsTestData->frame1.data[f] + nTotal;
 			}
 		}
 
@@ -303,7 +301,7 @@ uint32_t Ts_BravoImperfections::testSqrt(uint32_t y)
 
 area_limit_type_t Ts_BravoImperfections::bubble_area_limit[QNTY_BUBBLE_CHECK_ZONES] =
 {
-	{ { 0, 0 },                    { (80), (88) },                      { 0 } }, // 0 = All pixels 
+	{ { 0, 0 },                    { (80), (88 - 2) },                  { 0 } }, // 0 = All pixels 
 	{ { 2, 2 },                    { (2 + 26 - 1), (2 + 38 - 1) },      { 1 } }, // 1 = Lower Left 
 	{ { 2, (2 + 38) },             { (2 + 26 - 1), (2 + 38 + 37 - 1) }, { 1 } }, // 2 = Lower Right
 	{ { 2, (2 + 38 + 37) },        { (2 + 26 - 1), (88 - 2) },          { 1 } }, // 3 = Middle Left
