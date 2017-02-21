@@ -94,21 +94,27 @@ void Ts_BravoAcqImgNoFinger::Execute()
 	_pAcqImageNoFingerTestData->pass = IsPass;
 
 	unsigned int currentSize = _pAcqImageNoFingerTestData->ListOfImageNoFinger.size();
-	if (1 == currentSize)
+	//caculate avg
+	int32_t temp = 0;
+	for (unsigned int i = 0; i < rowNumber*columnNumber; i++)
 	{
-		memcpy(_pAcqImageNoFingerTestData->arrImage, &(_pAcqImageNoFingerTestData->ListOfImageNoFinger[0]->arrImage), rowNumber * columnNumber * 2);
-	}
-	else
-	{
-		unsigned int midPosition = currentSize / 2;
-		memcpy(_pAcqImageNoFingerTestData->arrImage, &(_pAcqImageNoFingerTestData->ListOfImageNoFinger[midPosition]->arrImage), rowNumber * columnNumber * 2);
+		for (unsigned int j = 0; j < currentSize; j++)
+		{
+			temp += _pAcqImageNoFingerTestData->ListOfImageNoFinger[j]->arrImage[i];
+		}
+
+		int16_t result = (double)temp / currentSize;
+		if (result > 32767 || result < -32768)
+			result = result > 32767 ? (int16_t)32767 : (int16_t)-32768;
+
+		_pAcqImageNoFingerTestData->arrImage[i] = result;
+		temp = 0;
 	}
 }
 
 void Ts_BravoAcqImgNoFinger::ProcessData()
 {
 	_pSynDutUtils->_pDutTestResult->map_teststep_ispass.insert(map<string, string>::value_type(_pAcqImageNoFingerTestData->data_name, _pAcqImageNoFingerTestData->pass ? "Pass" : "Fail"));
-
 }
 
 void Ts_BravoAcqImgNoFinger::CleanUp()
