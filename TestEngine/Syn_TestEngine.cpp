@@ -461,9 +461,8 @@ uint32_t Syn_TestEngine::WriteLog(string strFolderPath, string strFileName)
 			CurrentTestData *pCurrentTestData = static_cast<CurrentTestData*>(Test_data);
 			if (NULL != pCurrentTestData)
 			{
-				fprintf(pFile, "\Current Test,%s,%.0f ms,\n", pCurrentTestData->pass ? "Pass" : "Fail", pCurrentTestData->test_time);
-				fprintf(pFile, ",,,Digital image acq current (uA),%f\n", (float)(pCurrentTestData->ImageAcqDigCurrent_uA));
-				fprintf(pFile, ",,,Analog image acq current (uA),%f\n", (float)(pCurrentTestData->ImageAcqAnaCurrent_uA));
+				fprintf(pFile, "\nCurrent Test,%s,%.0f ms,Digital image acq current (uA),Analog image acq current (uA)\n", pCurrentTestData->pass ? "Pass" : "Fail", pCurrentTestData->test_time);
+				fprintf(pFile, ",,,%f,%f\n", (float)(pCurrentTestData->ImageAcqDigCurrent_uA), (float)(pCurrentTestData->ImageAcqAnaCurrent_uA));
 			}
 		}
 		else if ("SNRTest" == strTestStepName)
