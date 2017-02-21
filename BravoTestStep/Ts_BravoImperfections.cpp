@@ -70,7 +70,10 @@ void Ts_BravoImperfections::Execute()
 		throw Exception;
 		return;
 	}
+<<<<<<< HEAD
 	//AcqImageNoFingerTestData *pAcqImageNoFingerTestData = static_cast<AcqImageNoFingerTestData*>(RetrieveTestData("AcqImgFinger"));
+=======
+>>>>>>> 87c6b3278ea9627f4b1cc8a287f8a20e1ba1627c
 	AcqImageFingerTestData *pAcqImageFingerTestData = static_cast<AcqImageFingerTestData*>(RetrieveTestData("AcqImgFinger"));
 	if (NULL == pCalibrateData)
 	{
