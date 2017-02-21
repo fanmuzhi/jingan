@@ -169,7 +169,7 @@ void Ts_BravoWOF_Signal::Execute()
 	}
 	else
 	{
-		_pWOF_SignalTestData->pass = true;
+		_pWOF_SignalTestData->pass = false;
 	}
 
 }

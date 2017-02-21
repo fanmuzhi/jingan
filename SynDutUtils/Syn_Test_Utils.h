@@ -172,6 +172,21 @@ struct ImperfectionsTestData : public SynTestData
 	int pegged_COL;
 };
 
+struct SharpnessData : public SynTestData
+{
+	//parameter
+	int  limit;
+
+	//result
+	float SHARPNESS[4];//SHARPNESS[0]->Z1, SHARPNESS[1]->Z2, SHARPNESS[2]->Z3, SHARPNESS[3]->OVERALL
+	int	  Gx[MAXROW][MAXCOL];
+	int	  Gy[MAXROW][MAXCOL];
+	int	  h[MAXCOL];
+	int	  g[MAXROW][MAXCOL];
+	int	  pImg_t[MAXROW][MAXCOL];
+	float percent;
+};
+
 struct FinalizationTestData : public SynTestData
 {
 	//parameter
