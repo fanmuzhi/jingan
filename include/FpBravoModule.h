@@ -128,6 +128,8 @@ public:
 
 	virtual uint32_t checkBLMode(bool &mode) = 0;
 
+	virtual uint32_t FpGetWOFRegister(uint32_t &oGainRegister, uint32_t &oOffsetRegister, uint32_t &oCtrlRegister) = 0;
+
 protected:
 
 	uint32_t getStatus(Bravo_Sensor_Status_t &oSensorStatus);
