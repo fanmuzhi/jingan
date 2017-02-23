@@ -159,17 +159,14 @@ struct WaitStilumusTestData : public SynTestData
 struct CurrentTestData : public SynTestData
 {
 	//parameter
-	int m_nLowGain;		//Gain used for ADC1 and ADC4:
-	int m_nHighGain;	//Gain used for ADC1 and ADC4:
-
-	float m_nImageAcqDigMax_uA;
-	float m_nImageAcqAnaMax_uA;
-	float m_nImageAcqDigMin_uA;
-	float m_nImageAcqAnaMin_uA;
+	float m_nImageAcqVccMax_uA;
+	float m_nImageAcqSpivccMax_uA;
+	float m_nImageAcqVccMin_uA;
+	float m_nImageAcqSpivccMin_uA;
 
 	//result
-	float ImageAcqDigCurrent_uA;
-	float ImageAcqAnaCurrent_uA;
+	float ImageAcqSpivccCurrent_uA;
+	float ImageAcqVccCurrent_uA;
 };
 
 struct SNRTestData : public SynTestData

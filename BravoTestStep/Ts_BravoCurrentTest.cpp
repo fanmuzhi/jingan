@@ -37,31 +37,25 @@ void Ts_BravoCurrentTest::SetUp()
 
 	_pCurrentTestData = new CurrentTestData();
 	_pCurrentTestData->data_name = _strName;
-	_pCurrentTestData->m_nLowGain = 2;
-	_pCurrentTestData->m_nHighGain = 3;
-	_pCurrentTestData->m_nImageAcqAnaMax_uA = (float)(50 * 1000);
-	_pCurrentTestData->m_nImageAcqDigMax_uA = (float)(5 * 1000);
-	_pCurrentTestData->m_nImageAcqAnaMin_uA = (float)(1 * 1000);
-	_pCurrentTestData->m_nImageAcqDigMin_uA = (float)(0.01 * 1000);
+	_pCurrentTestData->m_nImageAcqVccMax_uA = (float)(50 * 1000);
+	_pCurrentTestData->m_nImageAcqSpivccMax_uA = (float)(5 * 1000);
+	_pCurrentTestData->m_nImageAcqVccMin_uA = (float)(1 * 1000);
+	_pCurrentTestData->m_nImageAcqSpivccMin_uA = (float)(0.01 * 1000);
 
-	if (iListSize < 6)
+	if (iListSize < 4)
 	{
-		for (size_t t = 1; t <= 6 - iListSize; t++)
+		for (size_t t = 1; t <= 4 - iListSize; t++)
 			listOfArgValue.push_back(std::string(""));
 	}
 
 	if (0 != listOfArgValue[0].length())
-		_pCurrentTestData->m_nLowGain = atoi(listOfArgValue[0].c_str()) % 4;//Gain range is 0-3.
+		_pCurrentTestData->m_nImageAcqVccMax_uA = (float)(stof(listOfArgValue[0]) * 1000);
 	if (0 != listOfArgValue[1].length())
-		_pCurrentTestData->m_nHighGain = atoi(listOfArgValue[1].c_str()) % 4;//Gain range is 0-3.
+		_pCurrentTestData->m_nImageAcqSpivccMax_uA = (float)(stof(listOfArgValue[1]) * 1000);
 	if (0 != listOfArgValue[2].length())
-		_pCurrentTestData->m_nImageAcqAnaMax_uA = (float)(stof(listOfArgValue[2]) * 1000);//(int)(_tstof((LPCTSTR)listOfArgValue[2].c_str()) * 1000);
+		_pCurrentTestData->m_nImageAcqVccMin_uA = (float)(stof(listOfArgValue[2]) * 1000);
 	if (0 != listOfArgValue[3].length())
-		_pCurrentTestData->m_nImageAcqDigMax_uA = (float)(stof(listOfArgValue[3]) * 1000);//(int)(_tstof((LPCTSTR)listOfArgValue[3].c_str()) * 1000);
-	if (0 != listOfArgValue[4].length())
-		_pCurrentTestData->m_nImageAcqAnaMin_uA = (float)(stof(listOfArgValue[4]) * 1000);//(int)(_tstof((LPCTSTR)listOfArgValue[4].c_str()) * 1000);
-	if (0 != listOfArgValue[5].length())
-		_pCurrentTestData->m_nImageAcqDigMin_uA = (float)(stof(listOfArgValue[5]) * 1000);//(int)(_tstof((LPCTSTR)listOfArgValue[5].c_str()) * 1000);
+		_pCurrentTestData->m_nImageAcqSpivccMin_uA = (float)(stof(listOfArgValue[3]) * 1000);
 }
 
 void Ts_BravoCurrentTest::Execute()
@@ -87,8 +81,8 @@ void Ts_BravoCurrentTest::Execute()
 		throw Exception;
 	}
 
-	_pCurrentTestData->ImageAcqDigCurrent_uA = ((float)arrValue[0]) / 1000;	//hign gain 1.8V
-	_pCurrentTestData->ImageAcqAnaCurrent_uA = ((float)arrValue[1]) / 1000;	//hign gain 3.3V
+	_pCurrentTestData->ImageAcqSpivccCurrent_uA = ((float)arrValue[0]) / 1000;	//hign gain 1.8V
+	_pCurrentTestData->ImageAcqVccCurrent_uA = ((float)arrValue[1]) / 1000;	//hign gain 3.3V
 
 	_pCurrentTestData->executed = true;
 }
@@ -97,11 +91,11 @@ void Ts_BravoCurrentTest::ProcessData()
 {
 	_pCurrentTestData->pass = true;
 	
-	if ((_pCurrentTestData->ImageAcqAnaCurrent_uA > _pCurrentTestData->m_nImageAcqAnaMax_uA) || 
-		(_pCurrentTestData->ImageAcqAnaCurrent_uA < _pCurrentTestData->m_nImageAcqAnaMin_uA))
+	if ((_pCurrentTestData->ImageAcqSpivccCurrent_uA > _pCurrentTestData->m_nImageAcqSpivccMax_uA) ||
+		(_pCurrentTestData->ImageAcqSpivccCurrent_uA < _pCurrentTestData->m_nImageAcqSpivccMin_uA))
 		_pCurrentTestData->pass = false;
 
-	if (_pCurrentTestData->ImageAcqDigCurrent_uA > _pCurrentTestData->m_nImageAcqDigMax_uA)
+	if (_pCurrentTestData->ImageAcqVccCurrent_uA > _pCurrentTestData->m_nImageAcqVccMax_uA)
 		_pCurrentTestData->pass = 0;
 
 	if (!_pCurrentTestData->pass)
