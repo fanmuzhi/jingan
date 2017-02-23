@@ -420,6 +420,14 @@ uint32_t Syn_TestEngine::WriteLog(string strFolderPath, string strFileName)
 				fprintf(pFile, "\nProgrammingIOTA_BIN,%s,%.0f ms\n", ProgrammingIOTABINTestData->pass ? "Pass" : "Fail", ProgrammingIOTABINTestData->test_time);
 			}
 		}
+		else if ("DRdyTest" == strTestStepName)
+		{
+			DrdyTestData *pDrdyTestData = static_cast<DrdyTestData*>(Test_data);
+			if (NULL != pDrdyTestData)
+			{
+				fprintf(pFile, "\nDRdyTest,%s,%.0f ms\n", pDrdyTestData->pass ? "Pass" : "Fail", pDrdyTestData->test_time);
+			}
+		}
 		else if ("Calibrate" == strTestStepName)
 		{
 			pCalibrationTestData = static_cast<CalibrateTestData*>(Test_data);
@@ -448,6 +456,15 @@ uint32_t Syn_TestEngine::WriteLog(string strFolderPath, string strFileName)
 		{
 			pWOF_SignalTestData = static_cast<WOF_SignalTestData*>(Test_data);
 		}
+		else if ("CurrentTest" == strTestStepName)
+		{
+			CurrentTestData *pCurrentTestData = static_cast<CurrentTestData*>(Test_data);
+			if (NULL != pCurrentTestData)
+			{
+				fprintf(pFile, "\nCurrent Test,%s,%.0f ms,Digital image acq current (uA),Analog image acq current (uA)\n", pCurrentTestData->pass ? "Pass" : "Fail", pCurrentTestData->test_time);
+				fprintf(pFile, ",,,%f,%f\n", (float)(pCurrentTestData->ImageAcqDigCurrent_uA), (float)(pCurrentTestData->ImageAcqAnaCurrent_uA));
+			}
+		}
 		else if ("SNRTest" == strTestStepName)
 		{
 			SNRTestData *pSNRTestData = static_cast<SNRTestData*>(Test_data);
@@ -455,6 +472,29 @@ uint32_t Syn_TestEngine::WriteLog(string strFolderPath, string strFileName)
 			{
 				fprintf(pFile, "\nSNRTest(simply),%s,%.0f ms,SNR,Signal,Noise\n", pSNRTestData->pass ? "Pass" : "Fail", pSNRTestData->test_time);
 				fprintf(pFile, ",,,%f,%d,%f\n", pSNRTestData->snrValue, pSNRTestData->signalValue, pSNRTestData->noiseValue);
+			}
+		}
+		else if ("SharpnessTest" == strTestStepName)
+		{
+			SharpnessData *pSharpnessData = static_cast<SharpnessData*>(Test_data);
+			if (NULL != pSharpnessData)
+			{
+				fprintf(pFile, "\nSharpness Test,%s,%.0f ms,", pSharpnessData->pass ? "Pass" : "Fail", pSharpnessData->test_time);
+				fprintf(pFile, "Variation(%%),Zone1,Zone2,Zone3,Overall\n");
+				fprintf(pFile, ",,,%f,%d,%d,%d,%d", pSharpnessData->percent, (int)pSharpnessData->SHARPNESS[0], (int)pSharpnessData->SHARPNESS[1], (int)pSharpnessData->SHARPNESS[2], (int)pSharpnessData->SHARPNESS[3]);
+				fprintf(pFile, "\n");
+			}
+		}
+		else if ("Imperfections" == strTestStepName)
+		{
+			ImperfectionsTestData *pImperfectionsTestData = static_cast<ImperfectionsTestData*>(Test_data);
+			if (NULL != pImperfectionsTestData)
+			{
+				fprintf(pFile, "\nImperfections,%s,%.0f ms,Zone1,Zone2,Zone3,Zone4,Zone5,Zone6,Zone_OverAll\n", pImperfectionsTestData->pass ? "Pass" : "Fail", pImperfectionsTestData->test_time);
+				fprintf(pFile, ",,,%d,%d,%d,%d,%d,%d,%d\n", pImperfectionsTestData->bubble_check_data[1].nBubbleMeasure_x10, 
+					pImperfectionsTestData->bubble_check_data[2].nBubbleMeasure_x10, pImperfectionsTestData->bubble_check_data[3].nBubbleMeasure_x10,
+					pImperfectionsTestData->bubble_check_data[4].nBubbleMeasure_x10, pImperfectionsTestData->bubble_check_data[5].nBubbleMeasure_x10,
+					pImperfectionsTestData->bubble_check_data[6].nBubbleMeasure_x10, pImperfectionsTestData->bubble_check_data[0].nBubbleMeasure_x10);
 			}
 		}
 		else if ("ProgrammingIOTA_DATA" == strTestStepName)

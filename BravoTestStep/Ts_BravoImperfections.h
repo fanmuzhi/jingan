@@ -2,12 +2,12 @@
 
 #include "Syn_BravoFingerprintTest.h"
 
-typedef struct half_word_frame_data_s
-{
-	uint32_t   frame_cols;
-	uint32_t   frame_rows;
-	int16_t    data[BRAVO_IMAGE_RAWDATA_MAX];
-} half_word_frame_data_t;
+//typedef struct half_word_frame_data_s
+//{
+//	uint32_t   frame_cols;
+//	uint32_t   frame_rows;
+//	int16_t    data[BRAVO_IMAGE_RAWDATA_MAX];
+//} half_word_frame_data_t;
 
 /* Generic structure definitions */
 typedef struct point_s

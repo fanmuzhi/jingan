@@ -88,7 +88,7 @@ void Ts_BravoSharpness::Execute()
 	bpp16tobpp8(pAcqImageFingerTestData->arrImage, arr8bitsFrameFinger, rowNumber, columnNumber);
 
 	//get sharpness overall 
-	for (int i = 0; i < (rowNumber * columnNumber); i++)
+	for (unsigned int i = 0; i < (rowNumber * columnNumber); i++)
 	{
 		fingerImage[i / columnNumber][i % columnNumber] = arr8bitsFrameFinger[i];
 	}
@@ -98,7 +98,7 @@ void Ts_BravoSharpness::Execute()
 
 	//get sharpness zone1
 	float tempImage[MAXCOL][MAXROW] = {0};
-	for (int i = 0; i<rowNumber; i++)
+	for (unsigned int i = 0; i<rowNumber; i++)
 	{
 		for (int j = 0; j<C0; j++)
 		{
@@ -110,7 +110,7 @@ void Ts_BravoSharpness::Execute()
 
 
 	//get sharpness zone2
-	for (int i = 0; i<rowNumber; i++)
+	for (unsigned int i = 0; i<rowNumber; i++)
 	{
 		for (int j = C0; j<C1; j++)
 		{
@@ -121,7 +121,7 @@ void Ts_BravoSharpness::Execute()
 	_pSharpnessData->SHARPNESS[1] = measure;
 
 	//get sharpness zone3
-	for (int i = 0; i<rowNumber; i++)
+	for (unsigned int i = 0; i<rowNumber; i++)
 	{
 		for (int j = C1; j<C2; j++)
 		{
@@ -169,7 +169,6 @@ void Ts_BravoSharpness::CleanUp()
 	StoreTestData(_pSharpnessData->data_name, static_cast<SynTestData*>(_pSharpnessData));
 
 }
-
 
 void Ts_BravoSharpness::get_sharpness(int height, int width, float pImg[MAXROW][MAXCOL], float* sharpnessMeasure, SharpnessData* pSharpness)
 {

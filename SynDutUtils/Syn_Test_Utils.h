@@ -67,6 +67,15 @@ struct ProgrammingIOTATestData : public SynTestData
 	//1:"ProgrammingIOTATestData_DATA"
 };
 
+struct DrdyTestData : public SynTestData
+{
+	//parameter
+
+	//result
+	uint8_t arrHiStates[5];
+	uint8_t	arrLoStates[5];
+};
+
 struct CalibrateTestData : public SynTestData
 {
 	//parameter
@@ -136,6 +145,22 @@ struct WaitStilumusTestData : public SynTestData
 	int16_t FrameData[BRAVO_IMAGE_RAWDATA_MAX];
 };
 
+struct CurrentTestData : public SynTestData
+{
+	//parameter
+	int m_nLowGain;		//Gain used for ADC1 and ADC4:
+	int m_nHighGain;	//Gain used for ADC1 and ADC4:
+
+	float m_nImageAcqDigMax_uA;
+	float m_nImageAcqAnaMax_uA;
+	float m_nImageAcqDigMin_uA;
+	float m_nImageAcqAnaMin_uA;
+
+	//result
+	float ImageAcqDigCurrent_uA;
+	float ImageAcqAnaCurrent_uA;
+};
+
 struct SNRTestData : public SynTestData
 {
 	//simply : waiting for new snr algorithm release
@@ -162,15 +187,23 @@ struct ImperfectionsTestData : public SynTestData
 		uint32_t   n_pixels;
 	} bubble_check_zone_data_t;
 
+	typedef struct half_word_frame_data_s
+	{
+		uint32_t   frame_cols;
+		uint32_t   frame_rows;
+		int16_t    data[BRAVO_IMAGE_RAWDATA_MAX];
+	} half_word_frame_data_t;
+
 	//parameter
-	int m_peggedThreshold;
-	int m_flooredThreshold;
+	uint32_t m_peggedThreshold;
+	uint32_t m_flooredThreshold;
 	int m_maxAdjacentPixelsAllowed;
 	int numFrames;
 
 	//result
-	int16_t avgFrame[BRAVO_IMAGE_RAWDATA_MAX];
-	int16_t rngFrame[BRAVO_IMAGE_RAWDATA_MAX];
+	half_word_frame_data_t frame1;//AVG
+	half_word_frame_data_t frame2;//RNG
+
 	bubble_check_zone_data_t bubble_check_data[QNTY_BUBBLE_CHECK_ZONES];
 	//uint32_t bubble_check_data[QNTY_BUBBLE_CHECK_ZONES];
 };

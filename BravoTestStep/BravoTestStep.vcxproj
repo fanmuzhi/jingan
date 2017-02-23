@@ -111,6 +111,8 @@ xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\FpBridge.dll" 
     <ClInclude Include="Ts_BravoAcqImgFinger.h" />
     <ClInclude Include="Ts_BravoAcqImgNoFinger.h" />
     <ClInclude Include="Ts_BravoCalibrate.h" />
+    <ClInclude Include="Ts_BravoCurrentTest.h" />
+    <ClInclude Include="Ts_BravoDRdyTest.h" />
     <ClInclude Include="Ts_BravoFinalizationStep.h" />
     <ClInclude Include="Ts_BravoImperfections.h" />
     <ClInclude Include="Ts_BravoInitializationStep.h" />
@@ -128,6 +130,8 @@ xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\FpBridge.dll" 
     <ClCompile Include="Ts_BravoAcqImgFinger.cpp" />
     <ClCompile Include="Ts_BravoAcqImgNoFinger.cpp" />
     <ClCompile Include="Ts_BravoCalibrate.cpp" />
+    <ClCompile Include="Ts_BravoCurrentTest.cpp" />
+    <ClCompile Include="Ts_BravoDRdyTest.cpp" />
     <ClCompile Include="Ts_BravoFinalizationStep.cpp" />
     <ClCompile Include="Ts_BravoImperfections.cpp" />
     <ClCompile Include="Ts_BravoInitializationStep.cpp" />

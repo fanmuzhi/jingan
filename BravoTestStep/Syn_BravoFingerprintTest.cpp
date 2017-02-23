@@ -6,6 +6,7 @@ Syn_BravoFingerprintTest::Syn_BravoFingerprintTest(string &strName, FpBravoModul
 , _finish_time(0)
 {
 	_start_time = GetTickCount64();
+	pSynModule->GetBridge(_pSynBridge);
 }
 
 Syn_BravoFingerprintTest::~Syn_BravoFingerprintTest()

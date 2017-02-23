@@ -66,6 +66,12 @@
     <ClInclude Include="Ts_BravoSharpness.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Ts_BravoDRdyTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Ts_BravoCurrentTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Syn_TestStepFactory.cpp">
@@ -111,6 +117,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Ts_BravoSharpness.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Ts_BravoDRdyTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Ts_BravoCurrentTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

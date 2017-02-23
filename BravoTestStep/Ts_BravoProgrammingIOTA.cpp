@@ -243,6 +243,16 @@ void Ts_BravoProgrammingIOTA::Execute()
 		WOF_SignalTestData *pWOF_SignalTestData = static_cast<WOF_SignalTestData*>(RetrieveTestData("WOF_Signal"));
 		if (NULL != pWOF_BaselineTestData&&NULL != pWOF_SignalTestData)
 		{
+			uint32_t gainRegister(0), offsetRegister(0), ctrlRegister(0);
+			rc = _pSynModule->FpGetWOFRegister(gainRegister, offsetRegister, ctrlRegister);
+			if (0 != rc)
+			{
+				Exception.SetError(rc);
+				Exception.SetDescription("BravoProgrammingIOTA::FpGetWOFRegisteris failed!");
+				throw Exception;
+				return;
+			}
+
 			uint32_t gainValue = pWOF_SignalTestData->selectedGain;
 			uint16_t offsetValue = pWOF_SignalTestData->selectedOffset;
 			uint32_t signalValue = pWOF_SignalTestData->selectedSingal;
@@ -254,7 +264,7 @@ void Ts_BravoProgrammingIOTA::Execute()
 			frame_tag_gain.flags = 0x20;
 
 			vcsfw_frame_tag_reg16blk_t frame_tag_reg16blk_gain;
-			frame_tag_reg16blk_gain.regbase = 0x4950;//0x4950 is for shasta, denali is 0x2658
+			frame_tag_reg16blk_gain.regbase = gainRegister;//0x4950 is for shasta, denali is 0x2658
 			frame_tag_reg16blk_gain.nregs = 1;
 
 			uint8_t *arrGain = new uint8_t[sizeof(vcsfw_frame_tag_t)+sizeof(vcsfw_frame_tag_reg16blk_t)+sizeof(uint32_t)];
@@ -279,7 +289,7 @@ void Ts_BravoProgrammingIOTA::Execute()
 			frame_tag_offset.flags = 0x20;
 
 			vcsfw_frame_tag_reg32blk_t frame_tag_reg32blk_gain;
-			frame_tag_reg32blk_gain.regbase = 0x039c;
+			frame_tag_reg32blk_gain.regbase = offsetRegister;
 			frame_tag_reg32blk_gain.nregs = 1;
 
 			uint32_t offsetValue32bits = 0;
@@ -314,14 +324,14 @@ void Ts_BravoProgrammingIOTA::Execute()
 				return;
 			}
 
-			////REG32BLK	WOF CTRL2
+			////REG32BLK
 			//vcsfw_frame_tag_t frame_tag_ctrl;
 			//frame_tag_ctrl.tagid = VCSFW_FRAME_TAG_REG32BLK;
 			//frame_tag_ctrl.nwords = 2;
 			//frame_tag_ctrl.flags = 0x20;
 
 			//vcsfw_frame_tag_reg32blk_t frame_tag_reg32blk_ctrl;
-			//frame_tag_reg32blk_ctrl.regbase = 0x0384;
+			//frame_tag_reg32blk_ctrl.regbase = ctrlRegister;
 			//frame_tag_reg32blk_ctrl.nregs = 1;
 
 			//uint32_t ctrlValue32bits = 0;
