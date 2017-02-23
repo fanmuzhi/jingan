@@ -14,6 +14,7 @@
 #include "LocalSettingsConfig.h"
 #include "SynThread.h"
 #include "SynImagingThread.h"
+#include "JinganInfo.h"
 
 //std
 #include <vector>
@@ -45,6 +46,8 @@ public Q_SLOTS:
 	void Initialize();
 
 	void CreateLocalSettings();
+
+	void DisplayInfomation();
 
 	void Run();
 

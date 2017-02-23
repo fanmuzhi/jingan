@@ -31,6 +31,7 @@ class Ui_JinganClass
 public:
     QAction *actionExit;
     QAction *actionLocalSettings;
+    QAction *actionJingan;
     QWidget *centralWidget;
     QGridLayout *gridLayout;
     QTableWidget *TestEngineTableWidget;
@@ -38,6 +39,7 @@ public:
     QMenuBar *menuBar;
     QMenu *menuFile;
     QMenu *menuOption;
+    QMenu *menuHelp;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
 
@@ -50,6 +52,8 @@ public:
         actionExit->setObjectName(QStringLiteral("actionExit"));
         actionLocalSettings = new QAction(JinganClass);
         actionLocalSettings->setObjectName(QStringLiteral("actionLocalSettings"));
+        actionJingan = new QAction(JinganClass);
+        actionJingan->setObjectName(QStringLiteral("actionJingan"));
         centralWidget = new QWidget(JinganClass);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         gridLayout = new QGridLayout(centralWidget);
@@ -95,6 +99,8 @@ public:
         menuFile->setObjectName(QStringLiteral("menuFile"));
         menuOption = new QMenu(menuBar);
         menuOption->setObjectName(QStringLiteral("menuOption"));
+        menuHelp = new QMenu(menuBar);
+        menuHelp->setObjectName(QStringLiteral("menuHelp"));
         JinganClass->setMenuBar(menuBar);
         mainToolBar = new QToolBar(JinganClass);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
@@ -105,8 +111,10 @@ public:
 
         menuBar->addAction(menuFile->menuAction());
         menuBar->addAction(menuOption->menuAction());
+        menuBar->addAction(menuHelp->menuAction());
         menuFile->addAction(actionExit);
         menuOption->addAction(actionLocalSettings);
+        menuHelp->addAction(actionJingan);
 
         retranslateUi(JinganClass);
 
@@ -115,9 +123,10 @@ public:
 
     void retranslateUi(QMainWindow *JinganClass)
     {
-        JinganClass->setWindowTitle(QApplication::translate("JinganClass", "Jingan", 0));
+        JinganClass->setWindowTitle(QApplication::translate("JinganClass", "Huangpu++", 0));
         actionExit->setText(QApplication::translate("JinganClass", "Exit", 0));
         actionLocalSettings->setText(QApplication::translate("JinganClass", "LocalSettings", 0));
+        actionJingan->setText(QApplication::translate("JinganClass", "Huangpu++", 0));
         QTableWidgetItem *___qtablewidgetitem = TestEngineTableWidget->verticalHeaderItem(0);
         ___qtablewidgetitem->setText(QApplication::translate("JinganClass", "TestEngine", 0));
         QTableWidgetItem *___qtablewidgetitem1 = TestEngineTableWidget->verticalHeaderItem(1);
@@ -139,6 +148,7 @@ public:
         OperationPushButton->setText(QApplication::translate("JinganClass", "Run", 0));
         menuFile->setTitle(QApplication::translate("JinganClass", "File", 0));
         menuOption->setTitle(QApplication::translate("JinganClass", "Option", 0));
+        menuHelp->setTitle(QApplication::translate("JinganClass", "Help", 0));
     } // retranslateUi
 
 };
