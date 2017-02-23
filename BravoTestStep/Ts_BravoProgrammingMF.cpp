@@ -161,6 +161,8 @@ void Ts_BravoProgrammingMF::Execute()
 
 	_pSynModule->FpExitBLMode();
 
+	rc = _pSynModule->FpTidleSet(0);
+
 	_pProgrammingMFTestData->executed = true;
 	_pProgrammingMFTestData->pass = true;
 }

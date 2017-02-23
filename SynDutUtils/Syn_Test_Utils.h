@@ -76,6 +76,16 @@ struct DrdyTestData : public SynTestData
 	uint8_t	arrLoStates[5];
 };
 
+struct SleepCurrentTestData : public SynTestData
+{
+	//parameter
+	float highLimit;
+
+	//result
+	float spivcc_current_uA;
+	float vcc_current_uA;
+};
+
 struct CalibrateTestData : public SynTestData
 {
 	//parameter

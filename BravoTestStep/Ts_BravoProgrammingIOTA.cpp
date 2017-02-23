@@ -325,7 +325,7 @@ void Ts_BravoProgrammingIOTA::Execute()
 			}
 
 			//REG32BLK
-			vcsfw_frame_tag_t frame_tag_ctrl;
+			/*vcsfw_frame_tag_t frame_tag_ctrl;
 			frame_tag_ctrl.tagid = VCSFW_FRAME_TAG_REG32BLK;
 			frame_tag_ctrl.nwords = 2;
 			frame_tag_ctrl.flags = 0x20;
@@ -351,7 +351,7 @@ void Ts_BravoProgrammingIOTA::Execute()
 				Exception.SetDescription("BravoProgrammingIOTA::FpIotawrite(ctrl) is failed!");
 				throw Exception;
 				return;
-			}
+			}*/
 		}
 	}
 
