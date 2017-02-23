@@ -13,12 +13,11 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QDialogButtonBox>
 #include <QtWidgets/QFormLayout>
 #include <QtWidgets/QFrame>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
-#include <QtWidgets/QPushButton>
-#include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -34,8 +33,7 @@ public:
     QLabel *InfoVersionLabel;
     QLabel *InfoDateLabel;
     QLabel *InfoCopyrightLabel;
-    QSpacerItem *horizontalSpacer;
-    QPushButton *OKPushButton;
+    QDialogButtonBox *buttonBox;
 
     void setupUi(QWidget *JinganInfo)
     {
@@ -84,14 +82,11 @@ public:
 
         formLayout->setWidget(0, QFormLayout::FieldRole, frame);
 
-        horizontalSpacer = new QSpacerItem(189, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+        buttonBox = new QDialogButtonBox(JinganInfo);
+        buttonBox->setObjectName(QStringLiteral("buttonBox"));
+        buttonBox->setStandardButtons(QDialogButtonBox::Ok);
 
-        formLayout->setItem(1, QFormLayout::LabelRole, horizontalSpacer);
-
-        OKPushButton = new QPushButton(JinganInfo);
-        OKPushButton->setObjectName(QStringLiteral("OKPushButton"));
-
-        formLayout->setWidget(1, QFormLayout::FieldRole, OKPushButton);
+        formLayout->setWidget(1, QFormLayout::FieldRole, buttonBox);
 
 
         retranslateUi(JinganInfo);
@@ -107,7 +102,6 @@ public:
         InfoVersionLabel->setText(QApplication::translate("JinganInfo", "Version", 0));
         InfoDateLabel->setText(QApplication::translate("JinganInfo", "Date", 0));
         InfoCopyrightLabel->setText(QApplication::translate("JinganInfo", "Copyright", 0));
-        OKPushButton->setText(QApplication::translate("JinganInfo", "OK", 0));
     } // retranslateUi
 
 };
