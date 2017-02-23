@@ -257,7 +257,7 @@ void Ts_BravoProgrammingIOTA::Execute()
 			uint16_t offsetValue = pWOF_SignalTestData->selectedOffset;
 			uint32_t signalValue = pWOF_SignalTestData->selectedSingal;
 
-			//REG16BLK
+			//REG16BLK	WOF_GAIN
 			vcsfw_frame_tag_t frame_tag_gain;
 			frame_tag_gain.tagid = VCSFW_FRAME_TAG_REG16BLK;
 			frame_tag_gain.nwords = 2;
@@ -282,7 +282,7 @@ void Ts_BravoProgrammingIOTA::Execute()
 				return;
 			}
 			
-			//REG32BLK
+			//REG32BLK	WOF DCA OFFSETS
 			vcsfw_frame_tag_t frame_tag_offset;
 			frame_tag_offset.tagid = VCSFW_FRAME_TAG_REG32BLK;
 			frame_tag_offset.nwords = 2;

@@ -470,8 +470,8 @@ uint32_t Syn_TestEngine::WriteLog(string strFolderPath, string strFileName)
 			CurrentTestData *pCurrentTestData = static_cast<CurrentTestData*>(Test_data);
 			if (NULL != pCurrentTestData)
 			{
-				fprintf(pFile, "\nCurrent Test,%s,%.0f ms,Vcc image acq current (uA),Spivcc image acq current (uA)\n", pCurrentTestData->pass ? "Pass" : "Fail", pCurrentTestData->test_time);
-				fprintf(pFile, ",,,%f,%f\n", (float)(pCurrentTestData->ImageAcqVccCurrent_uA), (float)(pCurrentTestData->ImageAcqSpivccCurrent_uA));
+				fprintf(pFile, "\nCurrent Test,%s,%.0f ms,spivcc image acq current (uA),vcc image acq current (uA)\n", pCurrentTestData->pass ? "Pass" : "Fail", pCurrentTestData->test_time);
+				fprintf(pFile, ",,,%f,%f\n", (float)(pCurrentTestData->ImageAcqSpivccCurrent_uA), (float)(pCurrentTestData->ImageAcqVccCurrent_uA));
 			}
 		}
 		else if ("SNRTest" == strTestStepName)
