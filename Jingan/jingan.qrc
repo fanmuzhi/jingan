@@ -1,4 +1,5 @@
 <RCC>
-    <qresource prefix="Jingan">
+    <qresource prefix="/Jingan">
+        <file>images/Synaptics.bmp</file>
     </qresource>
 </RCC>

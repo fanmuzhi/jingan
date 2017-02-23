@@ -324,34 +324,34 @@ void Ts_BravoProgrammingIOTA::Execute()
 				return;
 			}
 
-			////REG32BLK
-			//vcsfw_frame_tag_t frame_tag_ctrl;
-			//frame_tag_ctrl.tagid = VCSFW_FRAME_TAG_REG32BLK;
-			//frame_tag_ctrl.nwords = 2;
-			//frame_tag_ctrl.flags = 0x20;
+			//REG32BLK
+			/*vcsfw_frame_tag_t frame_tag_ctrl;
+			frame_tag_ctrl.tagid = VCSFW_FRAME_TAG_REG32BLK;
+			frame_tag_ctrl.nwords = 2;
+			frame_tag_ctrl.flags = 0x20;
 
-			//vcsfw_frame_tag_reg32blk_t frame_tag_reg32blk_ctrl;
-			//frame_tag_reg32blk_ctrl.regbase = ctrlRegister;
-			//frame_tag_reg32blk_ctrl.nregs = 1;
+			vcsfw_frame_tag_reg32blk_t frame_tag_reg32blk_ctrl;
+			frame_tag_reg32blk_ctrl.regbase = ctrlRegister;
+			frame_tag_reg32blk_ctrl.nregs = 1;
 
-			//uint32_t ctrlValue32bits = 0;
-			//uint32_t FD_ACCUM = 0, FU_ACCUM = 0, FD_SAMPLES = 1, FU_SAMPLES = 1, FH_SAMPLES = 1;
-			//ctrlValue32bits = (FD_SAMPLES << 2) + (FU_SAMPLES << 12) + (FH_SAMPLES << 22);
+			uint32_t ctrlValue32bits = 0;
+			uint32_t FD_ACCUM = 0, FU_ACCUM = 0, FD_SAMPLES = 1, FU_SAMPLES = 1, FH_SAMPLES = 1;
+			ctrlValue32bits = (FD_SAMPLES << 2) + (FU_SAMPLES << 12) + (FH_SAMPLES << 22);
 
-			//uint8_t *arrCtrl = new uint8_t[sizeof(vcsfw_frame_tag_t)+sizeof(vcsfw_frame_tag_reg32blk_t)+sizeof(uint32_t)];
-			//memcpy(&(arrCtrl[0]), &frame_tag_offset, sizeof(vcsfw_frame_tag_t));
-			//memcpy(&(arrCtrl[sizeof(vcsfw_frame_tag_t)]), &frame_tag_reg32blk_ctrl, sizeof(vcsfw_frame_tag_reg32blk_t));
-			//memcpy(&(arrCtrl[sizeof(vcsfw_frame_tag_t)+sizeof(vcsfw_frame_tag_reg32blk_t)]), &ctrlValue32bits, sizeof(uint32_t));
-			//rc = _pSynModule->FpIotawrite(arrCtrl, sizeof(vcsfw_frame_tag_t)+sizeof(vcsfw_frame_tag_reg32blk_t)+sizeof(uint32_t), VCSFW_IOTA_ITYPE_FRAME_BASE);
-			//delete[] arrCtrl;
-			//arrCtrl = NULL;
-			//if (0 != rc)
-			//{
-			//	Exception.SetError(rc);
-			//	Exception.SetDescription("BravoProgrammingIOTA::FpIotawrite(ctrl) is failed!");
-			//	throw Exception;
-			//	return;
-			//}
+			uint8_t *arrCtrl = new uint8_t[sizeof(vcsfw_frame_tag_t)+sizeof(vcsfw_frame_tag_reg32blk_t)+sizeof(uint32_t)];
+			memcpy(&(arrCtrl[0]), &frame_tag_offset, sizeof(vcsfw_frame_tag_t));
+			memcpy(&(arrCtrl[sizeof(vcsfw_frame_tag_t)]), &frame_tag_reg32blk_ctrl, sizeof(vcsfw_frame_tag_reg32blk_t));
+			memcpy(&(arrCtrl[sizeof(vcsfw_frame_tag_t)+sizeof(vcsfw_frame_tag_reg32blk_t)]), &ctrlValue32bits, sizeof(uint32_t));
+			rc = _pSynModule->FpIotawrite(arrCtrl, sizeof(vcsfw_frame_tag_t)+sizeof(vcsfw_frame_tag_reg32blk_t)+sizeof(uint32_t), VCSFW_IOTA_ITYPE_FRAME_BASE);
+			delete[] arrCtrl;
+			arrCtrl = NULL;
+			if (0 != rc)
+			{
+				Exception.SetError(rc);
+				Exception.SetDescription("BravoProgrammingIOTA::FpIotawrite(ctrl) is failed!");
+				throw Exception;
+				return;
+			}*/
 		}
 	}
 

@@ -53,13 +53,13 @@ void Ts_BravoInitializationStep::Execute()
 		throw Exception;
 		return;
 	}
-	rc = _pSynModule->FpTidleSet(0);
+	/*rc = _pSynModule->FpTidleSet(0);
 	if (0 != rc)
 	{
 		Exception.SetError(rc);
 		throw Exception;
 		return;
-	}
+	}*/
 
 	vcsfw_reply_get_version_t get_version;
 	rc = _pSynModule->FpGetVersion((uint8_t*)&get_version, sizeof(vcsfw_reply_get_version_t));

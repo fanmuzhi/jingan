@@ -4,6 +4,7 @@
 #include "Ts_BravoProgrammingMF.h"
 #include "Ts_BravoProgrammingIOTA.h"
 #include "Ts_BravoDRdyTest.h"
+#include "Ts_BravoSleepCurrentTest.h"
 #include "Ts_BravoCalibrate.h"
 #include "Ts_BravoAcqImgNoFinger.h"
 #include "Ts_BravoWaitStimulus.h"
@@ -52,6 +53,10 @@ uint32_t Syn_TestStepFactory::CreateBravoTestStep(string strTestStepName, string
 	else if (string("DRdyTest") == strTestStepName)
 	{
 		opBravoTestStep = new Ts_BravoDRdyTest(strTestStepName, pBravoModule, pDutUtils);
+	}
+	else if (string("SleepCurrentTest") == strTestStepName)
+	{
+		opBravoTestStep = new Ts_BravoSleepCurrentTest(strTestStepName, pBravoModule, pDutUtils);
 	}
 	else if (string("Calibrate") == strTestStepName)
 	{

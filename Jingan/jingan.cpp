@@ -15,6 +15,8 @@ Jingan::Jingan(QWidget *parent)
 
 	QObject::connect(ui.actionLocalSettings, SIGNAL(triggered(bool)), this, SLOT(CreateLocalSettings()));
 
+	QObject::connect(ui.actionJingan, SIGNAL(triggered(bool)), this, SLOT(DisplayInfomation()));
+
 	//Testing Operation
 	QObject::connect(ui.OperationPushButton, SIGNAL(clicked()), this, SLOT(Run()));
 
@@ -164,6 +166,12 @@ void Jingan::CreateLocalSettings()
 	QObject::connect(pLocalSettingsDlg, SIGNAL(destroyed()), this, SLOT(Initialize()));
 }
 
+void Jingan::DisplayInfomation()
+{
+	JinganInfo *pJinganInfo = new JinganInfo();
+	pJinganInfo->show();
+	pJinganInfo->setAttribute(Qt::WA_DeleteOnClose);
+}
 
 void Jingan::Run()
 {

@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Jingan</string>
+   <string>Huangpu++</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
@@ -97,8 +97,15 @@
     </property>
     <addaction name="actionLocalSettings"/>
    </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionJingan"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuOption"/>
+   <addaction name="menuHelp"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -117,6 +124,11 @@
   <action name="actionLocalSettings">
    <property name="text">
     <string>LocalSettings</string>
+   </property>
+  </action>
+  <action name="actionJingan">
+   <property name="text">
+    <string>Huangpu++</string>
    </property>
   </action>
  </widget>

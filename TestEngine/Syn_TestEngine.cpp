@@ -428,6 +428,15 @@ uint32_t Syn_TestEngine::WriteLog(string strFolderPath, string strFileName)
 				fprintf(pFile, "\nDRdyTest,%s,%.0f ms\n", pDrdyTestData->pass ? "Pass" : "Fail", pDrdyTestData->test_time);
 			}
 		}
+		else if ("SleepCurrentTest" == strTestStepName)
+		{
+			SleepCurrentTestData *pSleepCurrentTestData = static_cast<SleepCurrentTestData*>(Test_data);
+			if (NULL != pSleepCurrentTestData)
+			{
+				fprintf(pFile, "\nSleepCurrentTest,%s,%.0f ms,spivcc current (uA),vcc current (uA)\n", pSleepCurrentTestData->pass ? "Pass" : "Fail", pSleepCurrentTestData->test_time);
+				fprintf(pFile, ",,,%f,%f\n", (float)(pSleepCurrentTestData->spivcc_current_uA), (float)(pSleepCurrentTestData->vcc_current_uA));
+			}
+		}
 		else if ("Calibrate" == strTestStepName)
 		{
 			pCalibrationTestData = static_cast<CalibrateTestData*>(Test_data);

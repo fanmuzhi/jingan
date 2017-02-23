@@ -11,7 +11,8 @@ using namespace std;
 
 #define	TESTENGINE_COUNTS_MAX	20
 
-#define	SW_VERSION				"ALPHA_UNRELEASE"
+#define	SW_VERSION		"AlphaRelease"
+#define SW_RELEASEDATE	"2017-02-24"
 
 #define BRAVO_IMAGE_RAWDATA_MAX 10000
 #define MAXROW 200
@@ -74,6 +75,16 @@ struct DrdyTestData : public SynTestData
 	//result
 	uint8_t arrHiStates[5];
 	uint8_t	arrLoStates[5];
+};
+
+struct SleepCurrentTestData : public SynTestData
+{
+	//parameter
+	float highLimit;
+
+	//result
+	float spivcc_current_uA;
+	float vcc_current_uA;
 };
 
 struct CalibrateTestData : public SynTestData
