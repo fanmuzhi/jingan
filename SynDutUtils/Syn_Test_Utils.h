@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include <vector>
 #include <string>
+#include <map>
 
 using namespace std;
 
@@ -229,6 +230,14 @@ struct SharpnessData : public SynTestData
 	int	  g[MAXROW][MAXCOL];
 	int	  pImg_t[MAXROW][MAXCOL];
 	float percent;
+};
+
+struct IOTACheckTestData : public SynTestData
+{
+	//parameter
+
+	//result
+	map<string, string> mapIOTAResults;
 };
 
 struct FinalizationTestData : public SynTestData

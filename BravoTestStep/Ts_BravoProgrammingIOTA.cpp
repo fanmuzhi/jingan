@@ -311,7 +311,7 @@ void Ts_BravoProgrammingIOTA::Execute()
 			}
 
 			//CONFIG_WOF_THRESHOLDS
-			vcsfw_config_wof_thresholds_t config_wof_thresholds;
+			/*vcsfw_config_wof_thresholds_t config_wof_thresholds;
 			config_wof_thresholds.signal = signalValue;
 			config_wof_thresholds.hyst = 5;
 			config_wof_thresholds.reduction = 12;
@@ -322,7 +322,7 @@ void Ts_BravoProgrammingIOTA::Execute()
 				Exception.SetDescription("BravoProgrammingIOTA::FpIotawrite(CONFIG_WOF_THRESHOLDS) is failed!");
 				throw Exception;
 				return;
-			}
+			}*/
 
 			//REG32BLK
 			/*vcsfw_frame_tag_t frame_tag_ctrl;

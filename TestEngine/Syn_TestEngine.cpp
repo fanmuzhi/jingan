@@ -601,6 +601,13 @@ uint32_t Syn_TestEngine::WriteLog(string strFolderPath, string strFileName)
 		}
 	}
 
+	//BinCodes
+	fprintf(pFile, "\nBinCodes");
+	for (size_t i = 1; i <= _pSynDutUtils->_pDutTestResult->list_bincodes .size(); i++)
+	{
+		fprintf(pFile, ",%s", (_pSynDutUtils->_pDutTestResult->list_bincodes[i - 1]).c_str());
+	}
+
 	fclose(pFile);
 
 	return 0;
