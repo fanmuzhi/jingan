@@ -325,7 +325,10 @@ void Ts_BravoIOTACheck::IotaParse(vcsfw_reply_iota_find_hdr_t iotafindheader, ui
 			break;
 		case VCSFW_IOTA_ITYPE_CONFIG_FRAME_AVG:
 			oIOTAType = "CONFIG_FRAME_AVG";
-			oIOTAValue = ConvertData(arrIota, startPos, endPos);
+			vcsfw_config_tag_frame_avg_t config_tag_frame_avg;
+			memcpy(&config_tag_frame_avg, &(arrIota[startPos]), sizeof(vcsfw_config_tag_frame_avg_t));
+			oIOTAValue += "frame_avg:" + std::to_string(config_tag_frame_avg.frame_avg) + "\n";
+			oIOTAValue += "unused:" + std::to_string(config_tag_frame_avg.unused[0]) + " " + std::to_string(config_tag_frame_avg.unused[1]) + " " + std::to_string(config_tag_frame_avg.unused[2]);			
 			break;
 		case VCSFW_IOTA_ITYPE_FPPRESENT_PARAMS:
 			oIOTAType = "FPPRESENT_PARAMS";

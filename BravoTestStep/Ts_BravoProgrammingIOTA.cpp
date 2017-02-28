@@ -163,6 +163,21 @@ void Ts_BravoProgrammingIOTA::Execute()
 			return;
 		}
 	}
+
+	//VCSFW_IOTA_ITYPE_CONFIG_FRAME
+	vcsfw_config_tag_frame_avg_t config_tag_frame_avg;
+	config_tag_frame_avg.frame_avg = 2;
+	config_tag_frame_avg.unused[0] = 0;
+	config_tag_frame_avg.unused[1] = 0;
+	config_tag_frame_avg.unused[2] = 0;
+	rc = _pSynModule->FpIotawrite((uint8_t*)&config_tag_frame_avg, sizeof(vcsfw_config_tag_frame_avg_t), VCSFW_IOTA_ITYPE_CONFIG_FRAME_AVG);
+	if (0 != rc)
+	{
+		Exception.SetError(rc);
+		Exception.SetDescription("BravoProgrammingIOTA::FpIotawrite(VCSFW_IOTA_ITYPE_CONFIG_FRAME) is failed!");
+		throw Exception;
+		return;
+	}
 	
 	_pSynModule->FpExitBLMode();
 

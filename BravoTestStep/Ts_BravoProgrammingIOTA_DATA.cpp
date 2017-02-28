@@ -258,7 +258,6 @@ void Ts_BravoProgrammingIOTA_DATA::Execute()
 		return;
 		}*/
 	}
-		
 
 	_pSynModule->FpExitBLMode();
 
