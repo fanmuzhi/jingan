@@ -15,6 +15,7 @@
 #include "Ts_BravoSNRTest.h"
 #include "Ts_BravoImperfections.h"
 #include "Ts_BravoSharpness.h"
+#include "Ts_BravoProgrammingIOTA_DATA.h"
 #include "Ts_BravoIOTACheck.h"
 #include "Ts_BravoFinalizationStep.h"
 
@@ -47,9 +48,13 @@ uint32_t Syn_TestStepFactory::CreateBravoTestStep(string strTestStepName, string
 	{
 		opBravoTestStep = new Ts_BravoProgrammingMF(strTestStepName, pBravoModule, pDutUtils);
 	}
-	else if (string("ProgrammingIOTA") == strTestStepName)
+	else if (string("ProgrammingIOTA_BIN") == strTestStepName)
 	{
 		opBravoTestStep = new Ts_BravoProgrammingIOTA(strTestStepName, pBravoModule, pDutUtils);
+	}
+	else if (string("ProgrammingIOTA_DATA") == strTestStepName)
+	{
+		opBravoTestStep = new Ts_BravoProgrammingIOTA_DATA(strTestStepName, pBravoModule, pDutUtils);
 	}
 	else if (string("DRdyTest") == strTestStepName)
 	{
