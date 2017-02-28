@@ -31,6 +31,9 @@ void Ts_BravoImperfections::SetUp()
 	_pImperfectionsTestData = new ImperfectionsTestData();
 	_pImperfectionsTestData->data_name = _strName;
 
+	_pImperfectionsTestData->m_peggedThreshold = 200;
+	_pImperfectionsTestData->m_flooredThreshold = 20;
+
 	string strTestArgs;
 	_pSynDutUtils->Config_MT_Info.GetTestStepInfo(_strName, strTestArgs);
 	vector<string> listOfArgValue;

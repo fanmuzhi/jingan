@@ -81,7 +81,9 @@ struct DrdyTestData : public SynTestData
 struct SleepCurrentTestData : public SynTestData
 {
 	//parameter
-	float highLimit;
+	float		highLimit;
+	float		lowLimit;
+	uint32_t	delay;
 
 	//result
 	float spivcc_current_uA;
@@ -140,8 +142,10 @@ struct WOF_BaselineTestData : public SynTestData
 struct WOF_SignalTestData : public SynTestData
 {
 	//parameter
-	int lowSignalLimit;
-	int highSignalLimit;
+	uint32_t lowSignalLimit;
+	uint32_t highSignalLimit;
+	uint32_t lowDCAOffsetLimit;
+	uint32_t highDCAOffsetLimit;
 
 	//result
 	uint16_t arrWOFSignal[BRAVO_WOF_COUNTS_MAX];

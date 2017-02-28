@@ -31,9 +31,9 @@ void Ts_BravoInitializationStep::SetUp()
 	string strTestArgs;
 	_pSynDutUtils->Config_MT_Info.GetTestStepInfo(_strName, strTestArgs);
 
-	vector<string> listOfArgValue;
-	ParseTestStepArgs(strTestArgs, listOfArgValue);
-	size_t iListSize = listOfArgValue.size();
+	//vector<string> listOfArgValue;
+	//ParseTestStepArgs(strTestArgs, listOfArgValue);
+	//size_t iListSize = listOfArgValue.size();
 	
 	_pInitTestData = new InitializationTestData();
 	_pInitTestData->data_name = _strName;

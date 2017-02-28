@@ -47,7 +47,7 @@ uint32_t Syn_TestStepFactory::CreateBravoTestStep(string strTestStepName, string
 	{
 		opBravoTestStep = new Ts_BravoProgrammingMF(strTestStepName, pBravoModule, pDutUtils);
 	}
-	else if (std::string::npos != strTestStepName.find("ProgrammingIOTA"))
+	else if (string("ProgrammingIOTA") == strTestStepName)
 	{
 		opBravoTestStep = new Ts_BravoProgrammingIOTA(strTestStepName, pBravoModule, pDutUtils);
 	}

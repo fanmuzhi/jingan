@@ -31,7 +31,7 @@ void Ts_BravoWOF_Baseline::SetUp()
 
 	_pWOF_BaselineTestData = new WOF_BaselineTestData();
 	_pWOF_BaselineTestData->data_name = _strName;
-	_pWOF_BaselineTestData->gainNumbers = 5;
+	_pWOF_BaselineTestData->gainNumbers = BRAVO_WOF_COUNTS_MAX;
 
 	string strTestArgs;
 	_pSynDutUtils->Config_MT_Info.GetTestStepInfo(_strName, strTestArgs);

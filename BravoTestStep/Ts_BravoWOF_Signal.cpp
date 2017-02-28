@@ -33,6 +33,8 @@ void Ts_BravoWOF_Signal::SetUp()
 	_pWOF_SignalTestData->data_name = _strName;
 	_pWOF_SignalTestData->lowSignalLimit = 40;
 	_pWOF_SignalTestData->highSignalLimit = 70;
+	_pWOF_SignalTestData->lowDCAOffsetLimit = 30;
+	_pWOF_SignalTestData->highDCAOffsetLimit = 70;
 
 	_pWOF_SignalTestData->selectedGain = 0;
 	_pWOF_SignalTestData->selectedOffset = 0;
@@ -44,9 +46,9 @@ void Ts_BravoWOF_Signal::SetUp()
 	ParseTestStepArgs(strTestArgs, listOfArgValue);
 	size_t iListSize = listOfArgValue.size();
 
-	if (iListSize < 2)
+	if (iListSize < 4)
 	{
-		for (size_t t = 1; t <= 2 - iListSize; t++)
+		for (size_t t = 1; t <= 4 - iListSize; t++)
 			listOfArgValue.push_back("");
 	}
 
@@ -54,6 +56,10 @@ void Ts_BravoWOF_Signal::SetUp()
 		_pWOF_SignalTestData->lowSignalLimit = atoi(listOfArgValue[0].c_str());
 	if (0 != listOfArgValue[1].length())
 		_pWOF_SignalTestData->highSignalLimit = atoi(listOfArgValue[1].c_str());
+	if (0 != listOfArgValue[2].length())
+		_pWOF_SignalTestData->lowDCAOffsetLimit = atoi(listOfArgValue[2].c_str());
+	if (0 != listOfArgValue[3].length())
+		_pWOF_SignalTestData->highDCAOffsetLimit = atoi(listOfArgValue[3].c_str());
 
 }
 
@@ -149,7 +155,13 @@ void Ts_BravoWOF_Signal::Execute()
 	for (unsigned int i = 0; i < BRAVO_WOF_COUNTS_MAX; i++)
 	{
 		uint16_t currentSignal = _pWOF_SignalTestData->arrWOFSignal[i];
-		if (_pWOF_SignalTestData->lowSignalLimit < currentSignal && currentSignal < _pWOF_SignalTestData->highSignalLimit)
+		uint16_t currentOffset = pWOF_BaselineTestData->arrWOFOffset[i];
+
+		if ((_pWOF_SignalTestData->lowSignalLimit < currentSignal) &&
+			(currentSignal < _pWOF_SignalTestData->highSignalLimit) &&
+			(_pWOF_SignalTestData->lowDCAOffsetLimit < currentOffset) &&
+			(currentOffset < _pWOF_SignalTestData->highDCAOffsetLimit)
+			)
 		{
 			if (currentSignal>guardSignalValue)
 			{
