@@ -15,6 +15,7 @@
 #include "Ts_BravoSNRTest.h"
 #include "Ts_BravoImperfections.h"
 #include "Ts_BravoSharpness.h"
+#include "Ts_BravoIOTACheck.h"
 #include "Ts_BravoFinalizationStep.h"
 
 Syn_TestStepFactory::Syn_TestStepFactory()
@@ -97,6 +98,10 @@ uint32_t Syn_TestStepFactory::CreateBravoTestStep(string strTestStepName, string
 	else if (string("Imperfections") == strTestStepName)
 	{
 		opBravoTestStep = new Ts_BravoImperfections(strTestStepName, pBravoModule, pDutUtils);
+	}
+	else if (string("IOTACheck") == strTestStepName)
+	{
+		opBravoTestStep = new Ts_BravoIOTACheck(strTestStepName, pBravoModule, pDutUtils);
 	}
 	else if (string("FinalizationStep") == strTestStepName)
 	{

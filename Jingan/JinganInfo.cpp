@@ -11,7 +11,7 @@ JinganInfo::JinganInfo(QWidget *parent)
 
 	this->SetInfo();
 
-	QObject::connect(ui.OKPushButton, SIGNAL(clicked()), this, SLOT(close()));
+	QObject::connect(ui.buttonBox, SIGNAL(clicked(QAbstractButton *)), this, SLOT(close()));
 }
 
 JinganInfo::~JinganInfo()

@@ -470,8 +470,8 @@ uint32_t Syn_TestEngine::WriteLog(string strFolderPath, string strFileName)
 			CurrentTestData *pCurrentTestData = static_cast<CurrentTestData*>(Test_data);
 			if (NULL != pCurrentTestData)
 			{
-				fprintf(pFile, "\nCurrent Test,%s,%.0f ms,Digital image acq current (uA),Analog image acq current (uA)\n", pCurrentTestData->pass ? "Pass" : "Fail", pCurrentTestData->test_time);
-				fprintf(pFile, ",,,%f,%f\n", (float)(pCurrentTestData->ImageAcqDigCurrent_uA), (float)(pCurrentTestData->ImageAcqAnaCurrent_uA));
+				fprintf(pFile, "\nCurrent Test,%s,%.0f ms,spivcc image acq current (uA),vcc image acq current (uA)\n", pCurrentTestData->pass ? "Pass" : "Fail", pCurrentTestData->test_time);
+				fprintf(pFile, ",,,%f,%f\n", (float)(pCurrentTestData->ImageAcqSpivccCurrent_uA), (float)(pCurrentTestData->ImageAcqVccCurrent_uA));
 			}
 		}
 		else if ("SNRTest" == strTestStepName)
@@ -599,6 +599,13 @@ uint32_t Syn_TestEngine::WriteLog(string strFolderPath, string strFileName)
 				k++;
 			}
 		}
+	}
+
+	//BinCodes
+	fprintf(pFile, "\n\nBinCodes");
+	for (size_t i = 1; i <= _pSynDutUtils->_pDutTestResult->list_bincodes .size(); i++)
+	{
+		fprintf(pFile, ",%s", (_pSynDutUtils->_pDutTestResult->list_bincodes[i - 1]).c_str());
 	}
 
 	fclose(pFile);

@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include <vector>
 #include <string>
+#include <map>
 
 using namespace std;
 
@@ -159,17 +160,14 @@ struct WaitStilumusTestData : public SynTestData
 struct CurrentTestData : public SynTestData
 {
 	//parameter
-	int m_nLowGain;		//Gain used for ADC1 and ADC4:
-	int m_nHighGain;	//Gain used for ADC1 and ADC4:
-
-	float m_nImageAcqDigMax_uA;
-	float m_nImageAcqAnaMax_uA;
-	float m_nImageAcqDigMin_uA;
-	float m_nImageAcqAnaMin_uA;
+	float m_nImageAcqVccMax_uA;
+	float m_nImageAcqSpivccMax_uA;
+	float m_nImageAcqVccMin_uA;
+	float m_nImageAcqSpivccMin_uA;
 
 	//result
-	float ImageAcqDigCurrent_uA;
-	float ImageAcqAnaCurrent_uA;
+	float ImageAcqSpivccCurrent_uA;
+	float ImageAcqVccCurrent_uA;
 };
 
 struct SNRTestData : public SynTestData
@@ -232,6 +230,23 @@ struct SharpnessData : public SynTestData
 	int	  g[MAXROW][MAXCOL];
 	int	  pImg_t[MAXROW][MAXCOL];
 	float percent;
+};
+
+struct IOTACheckTestData : public SynTestData
+{
+	//parameter
+	bool FrameBase_DIMS;
+	bool FrameBase_FWBL;
+	bool FrameBase_LNABL;
+	bool FrameBase_REG16BLK;
+	bool FrameBase_REG32BLK;
+	bool FrameNav_LNABL;
+	bool CONFIG_PSELECT;
+	bool CONFIG_WOF_THRESHOLDS;
+	bool CONFIG_VERSION;
+
+	//result
+	map<string, string> mapIOTAResults;
 };
 
 struct FinalizationTestData : public SynTestData
