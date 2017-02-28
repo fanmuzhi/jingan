@@ -1,6 +1,5 @@
 #pragma once
 #include "Syn_BravoFingerprintTest.h"
-
 class Ts_BravoSNRTest : public Syn_BravoFingerprintTest
 {
 public:

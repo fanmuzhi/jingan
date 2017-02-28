@@ -86,6 +86,7 @@ void Ts_BravoProgrammingIOTA_DATA::Execute()
 	if (0 != bincodesCounts)
 	{
 		_pProgrammingIOTATestData->pass = false;
+		_pSynModule->FpExitBLMode();
 		return;
 	}
 

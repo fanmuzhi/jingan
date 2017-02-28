@@ -59,7 +59,7 @@
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
       <AdditionalLibraryDirectories>$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5Widgetsd.lib;Qt5Xmld.lib;$(SolutionDir)$(Platform)\$(Configuration)\SynDutUtils.lib;$(SolutionDir)$(Platform)\$(Configuration)\BravoTestStep.lib;$(SolutionDir)$(Platform)\$(Configuration)\TestEngine.lib;$(SolutionDir)$(Platform)\$(Configuration)\FpBridge.lib;$(SolutionDir)$(Platform)\$(Configuration)\FpBravoModule.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5Widgetsd.lib;Qt5Xmld.lib;$(SolutionDir)$(Platform)\$(Configuration)\SynDutUtils.lib;$(SolutionDir)$(Platform)\$(Configuration)\BravoTestStep.lib;$(SolutionDir)$(Platform)\$(Configuration)\TestEngine.lib;$(SolutionDir)$(Platform)\$(Configuration)\FpBridge.lib;$(SolutionDir)$(Platform)\$(Configuration)\FpBravoModule.lib;$(SolutionDir)$(Platform)\$(Configuration)\synImageTestd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
