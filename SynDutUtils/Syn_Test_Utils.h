@@ -235,6 +235,15 @@ struct SharpnessData : public SynTestData
 struct IOTACheckTestData : public SynTestData
 {
 	//parameter
+	bool FrameBase_DIMS;
+	bool FrameBase_FWBL;
+	bool FrameBase_LNABL;
+	bool FrameBase_REG16BLK;
+	bool FrameBase_REG32BLK;
+	bool FrameNav_LNABL;
+	bool CONFIG_PSELECT;
+	bool CONFIG_WOF_THRESHOLDS;
+	bool CONFIG_VERSION;
 
 	//result
 	map<string, string> mapIOTAResults;

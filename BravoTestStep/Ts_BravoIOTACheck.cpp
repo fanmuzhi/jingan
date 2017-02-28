@@ -37,9 +37,42 @@ void Ts_BravoIOTACheck::SetUp()
 	vector<string> listOfArgValue;
 	ParseTestStepArgs(strTestArgs, listOfArgValue);
 	size_t iListSize = listOfArgValue.size();
+	if (iListSize < 9)
+	{
+		for (size_t t = 1; t <= 9 - iListSize; t++)
+			listOfArgValue.push_back("");
+	}
 	
 	_pIOTACheckTestData = new IOTACheckTestData();
 	_pIOTACheckTestData->data_name = _strName;
+	_pIOTACheckTestData->FrameBase_DIMS = true;
+	_pIOTACheckTestData->FrameBase_FWBL = true;
+	_pIOTACheckTestData->FrameBase_LNABL = true;
+	_pIOTACheckTestData->FrameBase_REG16BLK = true;
+	_pIOTACheckTestData->FrameBase_REG32BLK = true;
+	_pIOTACheckTestData->FrameNav_LNABL = false;
+	_pIOTACheckTestData->CONFIG_PSELECT = true;
+	_pIOTACheckTestData->CONFIG_WOF_THRESHOLDS = true;
+	_pIOTACheckTestData->CONFIG_VERSION = false;
+
+	if (0 != listOfArgValue[0].length())
+		_pIOTACheckTestData->FrameBase_DIMS = atoi(listOfArgValue[0].c_str()) ? true : false;
+	if (0 != listOfArgValue[1].length())
+		_pIOTACheckTestData->FrameBase_FWBL = atoi(listOfArgValue[1].c_str()) ? true : false;
+	if (0 != listOfArgValue[2].length())
+		_pIOTACheckTestData->FrameBase_LNABL = atoi(listOfArgValue[2].c_str()) ? true : false;
+	if (0 != listOfArgValue[3].length())
+		_pIOTACheckTestData->FrameBase_REG16BLK = atoi(listOfArgValue[3].c_str()) ? true : false;
+	if (0 != listOfArgValue[4].length())
+		_pIOTACheckTestData->FrameBase_REG32BLK = atoi(listOfArgValue[4].c_str()) ? true : false;
+	if (0 != listOfArgValue[5].length())
+		_pIOTACheckTestData->FrameNav_LNABL = atoi(listOfArgValue[5].c_str()) ? true : false;
+	if (0 != listOfArgValue[6].length())
+		_pIOTACheckTestData->CONFIG_PSELECT = atoi(listOfArgValue[6].c_str()) ? true : false;
+	if (0 != listOfArgValue[7].length())
+		_pIOTACheckTestData->CONFIG_WOF_THRESHOLDS = atoi(listOfArgValue[7].c_str()) ? true : false;
+	if (0 != listOfArgValue[8].length())
+		_pIOTACheckTestData->CONFIG_VERSION = atoi(listOfArgValue[8].c_str()) ? true : false;
 }
 
 void Ts_BravoIOTACheck::Execute()
@@ -101,6 +134,113 @@ void Ts_BravoIOTACheck::Execute()
 void Ts_BravoIOTACheck::ProcessData()
 {
 	_pIOTACheckTestData->executed = true;
+
+	unsigned int watchdog1 = 0, watchdog2 = 0;
+	if (_pIOTACheckTestData->FrameBase_DIMS)
+		watchdog1 += 1;
+	if (_pIOTACheckTestData->FrameBase_FWBL)
+		watchdog1 += 1;
+	if (_pIOTACheckTestData->FrameBase_LNABL)
+		watchdog1 += 1;
+	if (_pIOTACheckTestData->FrameBase_REG16BLK)
+		watchdog1 += 1;
+	if (_pIOTACheckTestData->FrameBase_REG32BLK)
+		watchdog1 += 1;
+	if (_pIOTACheckTestData->FrameNav_LNABL)
+		watchdog1 += 1;
+	if (_pIOTACheckTestData->CONFIG_PSELECT)
+		watchdog1 += 1;
+	if (_pIOTACheckTestData->CONFIG_WOF_THRESHOLDS)
+		watchdog1 += 1;
+	if (_pIOTACheckTestData->CONFIG_VERSION)
+		watchdog1 += 1;
+	
+	for (map<string, string>::iterator iter = _pIOTACheckTestData->mapIOTAResults.begin(); iter != _pIOTACheckTestData->mapIOTAResults.end(); iter++)
+	{
+		string strIOTAType = iter->first;
+		string strIOTAValue = iter->second;
+		string strFrameTag;
+		if (std::string::npos != strIOTAType.find("\n"))
+		{
+			std::size_t pos = strIOTAType.find("\n");
+			strFrameTag = strIOTAType.substr(pos + 1, strIOTAType.size() - pos - 1);
+			strIOTAType = strIOTAType.substr(0, pos);
+		}
+
+		if ("FRAME_BASE" == strIOTAType)
+		{
+			if ("DIMS" == strFrameTag)
+			{
+				if (_pIOTACheckTestData->FrameBase_DIMS)
+					watchdog2 += 1;
+			}
+			else if ("FW_BL" == strFrameTag)
+			{
+				if (_pIOTACheckTestData->FrameBase_FWBL)
+					watchdog2 += 1;
+			}
+			else if ("LNA_BL" == strFrameTag)
+			{
+				if (_pIOTACheckTestData->FrameBase_LNABL)
+					watchdog2 += 1;
+			}
+			else if ("REG16BLK" == strFrameTag)
+			{
+				if (_pIOTACheckTestData->FrameBase_REG16BLK)
+					watchdog2 += 1;
+			}
+			else if ("REG32BLK" == strFrameTag)
+			{
+				if (_pIOTACheckTestData->FrameBase_REG32BLK)
+					watchdog2 += 1;
+			}
+			else
+			{
+				continue;
+			}
+		}
+		else if ("FRAME_NAV" == strIOTAType)
+		{
+			if ("LNA_BL" == strFrameTag)
+			{
+				if (_pIOTACheckTestData->FrameNav_LNABL)
+					watchdog2 += 1;
+			}
+			else
+			{
+				continue;
+			}
+		}
+		else if ("CONFIG_PSELECT" == strIOTAType)
+		{
+			if (_pIOTACheckTestData->CONFIG_PSELECT)
+				watchdog2 += 1;
+		}
+		else if ("CONFIG_WOF_THRESHOLDS" == strIOTAType)
+		{
+			if (_pIOTACheckTestData->CONFIG_WOF_THRESHOLDS)
+				watchdog2 += 1;
+		}
+		else if ("CONFIG_VERSION" == strIOTAType)
+		{
+			if (_pIOTACheckTestData->CONFIG_VERSION)
+				watchdog2 += 1;
+		}
+		else
+		{
+			continue;
+		}
+	}
+
+	if (watchdog1 == watchdog2 || 1 == (watchdog2 - watchdog1))
+	{
+		_pIOTACheckTestData->pass = true;
+	}
+	else
+	{
+		_pIOTACheckTestData->pass = false;
+		_pSynDutUtils->_pDutTestResult->list_bincodes.push_back("152");
+	}
 
 	
 	_pSynDutUtils->_pDutTestResult->map_teststep_ispass.insert(map<string, string>::value_type(_pIOTACheckTestData->data_name, _pIOTACheckTestData->pass ? "Pass" : "Fail"));
