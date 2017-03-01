@@ -236,17 +236,26 @@ struct SharpnessData : public SynTestData
 	float percent;
 };
 
+struct ProgrammingIOTA_Data_TestData : public SynTestData
+{
+	//parameter
+	bool LNA_BL;
+	bool FW_BL;
+	bool NAV_BL;
+	bool WOF;
+
+	//result
+};
+
 struct IOTACheckTestData : public SynTestData
 {
 	//parameter
-	bool FrameBase_DIMS;
-	bool FrameBase_FWBL;
-	bool FrameBase_LNABL;
-	bool FrameBase_REG16BLK;
-	bool FrameBase_REG32BLK;
-	bool FrameNav_LNABL;
-	bool CONFIG_PSELECT;
-	bool CONFIG_WOF_THRESHOLDS;
+	bool DIMS;
+	bool FW_BL;
+	bool LNA_BL;
+	bool WOF;
+	bool NAV_BL;
+	bool PSELECT;
 	bool CONFIG_VERSION;
 
 	//result

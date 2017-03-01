@@ -19,6 +19,6 @@ public:
 
 protected:
 
-	ProgrammingIOTATestData *_pProgrammingIOTATestData;
+	ProgrammingIOTA_Data_TestData *_pProgrammingIOTA_Data_TestData;
 };
 

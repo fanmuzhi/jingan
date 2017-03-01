@@ -508,10 +508,10 @@ uint32_t Syn_TestEngine::WriteLog(string strFolderPath, string strFileName)
 		}
 		else if ("ProgrammingIOTA_DATA" == strTestStepName)
 		{
-			ProgrammingIOTATestData *ProgrammingIOTADATATestData = static_cast<ProgrammingIOTATestData*>(Test_data);
-			if (NULL != ProgrammingIOTADATATestData)
+			ProgrammingIOTA_Data_TestData *pProgrammingIOTA_Data_TestData = static_cast<ProgrammingIOTA_Data_TestData*>(Test_data);
+			if (NULL != pProgrammingIOTA_Data_TestData)
 			{
-				fprintf(pFile, "\nProgrammingIOTA_DATA,%s,%.0f ms\n", ProgrammingIOTADATATestData->pass ? "Pass" : "Fail", ProgrammingIOTADATATestData->test_time);
+				fprintf(pFile, "\nProgrammingIOTA_DATA,%s,%.0f ms\n", pProgrammingIOTA_Data_TestData->pass ? "Pass" : "Fail", pProgrammingIOTA_Data_TestData->test_time);
 			}
 		}
 		else if ("FinalizationStep" == strTestStepName)
