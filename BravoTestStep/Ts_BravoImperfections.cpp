@@ -1,4 +1,5 @@
 #include "Ts_BravoImperfections.h"
+#include "synImageTest.h"
 
 Ts_BravoImperfections::Ts_BravoImperfections(string &strName, FpBravoModule * &pSynModule, Syn_Dut_Utils * &pSynDutUtils)
 : Syn_BravoFingerprintTest(strName, pSynModule, pSynDutUtils)
@@ -228,6 +229,21 @@ void Ts_BravoImperfections::Execute()
 	else
 		_pImperfectionsTestData->pass = true;
 
+	//test
+	uint8_t *arr8bitImage = new uint8_t[rowNumber*colNumber];
+	bpp16tobpp8(pAcqImageFingerTestData->arrImage, arr8bitImage, rowNumber, colNumber);
+
+	int consecutive_pegged_rows[200] = { 0 };
+	int consecutive_pegged_cols[200] = { 0 };
+	unsigned int imperfectionResult = synImperfectionTest(arr8bitImage, rowNumber, colNumber, 146, 110, 6, consecutive_pegged_rows, consecutive_pegged_cols);
+
+	if (0 == imperfectionResult)
+		_pImperfectionsTestData->pass = false;
+	else
+		_pImperfectionsTestData->pass = true;
+
+	delete[] arr8bitImage;
+	arr8bitImage = NULL;
 }
 
 void Ts_BravoImperfections::ProcessData()
