@@ -193,6 +193,16 @@ struct SNRTestData : public SynTestData
 
 struct ImperfectionsTestData : public SynTestData
 {
+	int peggedThreshold;
+	int flooredThreshold;
+	int maxAdjacentPixelsAllowed;
+
+	int consecutive_pegged_rows[MAXROW];
+	int consecutive_pegged_cols[MAXCOL];
+};
+
+struct BubbleTestData : public SynTestData
+{
 	typedef struct bubble_check_zone_data_s
 	{
 		uint32_t    nBubbleMeasure_x10;
@@ -218,7 +228,6 @@ struct ImperfectionsTestData : public SynTestData
 	half_word_frame_data_t frame2;//RNG
 
 	bubble_check_zone_data_t bubble_check_data[QNTY_BUBBLE_CHECK_ZONES];
-	//uint32_t bubble_check_data[QNTY_BUBBLE_CHECK_ZONES];
 };
 
 struct SharpnessData : public SynTestData
