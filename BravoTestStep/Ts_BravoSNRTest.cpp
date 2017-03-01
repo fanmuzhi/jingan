@@ -1,4 +1,5 @@
 #include "Ts_BravoSNRTest.h"
+#include "synImageTest.h"
 
 typedef float(_stdcall *snrTest)(unsigned char*, unsigned char*, int, int, int, int *, float *, float fcrop);
 
@@ -143,6 +144,12 @@ void Ts_BravoSNRTest::Execute()
 	{
 		_pSNRTestData->pass = false;
 	}
+
+	//test
+	int arrSingal[7] = { 0 };
+	float arrNoise[7] = { 0 };
+	double arrSNR[7] = { 0 };
+	rc = synSNRTest(pAcqImageNoFingerTestData->arrImage, pAcqImageFingerTestData->arrImage, rowNumber, columnNumber, arrSingal, arrNoise, arrSNR);
 
 	_pSNRTestData->snrValue = snrValue;
 	_pSNRTestData->signalValue = signalValue;
