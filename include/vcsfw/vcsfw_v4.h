@@ -4,7 +4,7 @@
 /*
  * INTERNAL USE ONLY
  *
- * Copyright (c) 2006-2016 Synaptics Incorporated.  All rights reserved.
+ * Copyright (c) 2006-2017 Synaptics Incorporated.  All rights reserved.
  *
  * This file contains information that is proprietary to Synaptics
  * Incorporated ("Synaptics"). The holder of this file shall treat all
@@ -1260,6 +1260,80 @@
                                                 (VCSFW_STATUS_ERR_FLAG | 535)
 #define VCSFW_STATUS_ERR_FLASHPROG_PAGE_NOT_BLANK                           \
                                                 (VCSFW_STATUS_ERR_FLAG | 536)
+#define VCSFW_STATUS_ERR_PROGRAMMING_SOFTSECW                               \
+                                                (VCSFW_STATUS_ERR_FLAG | 537)
+#define VCSFW_STATUS_ERR_PROGRAMMING_FUSE                                   \
+                                                (VCSFW_STATUS_ERR_FLAG | 538)
+#define VCSFW_STATUS_ERR_PROGRAMMING_FIB_PRODOPT                            \
+                                                (VCSFW_STATUS_ERR_FLAG | 539)
+#define VCSFW_STATUS_ERR_PROGRAMMING_SECW                                   \
+                                                (VCSFW_STATUS_ERR_FLAG | 540)
+#define VCSFW_STATUS_ERR_PROGRAMMING_MKM                                    \
+                                                (VCSFW_STATUS_ERR_FLAG | 541)
+#define VCSFW_STATUS_ERR_FLASHPROG_SECLEVEL_READFAIL                        \
+                                                (VCSFW_STATUS_ERR_FLAG | 542)
+#define VCSFW_STATUS_ERR_FLASHPROG_SECLEVEL_PROG_FAIL                       \
+                                                (VCSFW_STATUS_ERR_FLAG | 543)
+#define VCSFW_STATUS_ERR_FLASHPROG_SECLEVEL_CMP_FAIL                        \
+                                                (VCSFW_STATUS_ERR_FLAG | 544)
+#define VCSFW_STATUS_ERR_FLASHPROG_SECLEVEL_FULL                            \
+                                                (VCSFW_STATUS_ERR_FLAG | 545)
+#define VCSFW_STATUS_ERR_FLASHPROG_SECLEVEL_INVALID_OFFSET                  \
+                                                (VCSFW_STATUS_ERR_FLAG | 546)
+#define VCSFW_STATUS_ERR_FLASHPROG_FLASH_SECLEVEL_TOOHIGH                   \
+                                                (VCSFW_STATUS_ERR_FLAG | 547)
+#define VCSFW_STATUS_ERR_FLASHPROG_FWFLAVOR_READFAIL                        \
+                                                (VCSFW_STATUS_ERR_FLAG | 548)
+#define VCSFW_STATUS_ERR_FLASHPROG_PATCH_SECLEVEL_INVALID                   \
+                                                (VCSFW_STATUS_ERR_FLAG | 549)
+#define VCSFW_STATUS_ERR_FLASHPROG_FWFLAVOR_PROG_READFAIL                   \
+                                                (VCSFW_STATUS_ERR_FLAG | 550)
+#define VCSFW_STATUS_ERR_FLASHPROG_FWFLAVOR_PROG_NOTBLANK                   \
+                                                (VCSFW_STATUS_ERR_FLAG | 551)
+#define VCSFW_STATUS_ERR_FLASHPROG_FWFLAVOR_PROG_FAIL                       \
+                                                (VCSFW_STATUS_ERR_FLAG | 552)
+#define VCSFW_STATUS_ERR_FLASHPROG_FWFLAVOR_CMP_FAIL                        \
+                                                (VCSFW_STATUS_ERR_FLAG | 553)
+#define VCSFW_STATUS_ERR_FLASHPROG_PAYLOAD_CFG_VERSION_TOOLOW               \
+                                                (VCSFW_STATUS_ERR_FLAG | 554)
+#define VCSFW_STATUS_ERR_FLASHPROG_FLASH_NO_IOTAS                           \
+                                                (VCSFW_STATUS_ERR_FLAG | 555)
+#define VCSFW_STATUS_ERR_FLASHPROG_FLASH_VERSION_NOT_LAST_IOTA              \
+                                                (VCSFW_STATUS_ERR_FLAG | 556)
+#define VCSFW_STATUS_ERR_FLASHPROG_PAYLOAD_CONFIGID_MISMATCH                \
+                                                (VCSFW_STATUS_ERR_FLAG | 557)
+#define VCSFW_STATUS_ERROR_FLASHPROG_OVERWRITE_DIFF                         \
+                                                (VCSFW_STATUS_ERR_FLAG | 558)
+#define VCSFW_STATUS_ERR_FLASHPROG_PAYLOAD_IOTA_CHAIN_CORRUPT               \
+                                                (VCSFW_STATUS_ERR_FLAG | 559)
+#define VCSFW_STATUS_ERR_FLASHPROG_FLASH_VERSION_IOTA_EMPTY                 \
+                                                (VCSFW_STATUS_ERR_FLAG | 560)
+#define VCSFW_STATUS_ERR_FLASHPROG_IOTA_LIST_HDR_PROG_FAILED                \
+                                                (VCSFW_STATUS_ERR_FLAG | 561)
+#define VCSFW_STATUS_ERR_FLASHPROG_IOTA_LIST_HDR_CMP_FAILED                 \
+                                                (VCSFW_STATUS_ERR_FLAG | 562)
+#define VCSFW_STATUS_ERR_FLASHPROG_IOTA_LIST_DATA_PROG_FAILED               \
+                                                (VCSFW_STATUS_ERR_FLAG | 563)
+#define VCSFW_STATUS_ERR_FLASHPROG_IOTA_LIST_DATA_CMP_FAILED                \
+                                                (VCSFW_STATUS_ERR_FLAG | 564)
+#define VCSFW_STATUS_ERR_FLASHPROG_IOTA_LIST_DATA_PROG0_FAILED              \
+                                                (VCSFW_STATUS_ERR_FLAG | 565)
+#define VCSFW_STATUS_ERR_FLASHPROG_IOTA_LIST_DATA_CMP0_FAILED               \
+                                                (VCSFW_STATUS_ERR_FLAG | 566)
+#define VCSFW_STATUS_ERR_FLASHPROG_IOTA_LIST_DATA_PROG1_FAILED              \
+                                                (VCSFW_STATUS_ERR_FLAG | 567)
+#define VCSFW_STATUS_ERR_FLASHPROG_IOTA_LIST_DATA_CMP1_FAILED               \
+                                                (VCSFW_STATUS_ERR_FLAG | 568)
+#define VCSFW_STATUS_ERR_FDETECT_NAV_TOOSHORT                               \
+                                                (VCSFW_STATUS_ERR_FLAG | 569)
+#define VCSFW_STATUS_ERR_FDETECT_NAV_TOOLONG                                \
+                                                (VCSFW_STATUS_ERR_FLAG | 570)
+#define VCSFW_STATUS_ERR_FDETECT_FU_TOOLONG                                \
+                                                (VCSFW_STATUS_ERR_FLAG | 571)
+#define VCSFW_STATUS_ERR_IOTA_CRC_MISMATCH                                 \
+                                                (VCSFW_STATUS_ERR_FLAG | 572)
+
+
 /****************************************************************************/
 /* Every command begins with the following structure.  See the vcsfw_cmd_t  */
 /* structure near the bottom of this file. Subsequent data differs by       */
@@ -1358,6 +1432,7 @@ typedef struct VCS_PACKED vcsfw_reply_get_version_s
 #define VCSFW_PRODUCT_VIPER3        59  /* Viper3 (Windsor f/w) */
 #define VCSFW_PRODUCT_SHASTA        60  /* Shasta aka b1216 (Nassau f/w) */
 #define VCSFW_PRODUCT_SHASTAPBL     61  /* Shasta primary boot loader */
+#define VCSFW_PRODUCT_WHITNEY       62  /* Whitney ROM code */
 
 
 /* The following bits are for vcsfw_reply_get_version_t::platform */
@@ -2586,6 +2661,7 @@ typedef struct VCS_PACKED vcsfw_reply_match_verify_s
 #define VCSFW_AUTH_ALGID_PKCR           0x40
 #define VCSFW_AUTH_ALGID_FIDO_UAF       0x50
 #define VCSFW_AUTH_ALGID_IPT            0x60
+#define VCSFW_AUTH_ALGID_FIDO_U2F       0x70
 
 /* Signature of EIS in payload block */
 #define VCSFW_EIS_SIGN                  0x20
@@ -2645,7 +2721,7 @@ typedef struct VCS_PACKED vcsfw_reply_dec_verify_template_data_s
 #define VCSFW_CMD_PROVISION_SEC_OPTS_PKI_SECCOM                     0x00000002
 #define VCSFW_CMD_PROVISION_SEC_OPTS_256BIT_SECURITY                0x00000004
 
-/* The command structure. 
+/* The command structure.
  * The command data will be ignored by Metallica/Viper.
  */
 typedef struct VCS_PACKED vcsfw_cmd_provision_s
@@ -4058,7 +4134,7 @@ typedef struct VCS_PACKED vcsfw_reply_get_nav_status_s
 #define VCSFW_AUTH_SESSION_TYPE_SM      0x01 /* Secure Match.               */
 #define VCSFW_AUTH_SESSION_TYPE_MOC     0x02 /* Match On Chip.              */
 #define VCSFW_AUTH_SESSION_TYPE_POA     0x03 /* Power-On Authentication.    */
-#define VCSFW_AUTH_SESSION_TYPE_WOFC	0x04 /* Low power WOF capture		*/
+#define VCSFW_AUTH_SESSION_TYPE_WOFC    0x04 /* Low power WOF capture       */
 
 /* Additional data in command strcture is in TLV format.
  * 2-byte tagid, 2 byte len, data.
@@ -4746,6 +4822,7 @@ typedef struct VCS_PACKED vcsfw_reply_ifs_stats_get_s
 /* Application ID-s. */
 #define VCSFW_CMD_APP_REQUEST_FIDO        0
 #define VCSFW_CMD_APP_REQUEST_IPT         1
+#define VCSFW_CMD_APP_REQUEST_U2F         2
 
 /* COMMAND                                                                  */
 typedef struct VCS_PACKED vcsfw_cmd_application_request_s
@@ -5134,6 +5211,26 @@ typedef struct VCS_PACKED vcsfw_cmd_bootldr_patch_plainhdr_type1_s {
 
 } vcsfw_cmd_bootldr_patch_plainhdr_type1_t;
 
+/* For programming iota chains with flashprog */
+typedef struct VCS_PACKED vcsfw_cmd_bootldr_patch_plainhdr_type2_s {
+    vcsUint32_t     flags;
+    vcsUint32_t     id;             /* patch ID */
+    vcsUint32_t     buildnum;       /* patch buildnum */
+
+    /* Restriction information. Reference: vcsfw_config_version_t */
+    vcsUint32_t     restrict_configid1;    /* configuration ID 1 */
+    vcsUint32_t     restrict_configid2;    /* configuration ID 2 */
+    vcsUint16_t     restrict_configver;    /* configuration version */
+
+    vcsUint8_t      padding[8];
+
+    vcsUint8_t      seq;            /* sequence if > one patch required */
+    vcsUint8_t      vmajor;         /* major version number of patch */
+    vcsUint8_t      vminor;         /* minor version number of patch */
+    vcsUint8_t      unused[3];
+
+} vcsfw_cmd_bootldr_patch_plainhdr_type2_t;
+
 /* Some well-known ids: */
 /* vcsfw_cmd_bootldr_patch_plainhdr_t::id */
 /* a flash programming patch: */
@@ -5222,6 +5319,7 @@ typedef struct VCS_PACKED vcsfw_reply_frame_read_s {
 
 /* for vcsfw_reply_frame_read_t::flags, above */
 #define VCSFW_REPLY_FRAME_READ_FLAGS_FINALFRAME 0x0001
+#define VCSFW_REPLY_FRAME_READ_FLAGS_FINGERLIFT 0x0002
 
 /****************************************************************************/
 /* VCSFW_CMD_FRAME_STATE_GET                                                */
@@ -5256,6 +5354,84 @@ typedef struct VCS_PACKED vcsfw_cmd_frame_acq_s {
 
 #define VCSFW_CMD_FRAME_ACQ_FLAGS_INFINITE      0x00000001  /* ignore nframes */
 #define VCSFW_CMD_FRAME_ACQ_FLAGS_CAL_BL        0x00000002  /* baseline cal */
+
+/*
+ * The reply.  Note that VCSFW_CMD_FRAME_ACQ can return one of
+ *  two different replies: the normal 2-byte status, or the 2-byte
+ *  status followed by the following structure which describes the
+ *  image data that will be coming.
+ */
+typedef struct VCS_PACKED vcsfw_reply_frame_acq_s {
+     /*
+      * A line is a group of pixels that are sent consecutively
+      *  (their data are adjacent).
+      * A frame is a number of lines making up a single 2d image.
+      */
+    vcsUint32_t     pixpitch;       /* intraline pixel pitch (nanometers) */
+    vcsUint32_t     linepitch;      /* interline pixel a/k/a
+                                     *  line-to-line pitch (nanometers) */
+
+    vcsUint32_t     bitinfo;                /* descriptions in terms of bits */
+/*
+ * How many bits per pixel, minus 1.
+ *  Values of 0 to 31 represent 1 bits/pixel to 32 bits/pixel.
+ */
+#define VCSFW_REPLY_FRAME_ACQ_BITINFO_BITSPERPIXEL      0x000001f
+#define VCSFW_REPLY_FRAME_ACQ_BITINFO_BITSPERPIXEL_B        0
+#define VCSFW_REPLY_FRAME_ACQ_BITINFO_BITSPERPIXEL_N        5
+/*
+ * How many unused extra bits on every pixel.  These
+ *  bits will be always be located "above" the highest
+ *  (most significant) bit in the pixel.  Values are 0 to 31.
+ */
+#define VCSFW_REPLY_FRAME_ACQ_BITINFO_PADBITSPERPIXEL   0x00003e0
+#define VCSFW_REPLY_FRAME_ACQ_BITINFO_PADBITSPERPIXEL_B     5
+#define VCSFW_REPLY_FRAME_ACQ_BITINFO_PADBITSPERPIXEL_N     5
+/*
+ * How many unused extra bits at the end of every line.  Values are 0 to 31.
+ */
+#define VCSFW_REPLY_FRAME_ACQ_BITINFO_PADBITSPERLINE    0x0007c00
+#define VCSFW_REPLY_FRAME_ACQ_BITINFO_PADBITSPERLINE_B      10
+#define VCSFW_REPLY_FRAME_ACQ_BITINFO_PADBITSPERLINE_N      5
+/*
+ * How many unused extra bits at the end of every frame.  Values are 0 to 31.
+ */
+#define VCSFW_REPLY_FRAME_ACQ_BITINFO_PADBITSPERFRAME   0x000f8000
+#define VCSFW_REPLY_FRAME_ACQ_BITINFO_PADBITSPERFRAME_B     15
+#define VCSFW_REPLY_FRAME_ACQ_BITINFO_PADBITSPERFRAME_N     5
+/*
+ * Orientation information.  Note that this information is chosen
+ *  to exactly match the 'vcsfw_frame_tag_orientpitch_t::orient'
+ *  byte layout.
+ */
+#define VCSFW_REPLY_FRAME_ACQ_BITINFO_ORIENT            0x00700000
+#define VCSFW_REPLY_FRAME_ACQ_BITINFO_ORIENT_B              20
+#define VCSFW_REPLY_FRAME_ACQ_BITINFO_ORIENT_N              3
+/* after optional mirroring, clockwise rotation count: */
+#define VCSFW_REPLY_FRAME_ACQ_BITINFO_ORIENT_ROT        0x00300000
+#define VCSFW_REPLY_FRAME_ACQ_BITINFO_ORIENT_ROT_B          20
+#define VCSFW_REPLY_FRAME_ACQ_BITINFO_ORIENT_ROT_N          2
+/* possible rotation values: */
+#define VCSFW_REPLY_FRAME_ACQ_BITINFO_ORIENT_ROT_CW0        0
+#define VCSFW_REPLY_FRAME_ACQ_BITINFO_ORIENT_ROT_CW90       1
+#define VCSFW_REPLY_FRAME_ACQ_BITINFO_ORIENT_ROT_CW180      2
+#define VCSFW_REPLY_FRAME_ACQ_BITINFO_ORIENT_ROT_CW270      3
+/* first transformation to do: mirror data along lines: */
+#define VCSFW_REPLY_FRAME_ACQ_BITINFO_ORIENT_MIRROR     0x00400000
+#define VCSFW_REPLY_FRAME_ACQ_BITINFO_ORIENT_MIRROR_B       22
+#define VCSFW_REPLY_FRAME_ACQ_BITINFO_ORIENT_MIRROR_N       1
+ /*
+  * Endianness.  For big endian values the more significant bits
+  *  appear first in the byte stream, for little endian values the
+  *  less significant bits are first.
+  */
+#define VCSFW_REPLY_FRAME_ACQ_BITINFO_BIGENDIAN         0x00800000
+#define VCSFW_REPLY_FRAME_ACQ_BITINFO_BIGENDIAN_B           23
+#define VCSFW_REPLY_FRAME_ACQ_BITINFO_BIGENDIAN_N           1
+
+    vcsUint16_t     pixperline;             /* how many pixels on a line */
+    vcsUint16_t     linesperframe;          /* how many lines per frame */
+} vcsfw_reply_frame_acq_t;
 
 
 /****************************************************************************/
@@ -5298,6 +5474,10 @@ typedef struct VCS_PACKED vcsfw_cmd_flash_erase_s {
 #define VCSFW_EVENT_TYPE_LNA_BL_UPDATED     0x0D
 #define VCSFW_EVENT_TYPE_IOTA_INSINUATED    0x0E
 #define VCSFW_EVENT_TYPE_FINGER_REJECTED    0x0F
+#define VCSFW_EVENT_TYPE_NAV_SWIPE_ABORTED  0x10
+/* NOTE: When a new event is added here, the EVENT_SUPPORTED_MASK and
+ * EVENT_NEVENTTYPES need to be updated in fw/nassau/mission/event.h.
+ */
 
 #define VCSFW_EVENT_NTYPES                  0x80
 
@@ -5473,7 +5653,7 @@ typedef struct VCS_PACKED vcsfw_reply_frame_stream_s {
 
 #define VCSFW_REPLY_FRAME_STREAM_FLAGS_EOS      0x0001      /* end of stream */
 #define VCSFW_REPLY_FRAME_STREAM_FLAGS_EOF      0x0002      /* end of frame */
-#define VCSFW_REPLY_FRAME_STREAM_FLAGS_ILLUM    0x0004      
+#define VCSFW_REPLY_FRAME_STREAM_FLAGS_ILLUM    0x0004
                                     /* current state of illumination (HBM) */
 #define VCSFW_REPLY_FRAME_STREAM_FLAGS_EXTFP    0x0008
                     /* current state of external finger presence detection */
@@ -5508,6 +5688,13 @@ typedef struct VCS_PACKED vcsfw_reply_iota_find_s
     vcsUint32_t      fullsize;  /* size of all data */
 } vcsfw_reply_iota_find_t;
 
+/* This is followed by a chain of iotas, as follows */
+typedef struct VCS_PACKED vcsfw_reply_iota_find_hdr_s
+{
+    vcsUint16_t      nbytes;
+    vcsUint16_t      itype;
+} vcsfw_reply_iota_find_hdr_t;
+
 
 /****************************************************************************/
 /* VCSFW_CMD_IOTA_INSINUATE                                                 */
@@ -5524,13 +5711,6 @@ typedef struct VCS_PACKED vcsfw_cmd_iota_insinuate_s
 
 /* IOTA_INSINUATE returns only the generic reply */
 
-
-/* This is followed by a chain of iotas, as follows */
-typedef struct VCS_PACKED vcsfw_reply_iota_find_hdr_s
-{
-    vcsUint16_t      nbytes;
-    vcsUint16_t      itype;
-} vcsfw_reply_iota_find_hdr_t;
 
 /****************************************************************************/
 /* VCSFW_CMD_FRAME_STATS_GET                                                */
@@ -6521,9 +6701,21 @@ typedef struct VCS_PACKED vcsfw_frame_tag_s {
 #define VCSFW_FRAME_TAG_STRIDEBLK 10
 #define VCSFW_FRAME_TAG_STATS   11  /* Gather image statistics */
 #define VCSFW_FRAME_TAG_ACQCFG   12 /* Acqusition config options */
+#define VCSFW_FRAME_TAG_ORIENTPITCH 13 /* information about preferred
+                                      *  image orientation and pixel/line
+                                      *  pitch.  Currently advisory
+                                      *  only (data are not used to change
+                                      *  firmware's image processing flow). */
+#define VCSFW_FRAME_TAG_IMGPROC_CROP    14  /* image processing, crop filter */
+#define VCSFW_FRAME_TAG_IMGPROC_DYNBPDET 15  /* image processing, dynamic bad
+                                              *  pixel detection */
+#define VCSFW_FRAME_TAG_IMGPROC_3X3SEPSQ 16  /* image processing, 3x3 matrix
+                                              *  multiplication (separable
+                                              *  squared matrix). */
+#define VCSFW_FRAME_TAG_IMGPROC_DISABLE  17  /* image processing, selective
+                                              *  filter disabling */
 
 /* Development-only tags: */
-#define VCSFW_FRAME_TAG_TEST_NAVPACK    129
 
 
 /* VCSFW_FRAME_TAG_REG32BLK */
@@ -6592,7 +6784,7 @@ typedef struct VCS_PACKED vcsfw_frame_tag_acqopt_s {
 /*
  * This tag is meant only to be sent by the host to the sensor.
  *  It is not meant to be stored in flash or in the mission firmware.
- * The 'min_interframe_gap_ms' specifies minimum delay between the each frames 
+ * The 'min_interframe_gap_ms' specifies minimum delay between the each frames
  * 'max_buffered_frames' is used for maximum number frames used.
  */
 typedef struct VCS_PACKED vcsfw_frame_tag_acqcfg_s {
@@ -6659,6 +6851,130 @@ typedef struct VCS_PACKED vcsfw_frame_tag_stats_s {
 
 #define VCSFW_FRAME_TAG_STATS_FLAGS_IMGDATA  0x0001 /* send image data too */
 
+
+/*
+ * VCSFW_FRAME_TAG_ORIENTPITCH
+ * Image orientation and pixel pitch information.
+ *
+ * This describes the raw sensor, and currently is simply
+ *  passthrough information to the host (in the form of the extended
+ *  reply to VCSFW_CMD_FRAME_ACQ).
+ * Future firmware could use this information directly, but
+ *  it would probably require the ability to buffer more than
+ *  one full frame.
+ */
+typedef struct VCS_PACKED vcsfw_frame_tag_orientpitch_s {
+    vcsUint32_t     pixpitch;       /* intraline pixel pitch (nanometers) */
+    vcsUint32_t     linepitch;      /* interline pixel a/k/a
+                                     *  line-to-line pitch (nanometers) */
+    vcsUint8_t      orient;         /* orientation information */
+/*
+ * The orientation information describes how the receiver of
+ *  the image should best adjust it for use.  This information is
+ *  really advisory in that the firmware doesn't really use it,
+ *  it only returns it as part of the reply to the VCSFW_CMD_FRAME_ACQ.
+ *  (in the VCSFW_REPLY_FRAME_ACQ_BITINFO_ORIENT_MIRROR and
+ *  VCSFW_REPLY_FRAME_ACQ_BITINFO_ORIENT_ROT fields of the
+ *  vcsfw_reply_frame_acq_t::bitinfo member).
+ * The receiver of the data should first apply mirroring, if
+ *  specified, followed by the rotation, if specified.
+ * Note that the layout of this information matches
+ */
+
+/* after optional mirroring, clockwise rotation count: */
+#define VCSFW_FRAME_TAG_ORIENTPITCH_ORIENT_ROT          0x03
+#define VCSFW_FRAME_TAG_ORIENTPITCH_ORIENT_ROT_B            0
+#define VCSFW_FRAME_TAG_ORIENTPITCH_ORIENT_ROT_N            2
+/* possible rotation values: */
+#define VCSFW_FRAME_TAG_ORIENTPITCH_ORIENT_ROT_CW0          0
+#define VCSFW_FRAME_TAG_ORIENTPITCH_ORIENT_ROT_CW90         1
+#define VCSFW_FRAME_TAG_ORIENTPITCH_ORIENT_ROT_CW180        2
+#define VCSFW_FRAME_TAG_ORIENTPITCH_ORIENT_ROT_CW270        3
+/* first transformation to do: mirror data along lines: */
+#define VCSFW_FRAME_TAG_ORIENTPITCH_ORIENT_MIRROR       0x04
+#define VCSFW_FRAME_TAG_ORIENTPITCH_ORIENT_MIRROR_B         2
+#define VCSFW_FRAME_TAG_ORIENTPITCH_ORIENT_MIRROR_N         1
+
+    vcsUint8_t      unused[3];      /* to bring structure to n*4 bytes */
+} vcsfw_frame_tag_orientpitch_t;
+
+/*
+ * CPID standard order of operations is:
+ *    1. temperature estimation and dark current correction
+ *       (currently unimplemented)
+ *    2. background mean subtraction a/k/a "baseline" and static bad
+ *       pixel marking ("blpmk")
+ *    3. cropping ("crop")
+ *    4. dynamic bad pixel detection ("dynbpdet")
+ *    5. bad pixel interpolation ("bpinterp")
+ *    6. 3x3 separable-square matrix multiply ("3x3sepsq")
+ *    7. resolution reduction a/k/a down-sampling ("reshalf")
+ *
+ * Steps 3 ("crop"), 4 ("dynbpdet") and 6 ("3x3sepsq") have parameters.
+ * Despite the fact that these processes are first described for
+ *  CPID it's perfectly possible they'll be useful in future
+ *  non-CPID sensors.  So I'm naming them generically as
+ *  "IMGPROC" (image processing) parameters.
+ */
+
+/* VCSFW_FRAME_TAG_IMGPROC_CROP */
+typedef struct VCS_PACKED vcsfw_frame_tag_imgproc_crop_s {
+    vcsUint16_t     top;        /* top margin (in lines) */
+    vcsUint16_t     bottom;     /* bottom margin (in lines) */
+    vcsUint16_t     left;       /* left margin (in pixels) */
+    vcsUint16_t     right;      /* right margin (in pixels) */
+} vcsfw_frame_tag_imgproc_crop_t;
+
+/* VCSFW_FRAME_TAG_IMGPROC_DYNBPDET */
+typedef struct VCS_PACKED vcsfw_frame_tag_imgproc_dynbpdet_s {
+    vcsUint16_t     threshold;  /* threshold above/below median for
+                                 *  when a pixel can be considered
+                                 *  bad. */
+} vcsfw_frame_tag_imgproc_dynbpdet_t;
+
+/* VCSFW_FRAME_TAG_IMGPROC_3X3SEPSQ */
+/*
+ * This transform defines a 3x3 matrix multiplication.
+ *  The 3x3 matrix is formed by multiplying the given vector
+ *  by its transpose.
+ * Because the math in the firmware is done using 32-bit
+ *  operations the valid range for the vector is limited.
+ *  Assuming 12-bit unsigned pixel data the biggest product
+ *  of any two elements in the vector must be < (2^20/9)=116508.
+ *  If we restrict the elements to sqrt(2^20/9) = 2^10/3=341 then
+ *  we'll be alright.
+ */
+
+typedef struct VCS_PACKED vcsfw_frame_tag_imgproc_3x3sepsq_s {
+     vcsUint16_t    vector[3]; /* 3 element vector, squared for transform */
+     vcsUint16_t    normal;    /* normalizing denominator */
+} vcsfw_frame_tag_imgproc_3x3sepsq_t;
+
+/* VCSFW_FRAME_TAG_IMGPROC_DISABLE */
+/*
+* This tag allows the host to selectively disable individual
+*  steps in the flow.  Note that this is a very crude
+*  instrument.  You can't change the order of the steps and if,
+*  at some future time we use the same step twice you
+*  can only turn off both instances.
+*/
+typedef struct VCS_PACKED vcsfw_frame_tag_imgproc_disable_s {
+    vcsUint32_t      filters;
+     /* disable the baseline subtraction + static bad pixel marking: */
+#define VCSFW_FRAME_TAG_IMGPROC_DISABLE_FILTERS_BLBPMK      0x0000001
+     /* disable the cropping: */
+#define VCSFW_FRAME_TAG_IMGPROC_DISABLE_FILTERS_CROP        0x0000002
+     /* disable the dynamic bad pixel detection: */
+#define VCSFW_FRAME_TAG_IMGPROC_DISABLE_FILTERS_DYNBPDET    0x0000004
+     /* disable the bad pixel interpolation: */
+#define VCSFW_FRAME_TAG_IMGPROC_DISABLE_FILTERS_BPINTERP    0x0000008
+     /* disable the 3x3 matrix multiply: */
+#define VCSFW_FRAME_TAG_IMGPROC_DISABLE_FILTERS_3X3SEPSQ    0x0000010
+     /* disable the 50% resolution reduction: */
+#define VCSFW_FRAME_TAG_IMGPROC_DISABLE_FILTERS_RESHALF     0x0000020
+
+} vcsfw_frame_tag_imgproc_disable_t;
+
 /*
  * iotas are blocks of bytes that are stored in non-volatile
  *  storage in a part.  These are first implemented in the Nassau
@@ -6705,13 +7021,47 @@ typedef struct VCS_PACKED vcsfw_frame_tag_stats_s {
 #define VCSFW_IOTA_ITYPE_CAL_DARK_CURRENT 0x0012 /* Dark Current image from cal */
 #define VCSFW_IOTA_ITYPE_CPID_CAL_LONG_INTEGRATION   0x0013 /* Long Interpolation 500 DPI image from cal */
 #define VCSFW_IOTA_ITYPE_CPID_CAL_DARK_RATE_MAP_1000DPI   0x0014 /* CPID dark rate map saved at 1000 DPI */
-#define VCSFW_IOTA_ITYPE_CHAINEND       0xffff /* end of the chain (internal) */
+#define VCSFW_IOTA_ITYPE_CONFIG_TEST_HISTORY 0x0015 /* MT test history */
+/* The FOREGROUND_IMAGE used by image processing library.  The firmware does
+* not parse it.  More details are below with vcsfw_config_foreground_img_t. */
+#define VCSFW_IOTA_ITYPE_FOREGROUND_IMAGE 0x0016
+/* The MISSION_SHA256 iota is used to store the SHA256 of the mission
+ * firmware.  This is generated by the missionsha256 patch, and written by
+ * module-test or in-system test.  This way if the mission firmware becomes
+ * corrupt, the host can identify so. */
+#define VCSFW_IOTA_ITYPE_MISSION_SHA256   0x0017
+
+/* Specific to CPID: Temporal standard deviation of reference high frames */
+#define VCSFW_IOTA_ITYPE_CPID_CAL_TEMPORAL_STD_DEV_REF_HIGH_FRAMES   0x0018
+
+/* Specific to CPID: Mean background + Bad_Pixel map: This is combination of mean background image
+  *                           where bad_pixel values are marked by a special value (say 4095).
+  *                           The bad_pixels are determined from RefHigh - Ref.
+  */
+#define VCSFW_IOTA_ITYPE_CPID_CAL_MEAN_BGD_BAD_PIXELS   0x0019 /* CPID dark rate map saved at 1000 DPI */
+
+/* The IPL_PARAM and IPL_METRIC iotas are pass-through iotas used to configure
+ *the host-side image processing library.  */
+#define VCSFW_IOTA_ITYPE_IPL_PARAM     0x001A
+#define VCSFW_IOTA_ITYPE_IPL_METRIC    0x001B
+
+
+#define VCSFW_IOTA_ITYPE_CHAINEND       0xFFFF /* end of the chain (internal) */
+
+
+
+/* Specific to CPID: Temporal standard deviation of reference high frames
+  * #define VCSFW_IOTA_ITYPE_CPID_CAL_TEMPORAL_STANDARD_DEVIATION_OF_REFERENCE_HIGH_FRAMES
+  */
+typedef struct VCS_PACKED vcsfw_cpid_cal_temporal_std_dev_ref_high_frames_s{
+        vcsUint32_t   temporal_std_dev_ref_high_frames;
+} vcsfw_cpid_cal_temporal_std_dev_ref_high_frames_t;
 
 
 
 /* VCSFW_IOTA_ITYPE_BAD_PIXEL_MAP */
-/* 
- * This iota contains the count of the bad pixels followed by teh actual bad pixel indices.
+/*
+ * This iota contains the count of the bad pixels followed by the actual bad pixel indices.
  */
 typedef struct VCS_PACKED vcsfw_cpid_bad_pixel_map_imaging_data_s{
     vcsUint32_t   badpixelcount;
@@ -6721,7 +7071,7 @@ typedef struct VCS_PACKED vcsfw_cpid_bad_pixel_map_imaging_data_s{
 
 
 /* VCSFW_IOTA_ITYPE_CPID_ATTRIBUTES */
-/* 
+/*
  * This iota contains the CPID attributes.
  */
 typedef struct VCS_PACKED vcsfw_cpid_attributes_s{
@@ -6745,7 +7095,8 @@ typedef struct VCS_PACKED vcsfw_config_tag_pselect_s{
     vcsUint8_t  frame_avg;
     vcsUint8_t  pscan_col_size;
     vcsUint8_t  pscan_row_size;
-    vcsUint8_t  unused[2];
+    vcsUint8_t  state_check_delay_msec;
+    vcsUint8_t  unused;
 } vcsfw_config_tag_pselect_t;
 
 /* VCSFW_IOTA_ITYPE_CONFIG_FRAME_AVG*/
@@ -6772,7 +7123,7 @@ typedef struct VCS_PACKED vcsfw_config_tag_frame_avg_s{
          *    0x1000    |     x 1/16
          *    0x5000    |     x 5/16
  * If the reduction is not specified, the firmware defaults to 50%.  A special
- * case of 0 implies not reduction is applied.
+ * case of 0 implies no reduction is applied.
  * The calculations on the WOF thresholds are as follows:
  *  FINGER_THD_L = BASE_THD - signal*coverage
  *  FINGER_THD_L_HYST = FINGER_THD_L + hyst
@@ -6790,7 +7141,26 @@ typedef struct VCS_PACKED vcsfw_config_wof_thresholds_s {
 /*
  * This iota contains configuration settings for the dynamic baseline
  * management module
+ * period_MS                How often to check for baseline drift
+ * partial_scan_treshold    Threshold for detecting drift in the pscan image
+ * pos_threshold            Full image pixels that exceed this threshold are
+ *                          adjusted downward by this amount.
+ * neg_threshold            Full image pixels that are beneath this threshold
+ *                          are adjusted upward by this amount.
+ * max_positive             If any pixel exceeds this amount in the baseline
+ *                          it is counted as a bad pixed for min_rezero_pixel
+ *                          check
+ * min_negative             If any pixel is less than this amount in the
+ *                          baseline it is counted as a bad pixed for
+ *                          min_rezero_pixel check
+ * partial_scan_steps       How many rows of the drive memory to run for the
+ *                          partial image.
+ * enable_mode              disable DBM or enable with re-zero options
+ *
+ * min_rezero_pixels        Minimum number of total pixels exceeding rezero
+ *                          thresholds before triggering a rezero
  */
+
 typedef struct VCS_PACKED vcsfw_config_bl_mgt_s{
     vcsUint32_t            period_MS;
     vcsUint16_t            partial_scan_threshold;
@@ -6799,54 +7169,88 @@ typedef struct VCS_PACKED vcsfw_config_bl_mgt_s{
     vcsInt16_t             max_positive;
     vcsInt16_t             min_negative;
     vcsUint16_t            partial_scan_steps;
-    vcsUint8_t             enabled;
-    vcsUint8_t             unused[3];
+    vcsUint8_t             enable_mode;
+    vcsUint8_t             unused;
+    vcsUint16_t            min_rezero_pixels;
+#define VCSFW_BL_MGT_ENABLE_MODE_OFF                      0
+#define VCSFW_BL_MGT_ENABLE_MODE_ON_WITH_FULL_REZERO      1
+#define VCSFW_BL_MGT_ENABLE_MODE_ON_WITH_FW_BL_REZERO     2
 } vcsfw_config_bl_mgt_t;
 
 
 /*
- * VCSFW_IOTA_ITYPE_CAL_REFERENCE 
+ * VCSFW_IOTA_ITYPE_CAL_REFERENCE
  * VCSFW_IOTA_ITYPE_CPID_CAL_LONG_INTEGRATION
 
  * These iotas contains the reference image generated from the cal.
- * It starts with the image header as defined below, followed by 
+ * It starts with the image header as defined below, followed by
  * the image data.
  */
 typedef struct VCS_PACKED vcsfw_cal_image_header_s {
     vcsUint16_t      npixels;       /* number of pixels in a row */
     vcsUint16_t      nlines;        /* number of rows */
+    vcsUint16_t      offset;        /* offset in dwords */
     vcsUint8_t       bitdepth;      /* bit-depth: 8,12,16 */
     vcsUint8_t       dpi;           /* DPI: 1 - 500dpi, 2 - 1000dpi */
-    vcsUint16_t      offset;        /* offset in dwords */
 } vcsfw_cal_image_header_t;
+
+/*
+ * The vcsfw_cal_image_mean_and_bad_pix_header_t is the data header for
+ * VCSFW_IOTA_ITYPE_CPID_CAL_MEAN_BGD_BAD_PIXELS iota.
+*/
+typedef struct VCS_PACKED vcsfw_cal_image_mean_and_bad_pix_header_s {
+    vcsUint32_t      compressedSize;
+    vcsUint16_t      offset;        /* offset in dwords */
+    vcsUint16_t      adc_offset;    /* Offset to be added to the live image during pre-processing*/
+    vcsUint16_t      npixels;       /* number of pixels in a row */
+    vcsUint16_t      nlines;        /* number of rows */
+    vcsUint8_t       bitdepth;      /* bit-depth: 8,12,16 */
+    vcsUint8_t       dpi;           /* DPI: 1 - 500dpi, 2 - 1000dpi */
+    vcsUint8_t       dummy1;
+    vcsUint8_t       dummy2;
+} vcsfw_cal_image_mean_and_bad_pix_header_t;
+
 
 /*
  * VCSFW_IOTA_ITYPE_CPID_CAL_DARK_RATE_MAP_1000DPI
 
  * This iota corresponds to the CPID dark rate map
- 
- * It starts with the image header as defined below, followed by 
+
+ * It starts with the image header as defined below, followed by
  * the 1000 DPI, 12-bpp image data.
  */
 typedef struct VCS_PACKED vcsfw_cal_dark_rate_map_image_header_s {
+    vcsUint32_t      stdDeviationOfFirstRowOfD1; /* Standard Deviation  Dark rate map
+                                                                    MT will get two dark current images at high (D2, 1000 DPI) and low integration (D1, 1000 DPI) times
+                                                                    and subtract the low from the high, Dark rate = D2 - D1.
+                                                                    Then MT via the SDK provided DLL will find standard deviation of the first row ignoring bad pixels from the first row.
+                                                                    Then MT via the SDK provided DLL will use standard deviation to estimate temperature (T1) and write this T1 to flash.
+                                                                    */
+    vcsUint16_t      offset;        /* offset in dwords */
+
+    vcsUint16_t      darkRateMapMultX10;
+
     vcsUint16_t      npixels;       /* number of pixels in a row */
     vcsUint16_t      nlines;        /* number of rows */
     vcsUint8_t       bitdepth;      /* bit-depth: 8,12,16. Choose 12 here */
     vcsUint8_t       dpi;           /* DPI: 1 - 500 DPI, 2 - 1000 DPI. Choose 2 here as it is 1000 DPI image*/
-    vcsUint16_t      offset;        /* offset in dwords */
-    vcsUint32_t      stdDeviationOfFirstRowOfD1; /* Standard Deviation  Dark rate map
-    									    MT will get two dark current images at high (D2, 1000 DPI) and low integration (D1, 1000 DPI) times
-                                                                    and subtract the low from the high, Dark rate = D2 - D1.  
-                                                                    Then MT via the SDK provided DLL will find standard deviation of the first row ignoring bad pixels from the first row.
-                                                                    Then MT via the SDK provided DLL will use standard deviation to estimate temperature (T1) and write this T1 to flash.
-    								        */
-    vcsUint16_t     darkRateMapMultX10;
-    vcsUint8_t      unused[2];
+    vcsUint8_t       unused[2];
 } vcsfw_cal_dark_rate_map_image_header_t;
+
+typedef struct VCS_PACKED vcsfw_cal_dark_rate_map_image_header_cal_5_s {
+    vcsUint32_t      compressedSize;
+    vcsInt32_t       temperature_std_dev;
+    vcsUint16_t      offset;        /* offset in dwords */
+    vcsUint16_t      npixels;       /* number of pixels in a row */
+    vcsUint16_t      nlines;        /* number of rows */
+    vcsUint8_t       bitdepth;      /* bit-depth: 8,12,16. Choose 12 here */
+    vcsUint8_t       dpi;           /* DPI: 1 - 500 DPI, 2 - 1000 DPI. Choose 2 here as it is 1000 DPI image*/
+} vcsfw_cal_dark_rate_map_image_header_cal_5_t;
+
 
 
 /* VCSFW_IOTA_ITYPE_CONFIG_VERSION */
-/* 
+/*
  * This iota contains the configuration id and version.
  */
 typedef struct VCS_PACKED vcsfw_config_version_s{
@@ -6868,14 +7272,16 @@ typedef struct VCS_PACKED vcsfw_config_nav_swipe_s {
     vcsUint8_t       h_regions;         /* number of rcvr or xmtr regions     */
     vcsUint8_t       h_flags;           /* see NAV_SWIPE_FLAGS below          */
     vcsUint16_t      h_req_dist_posdir; /* minimum distance the finger must   */
-    vcsUint16_t      h_req_dist_negdir; /*   traverse before it's declared a  */ 
+    vcsUint16_t      h_req_dist_negdir; /*   traverse before it's declared a  */
                                         /*   swipe. This is a 16-bit fixed    */
                                         /*   point number in 8Q8 with the     */
                                         /*   units of regions                 */
+    vcsUint16_t      h_min_exit_pos;
+    vcsUint16_t      h_max_exit_pos;
     vcsUint16_t      h_min_vel;         /* minimum allowed finger velocity    */
                                         /*   for a swipe                      */
     vcsUint16_t      h_threshold;       /* finger detection threshold         */
-    vcsUint8_t       h_xstride;         /* stride used for indexing into the  */ 
+    vcsUint8_t       h_xstride;         /* stride used for indexing into the  */
     vcsUint8_t       h_ystride;         /*   2D frame                         */
 
     /* parameters for vertical swipe detection */
@@ -6883,6 +7289,8 @@ typedef struct VCS_PACKED vcsfw_config_nav_swipe_s {
     vcsUint8_t       v_flags;
     vcsUint16_t      v_req_dist_posdir;
     vcsUint16_t      v_req_dist_negdir;
+    vcsUint16_t      v_min_exit_pos;
+    vcsUint16_t      v_max_exit_pos;
     vcsUint16_t      v_min_vel;
     vcsUint16_t      v_threshold;
     vcsUint8_t       v_xstride;
@@ -6894,7 +7302,7 @@ typedef struct VCS_PACKED vcsfw_config_nav_swipe_s {
 #define NAV_SWIPE_MODE_BL_RELAX      2
 
 /* NAV_SWIPE_FLAGS */
-#define NAV_SWIPE_FLAGS_AXIS_METADJ   0x02  /* apply the MATLAB metric 
+#define NAV_SWIPE_FLAGS_AXIS_METADJ   0x02  /* apply the MATLAB metric
                                              * adjust algorithm */
 
 /* VCSFW_IOTA_ITYPE_CONFIG_NAV_TAP */
@@ -6923,6 +7331,44 @@ typedef struct VCS_PACKED vcsfw_fppresent_params_s {
     vcsUint16_t marginy;
 } vcsfw_fppresent_params_t;
 
+
+#define    VCSFW_TEST_HISTORY_IOTA_PART_NUM_STRING_LEN    20
+
+typedef struct VCS_PACKED vcsfw_config_testhistory_s {
+    vcsUint32_t date;       /* seconds since 1/1/2000 */
+    vcsUint16_t stage;      /* For example: 1=CP1, 2=CP2, 3=FT, 4=MT, 5=IST.*/
+    vcsUint16_t error_code; /* 0 == pass */
+    /* MT core api part number (null-term string) */
+    vcsUint8_t  part_MT[VCSFW_TEST_HISTORY_IOTA_PART_NUM_STRING_LEN];
+    /* MT config file part number (null-term string) */
+    vcsUint8_t  part_config[VCSFW_TEST_HISTORY_IOTA_PART_NUM_STRING_LEN];
+} vcsfw_config_testhistory_t;
+
+
+/* The FOREGROUND_IMAGE iota contains a header vcsfw_config_foreground_img_t
+ * header, and nBytes worth of foreground image data.  This iota is not parsed
+ * by firmware, and is used only to pass data calibrated at test time to the host
+ * software.
+ */
+typedef struct VCS_PACKED vcsfw_config_foreground_img_s{
+    vcsUint32_t nBytes;     /* total number of bytes in the image (nRows*nCols*bytes/pixel) */
+    vcsUint16_t nRows;
+    vcsUint16_t nCols;
+    vcsUint16_t flags;
+    vcsUint16_t unused;
+} vcsfw_config_foreground_img_t;
+
+/* The INSTSPEC flag is equivalent to the INSTSPEC flag defined for
+ * frame-tags, which indicates that this data is specific to each sensor
+ * instance (i.e.: it is calibrated for this sensor only).
+ */
+#define VCSFW_CONFIG_FOREGROUND_IMAGE_FLAG_INSTSPEC     0x20
+
+
+/* The MISSION_SHA256 iota is simply a 256-bit number, and thus, 8 words. */
+typedef struct VCS_PACKED vcsfw_mission_sha256_s{
+    vcsUint32_t sha256 [8];     /* SHA256 */
+} vcsfw_mission_sha256_t;
 
 #include "vcsPopPack.h"
 

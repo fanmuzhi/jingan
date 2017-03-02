@@ -81,6 +81,9 @@
     <ClInclude Include="Ts_BravoProgrammingIOTA_DATA.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Ts_BravoBubbleTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Syn_TestStepFactory.cpp">
@@ -141,6 +144,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Ts_BravoProgrammingIOTA_DATA.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Ts_BravoBubbleTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

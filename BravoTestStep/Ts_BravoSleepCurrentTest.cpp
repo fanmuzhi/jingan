@@ -49,7 +49,7 @@ void Ts_BravoSleepCurrentTest::SetUp()
 	if (0 != listOfArgValue[1].length())
 		_pSleepCurrentTestData->lowLimit = std::stof(listOfArgValue[1]) * 1000;
 	if (0 != listOfArgValue[2].length())
-		_pSleepCurrentTestData->delay = std::stof(listOfArgValue[2]);
+		_pSleepCurrentTestData->delay = atoi(listOfArgValue[2].c_str());
 }
 
 void Ts_BravoSleepCurrentTest::Execute()
@@ -68,6 +68,8 @@ void Ts_BravoSleepCurrentTest::Execute()
 		Exception.SetDescription("BravoSleepCurrentTest::PowerOn() failed");
 		throw Exception;
 	}
+
+	rc = _pSynModule->FpTidleSet(500);
 
 	::Sleep(_pSleepCurrentTestData->delay);
 

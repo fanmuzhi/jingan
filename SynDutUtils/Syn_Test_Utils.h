@@ -193,6 +193,16 @@ struct SNRTestData : public SynTestData
 
 struct ImperfectionsTestData : public SynTestData
 {
+	int peggedThreshold;
+	int flooredThreshold;
+	int maxAdjacentPixelsAllowed;
+
+	int consecutive_pegged_rows[MAXROW];
+	int consecutive_pegged_cols[MAXCOL];
+};
+
+struct BubbleTestData : public SynTestData
+{
 	typedef struct bubble_check_zone_data_s
 	{
 		uint32_t    nBubbleMeasure_x10;
@@ -218,7 +228,6 @@ struct ImperfectionsTestData : public SynTestData
 	half_word_frame_data_t frame2;//RNG
 
 	bubble_check_zone_data_t bubble_check_data[QNTY_BUBBLE_CHECK_ZONES];
-	//uint32_t bubble_check_data[QNTY_BUBBLE_CHECK_ZONES];
 };
 
 struct SharpnessData : public SynTestData
@@ -236,17 +245,26 @@ struct SharpnessData : public SynTestData
 	float percent;
 };
 
+struct ProgrammingIOTA_Data_TestData : public SynTestData
+{
+	//parameter
+	bool LNA_BL;
+	bool FW_BL;
+	bool NAV_BL;
+	bool WOF;
+
+	//result
+};
+
 struct IOTACheckTestData : public SynTestData
 {
 	//parameter
-	bool FrameBase_DIMS;
-	bool FrameBase_FWBL;
-	bool FrameBase_LNABL;
-	bool FrameBase_REG16BLK;
-	bool FrameBase_REG32BLK;
-	bool FrameNav_LNABL;
-	bool CONFIG_PSELECT;
-	bool CONFIG_WOF_THRESHOLDS;
+	bool DIMS;
+	bool FW_BL;
+	bool LNA_BL;
+	bool WOF;
+	bool NAV_BL;
+	bool PSELECT;
 	bool CONFIG_VERSION;
 
 	//result

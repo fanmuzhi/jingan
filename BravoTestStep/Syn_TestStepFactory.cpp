@@ -13,6 +13,7 @@
 #include "Ts_BravoWOF_Signal.h"
 #include "Ts_BravoCurrentTest.h"
 #include "Ts_BravoSNRTest.h"
+#include "Ts_BravoBubbleTest.h"
 #include "Ts_BravoImperfections.h"
 #include "Ts_BravoSharpness.h"
 #include "Ts_BravoProgrammingIOTA_DATA.h"
@@ -99,6 +100,10 @@ uint32_t Syn_TestStepFactory::CreateBravoTestStep(string strTestStepName, string
 	else if (string("SharpnessTest") == strTestStepName)
 	{
 		opBravoTestStep = new Ts_BravoSharpness(strTestStepName, pBravoModule, pDutUtils);
+	}
+	else if (string("BubbleTest") == strTestStepName)
+	{
+		opBravoTestStep = new Ts_BravoBubbleTest(strTestStepName, pBravoModule, pDutUtils);
 	}
 	else if (string("Imperfections") == strTestStepName)
 	{

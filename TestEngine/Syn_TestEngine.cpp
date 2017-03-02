@@ -494,24 +494,38 @@ uint32_t Syn_TestEngine::WriteLog(string strFolderPath, string strFileName)
 				fprintf(pFile, "\n");
 			}
 		}
+		else if ("BubbleTest" == strTestStepName)
+		{
+			BubbleTestData *pBubbleTestData = static_cast<BubbleTestData*>(Test_data);
+			if (NULL != pBubbleTestData)
+			{
+				fprintf(pFile, "\nBubbleTest,%s,%.0f ms,Zone1,Zone2,Zone3,Zone4,Zone5,Zone6,Zone_OverAll\n", pBubbleTestData->pass ? "Pass" : "Fail", pBubbleTestData->test_time);
+				fprintf(pFile, ",,,%d,%d,%d,%d,%d,%d,%d\n", pBubbleTestData->bubble_check_data[1].nBubbleMeasure_x10,
+					pBubbleTestData->bubble_check_data[2].nBubbleMeasure_x10, pBubbleTestData->bubble_check_data[3].nBubbleMeasure_x10,
+					pBubbleTestData->bubble_check_data[4].nBubbleMeasure_x10, pBubbleTestData->bubble_check_data[5].nBubbleMeasure_x10,
+					pBubbleTestData->bubble_check_data[6].nBubbleMeasure_x10, pBubbleTestData->bubble_check_data[0].nBubbleMeasure_x10);
+			}
+		}
 		else if ("Imperfections" == strTestStepName)
 		{
 			ImperfectionsTestData *pImperfectionsTestData = static_cast<ImperfectionsTestData*>(Test_data);
 			if (NULL != pImperfectionsTestData)
 			{
-				fprintf(pFile, "\nImperfections,%s,%.0f ms,Zone1,Zone2,Zone3,Zone4,Zone5,Zone6,Zone_OverAll\n", pImperfectionsTestData->pass ? "Pass" : "Fail", pImperfectionsTestData->test_time);
-				fprintf(pFile, ",,,%d,%d,%d,%d,%d,%d,%d\n", pImperfectionsTestData->bubble_check_data[1].nBubbleMeasure_x10, 
-					pImperfectionsTestData->bubble_check_data[2].nBubbleMeasure_x10, pImperfectionsTestData->bubble_check_data[3].nBubbleMeasure_x10,
-					pImperfectionsTestData->bubble_check_data[4].nBubbleMeasure_x10, pImperfectionsTestData->bubble_check_data[5].nBubbleMeasure_x10,
-					pImperfectionsTestData->bubble_check_data[6].nBubbleMeasure_x10, pImperfectionsTestData->bubble_check_data[0].nBubbleMeasure_x10);
+				fprintf(pFile, "\nImperfections Test,%s,%.0f ms,Along Rows,", pImperfectionsTestData->pass ? "Pass" : "Fail", pImperfectionsTestData->test_time);
+				for (int i = 0; i<RowNumber; i++)
+					fprintf(pFile, "%d,", pImperfectionsTestData->consecutive_pegged_rows[i]);
+				fprintf(pFile, "\n,,,Along Columns,");
+				for (int i = 0; i<ColumnNumber; i++)
+					fprintf(pFile, "%d,", pImperfectionsTestData->consecutive_pegged_cols[i]);
+				fprintf(pFile, "\n");
 			}
 		}
 		else if ("ProgrammingIOTA_DATA" == strTestStepName)
 		{
-			ProgrammingIOTATestData *ProgrammingIOTADATATestData = static_cast<ProgrammingIOTATestData*>(Test_data);
-			if (NULL != ProgrammingIOTADATATestData)
+			ProgrammingIOTA_Data_TestData *pProgrammingIOTA_Data_TestData = static_cast<ProgrammingIOTA_Data_TestData*>(Test_data);
+			if (NULL != pProgrammingIOTA_Data_TestData)
 			{
-				fprintf(pFile, "\nProgrammingIOTA_DATA,%s,%.0f ms\n", ProgrammingIOTADATATestData->pass ? "Pass" : "Fail", ProgrammingIOTADATATestData->test_time);
+				fprintf(pFile, "\nProgrammingIOTA_DATA,%s,%.0f ms\n", pProgrammingIOTA_Data_TestData->pass ? "Pass" : "Fail", pProgrammingIOTA_Data_TestData->test_time);
 			}
 		}
 		else if ("FinalizationStep" == strTestStepName)
