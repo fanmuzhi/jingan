@@ -324,6 +324,20 @@ void Ts_BravoIOTACheck::IotaParse(vcsfw_reply_iota_find_hdr_t iotafindheader, ui
 			oIOTAType = "FPPRESENT_PARAMS";
 			oIOTAValue = ConvertData(arrIota, startPos, endPos);
 			break;
+		case VCSFW_IOTA_ITYPE_CONFIG_BL_MGT:
+			oIOTAType = "CONFIG_BL_MGT";
+			vcsfw_config_bl_mgt_t config_bl_mgt;
+			memcpy(&config_bl_mgt, &(arrIota[startPos]), sizeof(vcsfw_config_bl_mgt_t));
+			oIOTAValue += "period_MS : " + std::to_string(config_bl_mgt.period_MS) + "\n";
+			oIOTAValue += "partial_scan_threshold : " + std::to_string(config_bl_mgt.partial_scan_threshold) + "\n";
+			oIOTAValue += "pos_threshold : " + std::to_string(config_bl_mgt.pos_threshold) + "\n";
+			oIOTAValue += "neg_threshold : " + std::to_string(config_bl_mgt.neg_threshold) + "\n";
+			oIOTAValue += "min_negative : " + std::to_string(config_bl_mgt.min_negative) + "\n";
+			oIOTAValue += "partial_scan_steps : " + std::to_string(config_bl_mgt.partial_scan_steps) + "\n";
+			oIOTAValue += "enable_mode : " + std::to_string(config_bl_mgt.enable_mode) + "\n";
+			oIOTAValue += "unused : " + std::to_string(config_bl_mgt.unused) + "\n";
+			oIOTAValue += "min_rezero_pixels : " + std::to_string(config_bl_mgt.min_rezero_pixels);
+			break;
 		default:
 			oIOTAType = std::to_string(iotafindheader.itype);
 			oIOTAValue = ConvertData(arrIota, startPos, endPos);
