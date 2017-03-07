@@ -15,9 +15,11 @@ using namespace std;
 #define	SW_VERSION		"AlphaRelease"
 #define SW_RELEASEDATE	"2017-02-24"
 
-#define BRAVO_IMAGE_RAWDATA_MAX 10000
-#define MAXROW 200
-#define MAXCOL 200
+#define BRAVO_IMAGE_RAWDATA_MAX		10000
+#define MAXROW						200
+#define MAXCOL						200
+
+#define REGIONS						7
 
 struct FpFrame
 {
@@ -187,6 +189,16 @@ struct SNRTestData : public SynTestData
 	double   snrValue;
 	uint32_t signalValue;
 	double   noiseValue;
+
+	/*float m_filteredImage[MAXROW*MAXCOL];
+	float m_noiseImage[MAXROW*MAXCOL];
+
+	float SIGNAL[REGIONS];
+	float NOISE[REGIONS];
+	float SNR[REGIONS];
+	float OTPVal_SNR;
+	float OTPVal_Noise;
+	float OTPVal_Signal;*/
 };
 
 #define QNTY_BUBBLE_CHECK_ZONES 7
