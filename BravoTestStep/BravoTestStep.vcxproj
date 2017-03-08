@@ -123,6 +123,7 @@ xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\synImageTest.d
     <ClInclude Include="Ts_BravoCurrentTest.h" />
     <ClInclude Include="Ts_BravoDRdyTest.h" />
     <ClInclude Include="Ts_BravoFinalizationStep.h" />
+    <ClInclude Include="Ts_BravoHuaweiImageTest.h" />
     <ClInclude Include="Ts_BravoImperfections.h" />
     <ClInclude Include="Ts_BravoInitializationStep.h" />
     <ClInclude Include="Ts_BravoIOTACheck.h" />
@@ -146,6 +147,7 @@ xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\synImageTest.d
     <ClCompile Include="Ts_BravoCurrentTest.cpp" />
     <ClCompile Include="Ts_BravoDRdyTest.cpp" />
     <ClCompile Include="Ts_BravoFinalizationStep.cpp" />
+    <ClCompile Include="Ts_BravoHuaweiImageTest.cpp" />
     <ClCompile Include="Ts_BravoImperfections.cpp" />
     <ClCompile Include="Ts_BravoInitializationStep.cpp" />
     <ClCompile Include="Ts_BravoIOTACheck.cpp" />
