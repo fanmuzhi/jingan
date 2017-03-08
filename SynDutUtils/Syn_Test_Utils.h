@@ -190,15 +190,9 @@ struct SNRTestData : public SynTestData
 	uint32_t signalValue;
 	double   noiseValue;
 
-	/*float m_filteredImage[MAXROW*MAXCOL];
-	float m_noiseImage[MAXROW*MAXCOL];
-
-	float SIGNAL[REGIONS];
-	float NOISE[REGIONS];
-	float SNR[REGIONS];
-	float OTPVal_SNR;
-	float OTPVal_Noise;
-	float OTPVal_Signal;*/
+	int signal_value[REGIONS];
+	float noise_value[REGIONS];
+	double snr_value[REGIONS];
 };
 
 #define QNTY_BUBBLE_CHECK_ZONES 7

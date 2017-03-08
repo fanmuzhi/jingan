@@ -22,7 +22,7 @@
 
 SYNA_IMAGING_API unsigned int synSNRTestAlpha(uint8_t *arrNoFingerImage, uint8_t *arrFingerImage, unsigned int rowNumber, unsigned int columnNumber, int * arrSingal, float *arrNoise, double * arrSNR);
 
-SYNA_IMAGING_API unsigned int synSNRTest(int16_t *arrNoFingerImage, int16_t *arrFingerImage, unsigned int rowNumber, unsigned int columnNumber, unsigned int frameNumbers, int arrSingal[SYN_QNTY_SNR_ZONES], float arrNoise[SYN_QNTY_SNR_ZONES], double arrSNR[SYN_QNTY_SNR_ZONES]);
+SYNA_IMAGING_API unsigned int synSNRTest(int16_t *arrNoFingerImage, int16_t *arrFingerImage, unsigned int rowNumber, unsigned int columnNumber, unsigned int frameNumbers, int16_t guard, int arrSingal[SYN_QNTY_SNR_ZONES], float arrNoise[SYN_QNTY_SNR_ZONES], double arrSNR[SYN_QNTY_SNR_ZONES]);
 
 SYNA_IMAGING_API unsigned int synImperfectionTest(uint8_t *arrFingerImage, unsigned int rowNumber, unsigned int columnNumber, int peggedThreshold, int flooredThreshold, unsigned int failLimit, int *consecutive_pegged_rows, int *consecutive_pegged_cols);
 

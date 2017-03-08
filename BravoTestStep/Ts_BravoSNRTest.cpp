@@ -3,19 +3,6 @@
 
 typedef float(_stdcall *snrTest)(unsigned char*, unsigned char*, int, int, int, int *, float *, float fcrop);
 
-static float kernel[9][9] =
-{
-	{ 0.0000, 0.0000, 0.0001, 0.0005, 0.0007, 0.0005, 0.0001, 0.0000, 0.0000 },
-	{ 0.0000, 0.0003, 0.0026, 0.0086, 0.0124, 0.0086, 0.0026, 0.0003, 0.0000 },
-	{ 0.0001, 0.0026, 0.0175, 0.0392, 0.0431, 0.0392, 0.0175, 0.0026, 0.0001 },
-	{ 0.0005, 0.0086, 0.0392, 0.0000, -0.0965, 0.0000, 0.0392, 0.0086, 0.0005 },
-	{ 0.0007, 0.0124, 0.0431, -0.0965, -0.3183, -0.0965, 0.0431, 0.0124, 0.0007 },
-	{ 0.0005, 0.0086, 0.0392, 0.0000, -0.0965, 0.0000, 0.0392, 0.0086, 0.0005 },
-	{ 0.0001, 0.0026, 0.0175, 0.0392, 0.0431, 0.0392, 0.0175, 0.0026, 0.0001 },
-	{ 0.0000, 0.0003, 0.0026, 0.0086, 0.0124, 0.0086, 0.0026, 0.0003, 0.0000 },
-	{ 0.0000, 0.0000, 0.0001, 0.0005, 0.0007, 0.0005, 0.0001, 0.0000, 0.0000 }
-};
-
 Ts_BravoSNRTest::Ts_BravoSNRTest(string &strName, FpBravoModule * &pSynModule, Syn_Dut_Utils * &pSynDutUtils)
 :Syn_BravoFingerprintTest(strName, pSynModule, pSynDutUtils)
 , _pSNRTestData(NULL)
@@ -158,10 +145,11 @@ void Ts_BravoSNRTest::Execute()
 		_pSNRTestData->pass = false;
 	}
 
+	_pSNRTestData->snrValue = snrValue;
+	_pSNRTestData->signalValue = signalValue;
+	_pSNRTestData->noiseValue = noiseValue;
+
 	//test
-	int arrSingal[7] = { 0 };
-	float arrNoise[7] = { 0 };
-	double arrSNR[7] = { 0 };
 	int16_t *arr16bitsFrameNoFingerAll = new int16_t[rowNumber*columnNumber * frameNumbers];
 	int16_t *arr16bitsFrameFingerAll = new int16_t[rowNumber*columnNumber * frameNumbers];
 	for (unsigned int i = 0; i < frameNumbers; i++)
@@ -170,17 +158,27 @@ void Ts_BravoSNRTest::Execute()
 		memcpy(&(arr16bitsFrameFingerAll[i*rowNumber*columnNumber]), pAcqImageFingerTestData->ListOfImageFinger[i]->arrImage, rowNumber*columnNumber*sizeof(int16_t));
 	}
 
-	//rc = synSNRTest(arr16bitsFrameNoFingerAll, arr16bitsFrameFingerAll, rowNumber, columnNumber, frameNumbers, arrSingal, arrNoise, arrSNR);
-	rc = synSNRTest(pAcqImageNoFingerTestData->arrImage, pAcqImageFingerTestData->arrImage, rowNumber, columnNumber, 1, arrSingal, arrNoise, arrSNR);
+	try
+	{
+		rc = synSNRTest(arr16bitsFrameNoFingerAll, arr16bitsFrameFingerAll, rowNumber, columnNumber, frameNumbers, 0, _pSNRTestData->signal_value, _pSNRTestData->noise_value, _pSNRTestData->snr_value);
+		//rc = synSNRTest(pAcqImageNoFingerTestData->arrImage, pAcqImageFingerTestData->arrImage, rowNumber, columnNumber, 1, 0, _pSNRTestData->signal_value, _pSNRTestData->noise_value, _pSNRTestData->snr_value);
+	}
+	catch (...)
+	{
+		delete[] arr16bitsFrameNoFingerAll;
+		arr16bitsFrameNoFingerAll = NULL;
+		delete[] arr16bitsFrameFingerAll;
+		arr16bitsFrameFingerAll = NULL;
+		Exception.SetError(ERROR_TSETSTEP_ARGSLENGTH);
+		Exception.SetDescription("synSNRTest is failed!");
+		throw Exception;
+		return;
+	}
+
 	delete[] arr16bitsFrameNoFingerAll;
 	arr16bitsFrameNoFingerAll = NULL;
-
 	delete[] arr16bitsFrameFingerAll;
 	arr16bitsFrameFingerAll = NULL;
-
-	_pSNRTestData->snrValue = snrValue;
-	_pSNRTestData->signalValue = signalValue;
-	_pSNRTestData->noiseValue = noiseValue;
 }
 
 void Ts_BravoSNRTest::ProcessData()

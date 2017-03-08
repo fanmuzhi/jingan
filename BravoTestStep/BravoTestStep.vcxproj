@@ -62,13 +62,16 @@
       <Command>xcopy /y "$(SolutionDir)..\changning\FpBravoModule\FpBravoModule.h" "$(SolutionDir)include\"
 xcopy /y "$(SolutionDir)..\changning\FpBridge\syn_bridge.h" "$(SolutionDir)include\"
 xcopy /y "$(SolutionDir)..\changning\FpBridge\syn_devicemanager.h" "$(SolutionDir)include\"
-xcopy /y "$(SolutionDir)..\changning\include\vcsfw" "$(SolutionDir)include\vcsfw\"</Command>
+xcopy /y "$(SolutionDir)..\changning\include\vcsfw" "$(SolutionDir)include\vcsfw\"
+xcopy /y "$(SolutionDir)..\changning\synImageTest\synImageTest.h" "$(SolutionDir)include\"</Command>
     </PreBuildEvent>
     <PreLinkEvent>
       <Command>xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\FpBravoModule.lib" "$(SolutionDir)$(Platform)\$(Configuration)\"
 xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\FpBravoModule.dll" "$(SolutionDir)$(Platform)\$(Configuration)\"
 xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\FpBridge.lib" "$(SolutionDir)$(Platform)\$(Configuration)\"
-xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\FpBridge.dll" "$(SolutionDir)$(Platform)\$(Configuration)\"</Command>
+xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\FpBridge.dll" "$(SolutionDir)$(Platform)\$(Configuration)\"
+xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\synImageTestd.lib" "$(SolutionDir)$(Platform)\$(Configuration)\"
+</Command>
     </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -92,13 +95,16 @@ xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\FpBridge.dll" 
       <Command>xcopy /y "$(SolutionDir)..\changning\FpBravoModule\FpBravoModule.h" "$(SolutionDir)include\"
 xcopy /y "$(SolutionDir)..\changning\FpBridge\syn_bridge.h" "$(SolutionDir)include\"
 xcopy /y "$(SolutionDir)..\changning\FpBridge\syn_devicemanager.h" "$(SolutionDir)include\"
-xcopy /y "$(SolutionDir)..\changning\include\vcsfw" "$(SolutionDir)include\vcsfw\"</Command>
+xcopy /y "$(SolutionDir)..\changning\include\vcsfw" "$(SolutionDir)include\vcsfw\"
+xcopy /y "$(SolutionDir)..\changning\synImageTest\synImageTest.h" "$(SolutionDir)include\"</Command>
     </PreBuildEvent>
     <PreLinkEvent>
       <Command>xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\FpBravoModule.lib" "$(SolutionDir)$(Platform)\$(Configuration)\"
 xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\FpBravoModule.dll" "$(SolutionDir)$(Platform)\$(Configuration)\"
 xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\FpBridge.lib" "$(SolutionDir)$(Platform)\$(Configuration)\"
-xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\FpBridge.dll" "$(SolutionDir)$(Platform)\$(Configuration)\"</Command>
+xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\FpBridge.dll" "$(SolutionDir)$(Platform)\$(Configuration)\"
+xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\synImageTest.lib" "$(SolutionDir)$(Platform)\$(Configuration)\"
+</Command>
     </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
