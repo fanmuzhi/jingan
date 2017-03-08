@@ -1,4 +1,5 @@
 #include "Ts_BravoSharpness.h"
+#include "synImageTest.h"
 
 //sharpness test kernels
 static int m_kernelSharpnessGx[3][3] = { { 1, 2, 1 }, { 0, 0, 0 }, { -1, -2, -1 } };
@@ -143,6 +144,10 @@ void Ts_BravoSharpness::Execute()
 
 	_pSharpnessData->executed = true;
 
+	rc = synSharpnessTest(arr8bitsFrameFinger, rowNumber, columnNumber, _pSharpnessData->Gx, _pSharpnessData->Gy, _pSharpnessData->h, _pSharpnessData->g, _pSharpnessData->pImg_t, _pSharpnessData->SHARPNESS, &(_pSharpnessData->percent));
+
+	delete[] arr8bitsFrameFinger;
+	arr8bitsFrameFinger = NULL;
 }
 
 void Ts_BravoSharpness::ProcessData()

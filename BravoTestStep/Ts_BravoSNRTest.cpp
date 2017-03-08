@@ -162,7 +162,21 @@ void Ts_BravoSNRTest::Execute()
 	int arrSingal[7] = { 0 };
 	float arrNoise[7] = { 0 };
 	double arrSNR[7] = { 0 };
-	rc = synSNRTest(pAcqImageNoFingerTestData->arrImage, pAcqImageFingerTestData->arrImage, rowNumber, columnNumber, arrSingal, arrNoise, arrSNR);
+	int16_t *arr16bitsFrameNoFingerAll = new int16_t[rowNumber*columnNumber * frameNumbers];
+	int16_t *arr16bitsFrameFingerAll = new int16_t[rowNumber*columnNumber * frameNumbers];
+	for (unsigned int i = 0; i < frameNumbers; i++)
+	{
+		memcpy(&(arr16bitsFrameNoFingerAll[i*rowNumber*columnNumber]), pAcqImageNoFingerTestData->ListOfImageNoFinger[i]->arrImage, rowNumber*columnNumber*sizeof(int16_t));
+		memcpy(&(arr16bitsFrameFingerAll[i*rowNumber*columnNumber]), pAcqImageFingerTestData->ListOfImageFinger[i]->arrImage, rowNumber*columnNumber*sizeof(int16_t));
+	}
+
+	//rc = synSNRTest(arr16bitsFrameNoFingerAll, arr16bitsFrameFingerAll, rowNumber, columnNumber, frameNumbers, arrSingal, arrNoise, arrSNR);
+	rc = synSNRTest(pAcqImageNoFingerTestData->arrImage, pAcqImageFingerTestData->arrImage, rowNumber, columnNumber, 1, arrSingal, arrNoise, arrSNR);
+	delete[] arr16bitsFrameNoFingerAll;
+	arr16bitsFrameNoFingerAll = NULL;
+
+	delete[] arr16bitsFrameFingerAll;
+	arr16bitsFrameFingerAll = NULL;
 
 	_pSNRTestData->snrValue = snrValue;
 	_pSNRTestData->signalValue = signalValue;

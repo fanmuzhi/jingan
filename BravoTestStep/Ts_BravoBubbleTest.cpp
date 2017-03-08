@@ -1,4 +1,5 @@
 #include "Ts_BravoBubbleTest.h"
+#include "synImageTest.h"
 
 Ts_BravoBubbleTest::Ts_BravoBubbleTest(string &strName, FpBravoModule * &pSynModule, Syn_Dut_Utils * &pSynDutUtils)
 : Syn_BravoFingerprintTest(strName, pSynModule, pSynDutUtils)
@@ -227,6 +228,12 @@ void Ts_BravoBubbleTest::Execute()
 		_pBubbleTestData->pass = false;
 	else
 		_pBubbleTestData->pass = true;
+
+	//test
+	uint32_t bubble_measure_x10[SYN_QNTY_SNR_ZONES] = {0};
+	uint32_t n_pixels[SYN_QNTY_SNR_ZONES] = {0};
+	rc = synBubbleTest(pAcqImageFingerTestData->arrImage, pCalibrateData->FWBaseline, rowNumber, colNumber, bubble_measure_x10, n_pixels);
+	cout << rc << endl;
 
 }
 

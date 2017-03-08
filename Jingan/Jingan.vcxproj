@@ -75,7 +75,7 @@
       <OutputFile>$(OutDir)\Huangpu++.exe</OutputFile>
       <AdditionalLibraryDirectories>$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>false</GenerateDebugInformation>
-      <AdditionalDependencies>qtmain.lib;Qt5Core.lib;Qt5Gui.lib;Qt5Widgets.lib;Qt5Xml.lib;$(SolutionDir)$(Platform)\$(Configuration)\SynDutUtils.lib;$(SolutionDir)$(Platform)\$(Configuration)\BravoTestStep.lib;$(SolutionDir)$(Platform)\$(Configuration)\TestEngine.lib;$(SolutionDir)$(Platform)\$(Configuration)\FpBridge.lib;$(SolutionDir)$(Platform)\$(Configuration)\FpBravoModule.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>qtmain.lib;Qt5Core.lib;Qt5Gui.lib;Qt5Widgets.lib;Qt5Xml.lib;$(SolutionDir)$(Platform)\$(Configuration)\SynDutUtils.lib;$(SolutionDir)$(Platform)\$(Configuration)\BravoTestStep.lib;$(SolutionDir)$(Platform)\$(Configuration)\TestEngine.lib;$(SolutionDir)$(Platform)\$(Configuration)\FpBridge.lib;$(SolutionDir)$(Platform)\$(Configuration)\FpBravoModule.lib;$(SolutionDir)$(Platform)\$(Configuration)\synImageTest.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
