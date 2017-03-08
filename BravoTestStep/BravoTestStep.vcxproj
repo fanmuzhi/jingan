@@ -71,6 +71,7 @@ xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\FpBravoModule.
 xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\FpBridge.lib" "$(SolutionDir)$(Platform)\$(Configuration)\"
 xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\FpBridge.dll" "$(SolutionDir)$(Platform)\$(Configuration)\"
 xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\synImageTestd.lib" "$(SolutionDir)$(Platform)\$(Configuration)\"
+xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\synImageTestd.dll" "$(SolutionDir)$(Platform)\$(Configuration)\"
 </Command>
     </PreLinkEvent>
   </ItemDefinitionGroup>
@@ -104,6 +105,7 @@ xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\FpBravoModule.
 xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\FpBridge.lib" "$(SolutionDir)$(Platform)\$(Configuration)\"
 xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\FpBridge.dll" "$(SolutionDir)$(Platform)\$(Configuration)\"
 xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\synImageTest.lib" "$(SolutionDir)$(Platform)\$(Configuration)\"
+xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\synImageTest.dll" "$(SolutionDir)$(Platform)\$(Configuration)\"
 </Command>
     </PreLinkEvent>
   </ItemDefinitionGroup>

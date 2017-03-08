@@ -91,7 +91,7 @@ void Ts_BravoImperfections::Execute()
 	uint8_t *arr8bitsImage = new uint8_t[rowNumber*columnNumber];
 	bpp16tobpp8(pAcqImageFingerTestData->arrImage, arr8bitsImage, rowNumber, columnNumber);
 
-	bool result = false;
+	unsigned int result = 0;
 	try
 	{
 		result = synImperfectionTest(arr8bitsImage, rowNumber, columnNumber, peggedThreshold, flooredThreshold, failLimit, _pImperfectionsTestData->consecutive_pegged_rows, _pImperfectionsTestData->consecutive_pegged_cols);
@@ -109,14 +109,7 @@ void Ts_BravoImperfections::Execute()
 	delete[] arr8bitsImage;
 	arr8bitsImage = NULL;
 
-	if (result)
-	{
-		_pImperfectionsTestData->pass = true;
-	}
-	else
-	{
-		_pImperfectionsTestData->pass = false;
-	}
+	_pImperfectionsTestData->pass = result ? true : false;
 }
 
 void Ts_BravoImperfections::ProcessData()
