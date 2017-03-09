@@ -34,14 +34,14 @@ void Ts_BravoSNRTest::SetUp()
 	_pSNRTestData = new SNRTestData();
 	_pSNRTestData->data_name = _strName;
 	
-	_pSNRTestData->signal_overall_high = 2000;
+	_pSNRTestData->signal_overall_high = 4000;
 	_pSNRTestData->signal_overall_low = 800;
 	_pSNRTestData->noise_overall_high = 10;
 	_pSNRTestData->noise_overall_low = 0;
 	_pSNRTestData->snr_overall_high = 1200;
 	_pSNRTestData->snr_overall_low = 50;
 
-	_pSNRTestData->signal_zone_high = 2000;
+	_pSNRTestData->signal_zone_high = 4000;
 	_pSNRTestData->signal_zone_low = 800;
 	_pSNRTestData->noise_zone_high = 10;
 	_pSNRTestData->noise_zone_low = 0;
@@ -138,6 +138,7 @@ void Ts_BravoSNRTest::Execute()
 		}
 	}
 
+	_pSNRTestData->pass = result;
 }
 
 void Ts_BravoSNRTest::ProcessData()
