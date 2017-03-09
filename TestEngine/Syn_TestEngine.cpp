@@ -403,6 +403,14 @@ uint32_t Syn_TestEngine::WriteLog(string strFolderPath, string strFileName)
 			if (NULL != pInitTestData)
 				fprintf(pFile, "\nInitialization,%s,%.f ms\n", pInitTestData->pass ? "Pass" : "Fail", pInitTestData->test_time);
 		}
+		else if ("UpdateFIB" == strTestStepName)
+		{
+			UpdateFIBTestData *pUpdateFIBTestData = static_cast<UpdateFIBTestData*>(Test_data);
+			if (NULL != pUpdateFIBTestData)
+			{
+				fprintf(pFile, "\nUpdateFIB,%s,%.0f ms\n", pUpdateFIBTestData->pass ? "Pass" : "Fail", pUpdateFIBTestData->test_time);
+			}
+		}
 		else if ("ProgrammingMissionFirmware" == strTestStepName)
 		{
 			ProgrammingMFTestData *pProgrammingMFTestData = static_cast<ProgrammingMFTestData*>(Test_data);
@@ -479,8 +487,22 @@ uint32_t Syn_TestEngine::WriteLog(string strFolderPath, string strFileName)
 			SNRTestData *pSNRTestData = static_cast<SNRTestData*>(Test_data);
 			if (NULL != pSNRTestData)
 			{
-				fprintf(pFile, "\nSNRTest(simply),%s,%.0f ms,SNR,Signal,Noise\n", pSNRTestData->pass ? "Pass" : "Fail", pSNRTestData->test_time);
-				fprintf(pFile, ",,,%f,%d,%f\n", pSNRTestData->snrValue, pSNRTestData->signalValue, pSNRTestData->noiseValue);
+				fprintf(pFile, "\nSNRTest,%s,%.0f ms,", pSNRTestData->pass ? "Pass" : "Fail", pSNRTestData->test_time);
+				fprintf(pFile, "Signal_Z1,Noise_Z1,SNR_Z1,Signal_Z2,Noise_Z2,SNR_Z2,Signal_Z3,Noise_Z3,SNR_Z3,Signal_Z4,Noise_Z4,SNR_Z4,Signal_Z5,Noise_Z5,SNR_Z5,Signal_Z6,Noise_Z6,SNR_Z6,Signal_OVERALL,Noise_OVERALL,SNR_OVERALL\n");
+				fprintf(pFile, ",,,");
+				for (int i = 0; i<REGIONS; i++)
+					fprintf(pFile, "%d,%f,%f,", pSNRTestData->signal_value[i], pSNRTestData->noise_value[i], pSNRTestData->snr_value[i]);
+				fprintf(pFile, "\n");
+			}
+		}
+		else if ("HuaweiImageQualityTest" == strTestStepName)
+		{
+			HuaweiImageTestData *pHuaweiImageTestData = static_cast<HuaweiImageTestData*>(Test_data);
+			if (NULL != pHuaweiImageTestData)
+			{
+				fprintf(pFile, "\nHuaweiImageQualityTest,%s,%.0f ms,", pHuaweiImageTestData->pass ? "Pass" : "Fail", pHuaweiImageTestData->test_time);
+				fprintf(pFile, "Signal,Noise,SNR\n");
+				fprintf(pFile, ",,,%d,%f,%f\n", pHuaweiImageTestData->signalValue, pHuaweiImageTestData->noiseValue, pHuaweiImageTestData->snrValue);
 			}
 		}
 		else if ("SharpnessTest" == strTestStepName)
@@ -500,10 +522,10 @@ uint32_t Syn_TestEngine::WriteLog(string strFolderPath, string strFileName)
 			if (NULL != pBubbleTestData)
 			{
 				fprintf(pFile, "\nBubbleTest,%s,%.0f ms,Zone1,Zone2,Zone3,Zone4,Zone5,Zone6,Zone_OverAll\n", pBubbleTestData->pass ? "Pass" : "Fail", pBubbleTestData->test_time);
-				fprintf(pFile, ",,,%d,%d,%d,%d,%d,%d,%d\n", pBubbleTestData->bubble_check_data[1].nBubbleMeasure_x10,
-					pBubbleTestData->bubble_check_data[2].nBubbleMeasure_x10, pBubbleTestData->bubble_check_data[3].nBubbleMeasure_x10,
-					pBubbleTestData->bubble_check_data[4].nBubbleMeasure_x10, pBubbleTestData->bubble_check_data[5].nBubbleMeasure_x10,
-					pBubbleTestData->bubble_check_data[6].nBubbleMeasure_x10, pBubbleTestData->bubble_check_data[0].nBubbleMeasure_x10);
+				fprintf(pFile, ",,,%d,%d,%d,%d,%d,%d,%d\n", pBubbleTestData->nBubbleMeasure_x10[0], pBubbleTestData->nBubbleMeasure_x10[1],
+															pBubbleTestData->nBubbleMeasure_x10[2], pBubbleTestData->nBubbleMeasure_x10[3], 
+															pBubbleTestData->nBubbleMeasure_x10[4], pBubbleTestData->nBubbleMeasure_x10[5], 
+															pBubbleTestData->nBubbleMeasure_x10[6]);
 			}
 		}
 		else if ("Imperfections" == strTestStepName)

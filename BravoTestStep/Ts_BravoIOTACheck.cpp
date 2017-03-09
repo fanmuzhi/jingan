@@ -275,7 +275,9 @@ void Ts_BravoIOTACheck::IotaParse(vcsfw_reply_iota_find_hdr_t iotafindheader, ui
 			oIOTAValue += "delay_interval_msec:" + std::to_string(config_tag_pselect.delay_interval_msec) + "\n";
 			oIOTAValue += "frame_avg:" + std::to_string(config_tag_pselect.frame_avg) + "\n";
 			oIOTAValue += "pscan_col_size:" + std::to_string(config_tag_pselect.pscan_col_size) + "\n";
-			oIOTAValue += "pscan_row_size:" + std::to_string(config_tag_pselect.pscan_row_size);
+			oIOTAValue += "pscan_row_size:" + std::to_string(config_tag_pselect.pscan_row_size) + "\n";
+			oIOTAValue += "state_check_delay_msec:" + std::to_string(config_tag_pselect.state_check_delay_msec) + "\n";
+			oIOTAValue += "unused:" + std::to_string(config_tag_pselect.unused);
 			break;
 		case VCSFW_IOTA_ITYPE_CONFIG_WOE:
 			oIOTAType = "CONFIG_WOE";
@@ -301,8 +303,8 @@ void Ts_BravoIOTACheck::IotaParse(vcsfw_reply_iota_find_hdr_t iotafindheader, ui
 			oIOTAType = "CONFIG_VERSION";
 			vcsfw_config_version_t config_version;
 			memcpy(&config_version, &(arrIota[startPos]), sizeof(vcsfw_config_version_t));
-			oIOTAValue += "YYMMDD:" + std::to_string(config_version.config_id1) + "\n";
-			oIOTAValue += "HHMMSS:" + std::to_string(config_version.config_id2) + "\n";
+			oIOTAValue += "config_id1:" + std::to_string(config_version.config_id1) + "\n";
+			oIOTAValue += "config_id2:" + std::to_string(config_version.config_id2) + "\n";
 			oIOTAValue += "version:" + std::to_string(config_version.version);
 			break;
 		case VCSFW_IOTA_ITYPE_CONFIG_NAV_SWIPE:
@@ -323,6 +325,20 @@ void Ts_BravoIOTACheck::IotaParse(vcsfw_reply_iota_find_hdr_t iotafindheader, ui
 		case VCSFW_IOTA_ITYPE_FPPRESENT_PARAMS:
 			oIOTAType = "FPPRESENT_PARAMS";
 			oIOTAValue = ConvertData(arrIota, startPos, endPos);
+			break;
+		case VCSFW_IOTA_ITYPE_CONFIG_BL_MGT:
+			oIOTAType = "CONFIG_BL_MGT";
+			vcsfw_config_bl_mgt_t config_bl_mgt;
+			memcpy(&config_bl_mgt, &(arrIota[startPos]), sizeof(vcsfw_config_bl_mgt_t));
+			oIOTAValue += "period_MS : " + std::to_string(config_bl_mgt.period_MS) + "\n";
+			oIOTAValue += "partial_scan_threshold : " + std::to_string(config_bl_mgt.partial_scan_threshold) + "\n";
+			oIOTAValue += "pos_threshold : " + std::to_string(config_bl_mgt.pos_threshold) + "\n";
+			oIOTAValue += "neg_threshold : " + std::to_string(config_bl_mgt.neg_threshold) + "\n";
+			oIOTAValue += "min_negative : " + std::to_string(config_bl_mgt.min_negative) + "\n";
+			oIOTAValue += "partial_scan_steps : " + std::to_string(config_bl_mgt.partial_scan_steps) + "\n";
+			oIOTAValue += "enable_mode : " + std::to_string(config_bl_mgt.enable_mode) + "\n";
+			oIOTAValue += "unused : " + std::to_string(config_bl_mgt.unused) + "\n";
+			oIOTAValue += "min_rezero_pixels : " + std::to_string(config_bl_mgt.min_rezero_pixels);
 			break;
 		default:
 			oIOTAType = std::to_string(iotafindheader.itype);

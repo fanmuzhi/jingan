@@ -101,10 +101,10 @@ void Ts_BravoSleepCurrentTest::ProcessData()
 		|| _pSleepCurrentTestData->vcc_current_uA <= _pSleepCurrentTestData->lowLimit
 		)	
 	{
-		_pSleepCurrentTestData->pass = false;
-		_pSynDutUtils->_pDutTestResult->list_bincodes.push_back("117");
+			_pSleepCurrentTestData->pass = false;
+			_pSynDutUtils->_pDutTestResult->list_bincodes.push_back("117");
 	}
-
+	
 	_pSynDutUtils->_pDutTestResult->map_teststep_ispass.insert(map<string, string>::value_type(_pSleepCurrentTestData->data_name, _pSleepCurrentTestData->pass ? "Pass" : "Fail"));
 }
 

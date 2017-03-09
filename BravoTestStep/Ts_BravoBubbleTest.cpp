@@ -1,4 +1,5 @@
 #include "Ts_BravoBubbleTest.h"
+#include "synImageTest.h"
 
 Ts_BravoBubbleTest::Ts_BravoBubbleTest(string &strName, FpBravoModule * &pSynModule, Syn_Dut_Utils * &pSynDutUtils)
 : Syn_BravoFingerprintTest(strName, pSynModule, pSynDutUtils)
@@ -82,152 +83,176 @@ void Ts_BravoBubbleTest::Execute()
 		return;
 	}
 
-	int16_t val1, val2;
-	int16_t base;
-	int32_t ix;
-	int32_t sum;
+	//int16_t val1, val2;
+	//int16_t base;
+	//int32_t ix;
+	//int32_t sum;
 
-	_pBubbleTestData->frame1.frame_cols = colNumber;
-	_pBubbleTestData->frame1.frame_rows = rowNumber;
-	_pBubbleTestData->frame2.frame_cols = colNumber;
-	_pBubbleTestData->frame2.frame_rows = rowNumber;
-	for (unsigned int i = 0; i<colNumber*rowNumber; i++)
+	//_pBubbleTestData->frame1.frame_cols = colNumber;
+	//_pBubbleTestData->frame1.frame_rows = rowNumber;
+	//_pBubbleTestData->frame2.frame_cols = colNumber;
+	//_pBubbleTestData->frame2.frame_rows = rowNumber;
+	//for (unsigned int i = 0; i<colNumber*rowNumber; i++)
+	//{
+	//	_pBubbleTestData->frame1.data[i] = 32767;
+	//	_pBubbleTestData->frame2.data[i] = -32768;
+	//}
+
+	//for (unsigned int i = 0; i<colNumber*rowNumber; i++)
+	//{
+	//	val1 = pAcqImageFingerTestData->arrImage[i];
+	//	if (val1 < _pBubbleTestData->frame1.data[i])
+	//	{
+	//		_pBubbleTestData->frame1.data[i] = val1;
+	//	}
+	//	if (val1 > _pBubbleTestData->frame2.data[i])
+	//	{
+	//		_pBubbleTestData->frame2.data[i] = val1;
+	//	}
+	//}
+	///* Calculate an average frame and range frame */
+	//for (unsigned int i = 0; i<colNumber*rowNumber; i++)
+	//{
+	//	val1 = _pBubbleTestData->frame1.data[i]; //AVG
+	//	val2 = _pBubbleTestData->frame2.data[i]; //RNG
+	//	base = pCalibrateData->FWBaseline[i];
+
+	//	_pBubbleTestData->frame2.data[i] = val2 - val1; /* Range = Maximum - Minimum */
+	//	_pBubbleTestData->frame1.data[i] = val1 + _pBubbleTestData->frame2.data[i] / 2;  /* Minimum + Range/2 */
+
+	//	ix = _pBubbleTestData->frame1.data[i] - base;
+	//	if (ix < -32768) ix = -32768;
+	//	if (ix > 32767) ix = 32767;
+	//	_pBubbleTestData->frame1.data[i] = (int16_t)ix;
+	//}
+
+	///*
+	//*	Start the bubble test:
+	//*		frame1->data will be the image test needs to work on.
+	//*		frame2->data can be used to store gradient
+	//*/
+	////int16_t val3, val4;
+	//int32_t r, c, a, b, rows, cols;
+	//int32_t gx, gy;
+	//uint32_t gxx, gyy;
+	//rows = _pBubbleTestData->frame1.frame_rows;
+	//cols = _pBubbleTestData->frame1.frame_cols;
+	//gxx = 0;
+	//gyy = 0;
+
+	////	0) Clear the buffer that will hold filtered image
+	//for (unsigned int i = 0; i<colNumber*rowNumber; i++)
+	//{
+	//	_pBubbleTestData->frame2.data[i] = 0;
+	//}
+
+	////	1) Convolve test image with the quick_mask kernel and
+	////store results in frame2->data
+	//for (r = 1; r<rows - 1; r++)
+	//{
+	//	for (c = 1; c<cols - 1; c++)
+	//	{
+	//		sum = 0;
+	//		for (a = -1; a<2; a++) {
+	//			for (b = -1; b<2; b++) {
+	//				//Ethan 12/19/16: Get more data.
+	//				sum = sum + _pBubbleTestData->frame1.data[(r + a)*cols + (c + b)] * quick_mask[a + 1][b + 1];
+	//				//sum = sum + _pBubbleTestData->frame1.data[(r + a)*cols + (c + b)] / 100 * quick_mask[a + 1][b + 1];
+	//			}
+	//		}
+
+	//		_pBubbleTestData->frame2.data[r * cols + c] = sum;
+	//	} /* ends loop over c */
+	//} /* ends loop over r */
+	///*End Convolution Here*/
+
+	////2) Find the gradient per zone and convert to a scalar value 
+	///* exclude border pixels for convenience */
+	//for (unsigned int i = 0; i<colNumber*rowNumber; i++)
+	//{
+	//	_pBubbleTestData->frame1.data[i] = 0;
+	//}
+
+	//for (r = 2; r < rows - 2; ++r) {
+	//	for (c = 2; c < cols - 2; ++c) {
+	//		/* gradient */
+	//		gx = (_pBubbleTestData->frame2.data[r*colNumber + c + 1] / 50 - _pBubbleTestData->frame2.data[r*colNumber + c - 1] / 50);
+	//		gy = (_pBubbleTestData->frame2.data[(r + 1)*colNumber + c] / 50 - _pBubbleTestData->frame2.data[(r - 1)*colNumber + c] / 50);
+
+	//		sum = testSqrt((uint32_t)(gx*gx) + (uint32_t)(gy*gy));
+
+	//		_pBubbleTestData->frame1.data[r*cols + c] = sum;
+	//	}
+	//}
+
+	////frame1 is holding the gradient			
+
+	//uint32_t nTotal;
+	//uint32_t sum_unsigned = 0;
+	////results->parameter[TEST_PARAMETER_BUBBLE_MEASURE_BEGIN] = 0xEFBEADDE;
+
+	//uint32_t FailedAreaCounts = 0;
+	//int32_t f;
+	///* Calculate Bubble Measure */
+	//for (unsigned int i = 0; i<QNTY_BUBBLE_CHECK_ZONES; i++)
+	//{
+	//	gx = 0;
+	//	gxx = 0;
+	//	nTotal = 0;
+
+	//	for (r = bubble_area_limit[i].low_left.y; r <= bubble_area_limit[i].up_right.y; r++)
+	//	{
+	//		f = r * colNumber + bubble_area_limit[i].low_left.x;
+	//		for (c = bubble_area_limit[i].low_left.x; c <= bubble_area_limit[i].up_right.x; c++, f++)
+	//		{
+	//			nTotal = _pBubbleTestData->frame1.data[f] + nTotal;
+	//		}
+	//	}
+
+	//	r = bubble_area_limit[i].up_right.y - bubble_area_limit[i].low_left.y + 1;
+	//	c = bubble_area_limit[i].up_right.x - bubble_area_limit[i].low_left.x + 1;
+
+	//	sum_unsigned = (nTotal) / (r * c);
+
+	//	_pBubbleTestData->bubble_check_data[i].nBubbleMeasure_x10 = sum_unsigned;
+	//	_pBubbleTestData->bubble_check_data[i].n_pixels = (r * c);
+	//	//results->parameter[TEST_PARAMETER_BUBBLE_MEASURE_X100 + i] = sum_unsigned;
+
+	//	if (_pBubbleTestData->bubble_check_data[i].nBubbleMeasure_x10 > _pBubbleTestData->m_peggedThreshold || _pBubbleTestData->bubble_check_data[i].nBubbleMeasure_x10 < _pBubbleTestData->m_flooredThreshold)
+	//	{
+	//		FailedAreaCounts += 1;
+	//	}
+	//}
+
+	//if (FailedAreaCounts > 0)
+	//	_pBubbleTestData->pass = false;
+	//else
+	//	_pBubbleTestData->pass = true;
+
+
+	uint32_t bubble_measure_x10[SYN_QNTY_SNR_ZONES] = {0};
+	uint32_t n_pixels[SYN_QNTY_SNR_ZONES] = {0};
+	try
 	{
-		_pBubbleTestData->frame1.data[i] = 32767;
-		_pBubbleTestData->frame2.data[i] = -32768;
+		rc = synBubbleTest(pAcqImageFingerTestData->arrImage, pCalibrateData->FWBaseline, rowNumber, colNumber, _pBubbleTestData->nBubbleMeasure_x10, _pBubbleTestData->n_pixels);
 	}
-
-	for (unsigned int i = 0; i<colNumber*rowNumber; i++)
+	catch (...)
 	{
-		val1 = pAcqImageFingerTestData->arrImage[i];
-		if (val1 < _pBubbleTestData->frame1.data[i])
+		Exception.SetError(ERROR_TSETSTEP_ARGSLENGTH);
+		Exception.SetDescription("synBubbleTest is failed!");
+		throw Exception;
+		return;
+	}
+	
+	_pBubbleTestData->pass = true;
+	for (unsigned i = 0; i < SYN_QNTY_SNR_ZONES; i++)
+	{
+		if (_pBubbleTestData->nBubbleMeasure_x10[i] < 0 || _pBubbleTestData->nBubbleMeasure_x10[i] > 1)
 		{
-			_pBubbleTestData->frame1.data[i] = val1;
-		}
-		if (val1 > _pBubbleTestData->frame2.data[i])
-		{
-			_pBubbleTestData->frame2.data[i] = val1;
+			_pBubbleTestData->pass = false;
+			break;
 		}
 	}
-	/* Calculate an average frame and range frame */
-	for (unsigned int i = 0; i<colNumber*rowNumber; i++)
-	{
-		val1 = _pBubbleTestData->frame1.data[i]; //AVG
-		val2 = _pBubbleTestData->frame2.data[i]; //RNG
-		base = pCalibrateData->FWBaseline[i];
-
-		_pBubbleTestData->frame2.data[i] = val2 - val1; /* Range = Maximum - Minimum */
-		_pBubbleTestData->frame1.data[i] = val1 + _pBubbleTestData->frame2.data[i] / 2;  /* Minimum + Range/2 */
-
-		ix = _pBubbleTestData->frame1.data[i] - base;
-		if (ix < -32768) ix = -32768;
-		if (ix > 32767) ix = 32767;
-		_pBubbleTestData->frame1.data[i] = (int16_t)ix;
-	}
-
-	/*
-	*	Start the bubble test:
-	*		frame1->data will be the image test needs to work on.
-	*		frame2->data can be used to store gradient
-	*/
-	//int16_t val3, val4;
-	int32_t r, c, a, b, rows, cols;
-	int32_t gx, gy;
-	uint32_t gxx, gyy;
-	rows = _pBubbleTestData->frame1.frame_rows;
-	cols = _pBubbleTestData->frame1.frame_cols;
-	gxx = 0;
-	gyy = 0;
-
-	//	0) Clear the buffer that will hold filtered image
-	for (unsigned int i = 0; i<colNumber*rowNumber; i++)
-	{
-		_pBubbleTestData->frame2.data[i] = 0;
-	}
-
-	//	1) Convolve test image with the quick_mask kernel and
-	//store results in frame2->data
-	for (r = 1; r<rows - 1; r++)
-	{
-		for (c = 1; c<cols - 1; c++)
-		{
-			sum = 0;
-			for (a = -1; a<2; a++) {
-				for (b = -1; b<2; b++) {
-					//Ethan 12/19/16: Get more data.
-					sum = sum + _pBubbleTestData->frame1.data[(r + a)*cols + (c + b)] * quick_mask[a + 1][b + 1];
-					//sum = sum + _pBubbleTestData->frame1.data[(r + a)*cols + (c + b)] / 100 * quick_mask[a + 1][b + 1];
-				}
-			}
-
-			_pBubbleTestData->frame2.data[r * cols + c] = sum;
-		} /* ends loop over c */
-	} /* ends loop over r */
-	/*End Convolution Here*/
-
-	//2) Find the gradient per zone and convert to a scalar value 
-	/* exclude border pixels for convenience */
-	for (unsigned int i = 0; i<colNumber*rowNumber; i++)
-	{
-		_pBubbleTestData->frame1.data[i] = 0;
-	}
-
-	for (r = 2; r < rows - 2; ++r) {
-		for (c = 2; c < cols - 2; ++c) {
-			/* gradient */
-			gx = (_pBubbleTestData->frame2.data[r*colNumber + c + 1] / 50 - _pBubbleTestData->frame2.data[r*colNumber + c - 1] / 50);
-			gy = (_pBubbleTestData->frame2.data[(r + 1)*colNumber + c] / 50 - _pBubbleTestData->frame2.data[(r - 1)*colNumber + c] / 50);
-
-			sum = testSqrt((uint32_t)(gx*gx) + (uint32_t)(gy*gy));
-
-			_pBubbleTestData->frame1.data[r*cols + c] = sum;
-		}
-	}
-
-	//frame1 is holding the gradient			
-
-	uint32_t nTotal;
-	uint32_t sum_unsigned = 0;
-	//results->parameter[TEST_PARAMETER_BUBBLE_MEASURE_BEGIN] = 0xEFBEADDE;
-
-	uint32_t FailedAreaCounts = 0;
-	int32_t f;
-	/* Calculate Bubble Measure */
-	for (unsigned int i = 0; i<QNTY_BUBBLE_CHECK_ZONES; i++)
-	{
-		gx = 0;
-		gxx = 0;
-		nTotal = 0;
-
-		for (r = bubble_area_limit[i].low_left.y; r <= bubble_area_limit[i].up_right.y; r++)
-		{
-			f = r * colNumber + bubble_area_limit[i].low_left.x;
-			for (c = bubble_area_limit[i].low_left.x; c <= bubble_area_limit[i].up_right.x; c++, f++)
-			{
-				nTotal = _pBubbleTestData->frame1.data[f] + nTotal;
-			}
-		}
-
-		r = bubble_area_limit[i].up_right.y - bubble_area_limit[i].low_left.y + 1;
-		c = bubble_area_limit[i].up_right.x - bubble_area_limit[i].low_left.x + 1;
-
-		sum_unsigned = (nTotal) / (r * c);
-
-		_pBubbleTestData->bubble_check_data[i].nBubbleMeasure_x10 = sum_unsigned;
-		_pBubbleTestData->bubble_check_data[i].n_pixels = (r * c);
-		//results->parameter[TEST_PARAMETER_BUBBLE_MEASURE_X100 + i] = sum_unsigned;
-
-		if (_pBubbleTestData->bubble_check_data[i].nBubbleMeasure_x10 > _pBubbleTestData->m_peggedThreshold || _pBubbleTestData->bubble_check_data[i].nBubbleMeasure_x10 < _pBubbleTestData->m_flooredThreshold)
-		{
-			FailedAreaCounts += 1;
-		}
-	}
-
-	if (FailedAreaCounts > 0)
-		_pBubbleTestData->pass = false;
-	else
-		_pBubbleTestData->pass = true;
-
 }
 
 void Ts_BravoBubbleTest::ProcessData()

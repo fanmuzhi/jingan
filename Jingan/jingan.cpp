@@ -410,7 +410,7 @@ void Jingan::ReceiveTestResults(unsigned int EngineNumber, const dut_test_result
 					SNRTestData *pSNRTestData = static_cast<SNRTestData*>(pSingleTestData);
 					if (NULL != pSNRTestData)
 					{
-						QTableWidgetItem *itemSNR = new QTableWidgetItem(QString::number(pSNRTestData->snrValue));
+						QTableWidgetItem *itemSNR = new QTableWidgetItem(QString::number(pSNRTestData->snr_value[REGIONS-1]));
 						itemSNR->setTextAlignment(Qt::AlignCenter);
 						ui.TestEngineTableWidget->setItem(3, iPos, itemSNR);
 					}

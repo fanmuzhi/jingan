@@ -1,4 +1,5 @@
 #include "Ts_BravoSNRTest.h"
+#include "synImageTest.h"
 
 typedef float(_stdcall *snrTest)(unsigned char*, unsigned char*, int, int, int, int *, float *, float fcrop);
 
@@ -32,9 +33,20 @@ void Ts_BravoSNRTest::SetUp()
 
 	_pSNRTestData = new SNRTestData();
 	_pSNRTestData->data_name = _strName;
-	_pSNRTestData->snrLimit = 35;
-	_pSNRTestData->signalLimit = 0;
-	_pSNRTestData->noiseLimit = 0;
+	
+	_pSNRTestData->signal_overall_high = 4000;
+	_pSNRTestData->signal_overall_low = 800;
+	_pSNRTestData->noise_overall_high = 10;
+	_pSNRTestData->noise_overall_low = 0;
+	_pSNRTestData->snr_overall_high = 1200;
+	_pSNRTestData->snr_overall_low = 50;
+
+	_pSNRTestData->signal_zone_high = 4000;
+	_pSNRTestData->signal_zone_low = 800;
+	_pSNRTestData->noise_zone_high = 10;
+	_pSNRTestData->noise_zone_low = 0;
+	_pSNRTestData->snr_zone_high = 1200;
+	_pSNRTestData->snr_zone_low = 50;
 
 	string strTestArgs;
 	_pSynDutUtils->Config_MT_Info.GetTestStepInfo(_strName, strTestArgs);
@@ -42,11 +54,6 @@ void Ts_BravoSNRTest::SetUp()
 	vector<string> listOfArgValue;
 	ParseTestStepArgs(strTestArgs, listOfArgValue);
 	size_t iListSize = listOfArgValue.size();
-	if (0 != iListSize)
-	{
-		_pSNRTestData->snrLimit = std::stoi(listOfArgValue[0]);
-	}
-	
 }
 
 void Ts_BravoSNRTest::Execute()
@@ -71,82 +78,67 @@ void Ts_BravoSNRTest::Execute()
 		return;
 	}
 
-	_pSNRTestData->snrValue = 0;
-	_pSNRTestData->signalValue = 0;
-	_pSNRTestData->noiseValue = 0;
-
-	float snrValue = 0;
-	int signalValue = 0;
-	float noiseValue = 0;
+	_pSNRTestData->executed = true;
 
 	uint32_t rowNumber = _pSynDutUtils->Config_MT_Info.rowNumber;
 	uint32_t columnNumber = _pSynDutUtils->Config_MT_Info.columnNumber;
-
 	unsigned int frameNumbers = pAcqImageNoFingerTestData->numFrame;
 	
-	uint8_t *arr8bitsFrameNoFingerAll = new uint8_t[rowNumber*columnNumber * frameNumbers];
-	uint8_t *arr8bitsFrameFingerAll = new uint8_t[rowNumber*columnNumber * frameNumbers];
+	int16_t *arr16bitsFrameNoFingerAll = new int16_t[rowNumber*columnNumber * frameNumbers];
+	int16_t *arr16bitsFrameFingerAll = new int16_t[rowNumber*columnNumber * frameNumbers];
 	for (unsigned int i = 0; i < frameNumbers; i++)
 	{
-		uint8_t *arr8bitFrameNoFinger = new uint8_t[rowNumber*columnNumber];
-		uint8_t *arr8bitFrameFinger = new uint8_t[rowNumber*columnNumber];
-
-		bpp16tobpp8(pAcqImageNoFingerTestData->ListOfImageNoFinger[i]->arrImage, arr8bitFrameNoFinger, rowNumber, columnNumber);
-		bpp16tobpp8(pAcqImageFingerTestData->ListOfImageFinger[i]->arrImage, arr8bitFrameFinger, rowNumber, columnNumber);
-
-		memcpy(&(arr8bitsFrameNoFingerAll[i*rowNumber*columnNumber]), arr8bitFrameNoFinger, rowNumber*columnNumber);
-		memcpy(&(arr8bitsFrameFingerAll[i*rowNumber*columnNumber]), arr8bitFrameFinger, rowNumber*columnNumber);
-
-		delete[] arr8bitFrameNoFinger;
-		arr8bitFrameNoFinger = NULL;
-		delete[] arr8bitFrameFinger;
-		arr8bitFrameFinger = NULL;
+		memcpy(&(arr16bitsFrameNoFingerAll[i*rowNumber*columnNumber]), pAcqImageNoFingerTestData->ListOfImageNoFinger[i]->arrImage, rowNumber*columnNumber*sizeof(int16_t));
+		memcpy(&(arr16bitsFrameFingerAll[i*rowNumber*columnNumber]), pAcqImageFingerTestData->ListOfImageFinger[i]->arrImage, rowNumber*columnNumber*sizeof(int16_t));
 	}
 
-	HINSTANCE hdll = NULL;
-	snrTest snrTestFunc;
-	//use huawei snr as temp, waitng for new snr algorithm release
-	HINSTANCE hDLL = LoadLibrary(TEXT("snrtest.dll"));
-	if (NULL != hDLL)
+	try
 	{
-		snrTestFunc = (snrTest)GetProcAddress(hDLL, "testSNR");
-		if (NULL != snrTestFunc)
+		rc = synSNRTest(arr16bitsFrameNoFingerAll, arr16bitsFrameFingerAll, rowNumber, columnNumber, frameNumbers, 0, _pSNRTestData->signal_value, _pSNRTestData->noise_value, _pSNRTestData->snr_value);
+		//rc = synSNRTest(pAcqImageNoFingerTestData->arrImage, pAcqImageFingerTestData->arrImage, rowNumber, columnNumber, 1, 0, _pSNRTestData->signal_value, _pSNRTestData->noise_value, _pSNRTestData->snr_value);
+	}
+	catch (...)
+	{
+		delete[] arr16bitsFrameNoFingerAll;
+		arr16bitsFrameNoFingerAll = NULL;
+		delete[] arr16bitsFrameFingerAll;
+		arr16bitsFrameFingerAll = NULL;
+		Exception.SetError(ERROR_TSETSTEP_ARGSLENGTH);
+		Exception.SetDescription("synSNRTest is failed!");
+		throw Exception;
+		return;
+	}
+
+	delete[] arr16bitsFrameNoFingerAll;
+	arr16bitsFrameNoFingerAll = NULL;
+	delete[] arr16bitsFrameFingerAll;
+	arr16bitsFrameFingerAll = NULL;
+
+	bool result = true;
+
+	for (unsigned i = 0; i < REGIONS; i++)
+	{
+		if (i != REGIONS - 1)
 		{
-			try
+			if (_pSNRTestData->signal_value[i]<_pSNRTestData->signal_zone_low || _pSNRTestData->signal_value[i]>_pSNRTestData->signal_zone_high ||
+				_pSNRTestData->noise_value[i]<_pSNRTestData->noise_zone_low || _pSNRTestData->noise_value[i]>_pSNRTestData->noise_zone_high ||
+				_pSNRTestData->snr_value[i]<_pSNRTestData->snr_zone_low || _pSNRTestData->snr_value[i]>_pSNRTestData->snr_zone_high)
 			{
-				snrValue = snrTestFunc(arr8bitsFrameNoFingerAll, arr8bitsFrameFingerAll, columnNumber, rowNumber, frameNumbers, &signalValue, &noiseValue, 0.2f);
-			}
-			catch (...)
-			{
-				Exception.SetError(ERROR_TSETSTEP_ARGSLENGTH);
-				Exception.SetDescription("testSNR is failed!");
-				throw Exception;
-				return;
+				result = false;
 			}
 		}
-
-		FreeLibrary(hdll);
-		hdll = NULL;
+		else
+		{
+			if (_pSNRTestData->signal_value[i]<_pSNRTestData->signal_overall_low || _pSNRTestData->signal_value[i]>_pSNRTestData->signal_overall_high ||
+				_pSNRTestData->noise_value[i]<_pSNRTestData->noise_overall_low || _pSNRTestData->noise_value[i]>_pSNRTestData->noise_overall_high ||
+				_pSNRTestData->snr_value[i]<_pSNRTestData->snr_overall_low || _pSNRTestData->snr_value[i]>_pSNRTestData->snr_overall_high)
+			{
+				result = false;
+			}
+		}
 	}
 
-	delete[] arr8bitsFrameNoFingerAll; 
-	arr8bitsFrameNoFingerAll = NULL;
-	delete[] arr8bitsFrameFingerAll; 
-	arr8bitsFrameFingerAll = NULL;
-
-	_pSNRTestData->executed = true;
-	if (snrValue > _pSNRTestData->snrLimit)
-	{
-		_pSNRTestData->pass = true;
-	}
-	else
-	{
-		_pSNRTestData->pass = false;
-	}
-
-	_pSNRTestData->snrValue = snrValue;
-	_pSNRTestData->signalValue = signalValue;
-	_pSNRTestData->noiseValue = noiseValue;
+	_pSNRTestData->pass = result;
 }
 
 void Ts_BravoSNRTest::ProcessData()

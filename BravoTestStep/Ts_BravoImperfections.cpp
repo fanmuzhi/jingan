@@ -1,4 +1,5 @@
 #include "Ts_BravoImperfections.h"
+#include "synImageTest.h"
 
 Ts_BravoImperfections::Ts_BravoImperfections(string &strName, FpBravoModule * &pSynModule, Syn_Dut_Utils * &pSynDutUtils)
 : Syn_BravoFingerprintTest(strName, pSynModule, pSynDutUtils)
@@ -87,103 +88,28 @@ void Ts_BravoImperfections::Execute()
 	int flooredThreshold = _pImperfectionsTestData->flooredThreshold;
 	unsigned int failLimit = _pImperfectionsTestData->maxAdjacentPixelsAllowed;
 
-	_pImperfectionsTestData->pass = true;
-
 	uint8_t *arr8bitsImage = new uint8_t[rowNumber*columnNumber];
 	bpp16tobpp8(pAcqImageFingerTestData->arrImage, arr8bitsImage, rowNumber, columnNumber);
 
-	unsigned int i, j, temp = 0;
-	int countRow, countCol; //these are filled out by structure from .cpp file.
-	int temp_sum = 0;
-	int temp_val = 0;
-	int temp_consecutive[MAXCOL] = { 0 };
-	int temp_col[MAXCOL] = { 0 };
-	int temp_row[MAXROW] = { 0 };
-
-	//initialize temp_consecutive
-	for (i = 0; i<columnNumber; i++)
-		temp_consecutive[i] = -1;
-	//init. temp_row and temp_col
-	for (i = 0; i<columnNumber; i++)
-		temp_col[i] = 0;
-	for (i = 0; i<rowNumber; i++)
-		temp_row[i] = 0;
-
-	countRow = 0;
-	countCol = 0;
-	//scan through each row.
-	int watchdog = 0;
-	for (i = 0; i<rowNumber; i++)
+	unsigned int result = 0;
+	try
 	{
-		for (j = 0; j<columnNumber; j++)
-		{
-			if ((arr8bitsImage[watchdog] >= flooredThreshold) && (arr8bitsImage[watchdog] <= peggedThreshold))
-			{
-				temp++;
-				temp_consecutive[j] = temp;
-			}
-			else
-			{
-				temp = 0;
-				temp_consecutive[j] = temp;
-			}
-
-			watchdog++;
-
-			if (temp > failLimit)//fail the test if the count is greater than our expected limits.
-				_pImperfectionsTestData->pass = false;
-		}
-		temp_row[i] = max_array(&temp_consecutive[0], columnNumber);
-
-		temp = 0;
+		result = synImperfectionTest(arr8bitsImage, rowNumber, columnNumber, peggedThreshold, flooredThreshold, failLimit, _pImperfectionsTestData->consecutive_pegged_rows, _pImperfectionsTestData->consecutive_pegged_cols);
 	}
-
-	//fill struct for logging purposes
-	for (i = 0; i<rowNumber; i++)
-		_pImperfectionsTestData->consecutive_pegged_rows[i] = temp_row[i];
-
-	//initialize temp_consecutive
-	for (i = 0; i<columnNumber; i++)
-		temp_consecutive[i] = -1;
-	//init. temp_row and temp_col
-	for (i = 0; i<columnNumber; i++)
-		temp_col[i] = 0;
-	for (i = 0; i<rowNumber; i++)
-		temp_row[i] = 0;
-	temp = 0;
-	//scan through each col.
-	watchdog = 0;
-	for (j = 0; j<columnNumber; j++)
+	catch (...)
 	{
-		for (i = 0; i<rowNumber; i++)
-		{
-			if ((arr8bitsImage[watchdog] >= flooredThreshold) && (arr8bitsImage[watchdog] <= peggedThreshold))
-			{
-				temp++;
-				temp_consecutive[i] = temp;
-			}
-			else
-			{
-				temp = 0;
-				temp_consecutive[i] = temp;
-			}
-
-			watchdog++;
-
-			if (temp > failLimit)//fail the test if the count is greater than our expected limits.
-				_pImperfectionsTestData->pass = false;
-		}
-
-		temp_col[j] = max_array(&temp_consecutive[0], rowNumber);
-		temp = 0;
+		delete[] arr8bitsImage;
+		arr8bitsImage = NULL;
+		Exception.SetError(ERROR_TSETSTEP_ARGSLENGTH);
+		Exception.SetDescription("synImperfectionTest is failed!");
+		throw Exception;
+		return;
 	}
-
-	//fill struct for logging purposes
-	for (i = 0; i<columnNumber; i++)
-		_pImperfectionsTestData->consecutive_pegged_cols[i] = temp_col[i];
 
 	delete[] arr8bitsImage;
 	arr8bitsImage = NULL;
+
+	_pImperfectionsTestData->pass = result ? true : false;
 }
 
 void Ts_BravoImperfections::ProcessData()

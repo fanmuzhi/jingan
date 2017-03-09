@@ -62,13 +62,17 @@
       <Command>xcopy /y "$(SolutionDir)..\changning\FpBravoModule\FpBravoModule.h" "$(SolutionDir)include\"
 xcopy /y "$(SolutionDir)..\changning\FpBridge\syn_bridge.h" "$(SolutionDir)include\"
 xcopy /y "$(SolutionDir)..\changning\FpBridge\syn_devicemanager.h" "$(SolutionDir)include\"
-xcopy /y "$(SolutionDir)..\changning\include\vcsfw" "$(SolutionDir)include\vcsfw\"</Command>
+xcopy /y "$(SolutionDir)..\changning\include\vcsfw" "$(SolutionDir)include\vcsfw\"
+xcopy /y "$(SolutionDir)..\changning\synImageTest\synImageTest.h" "$(SolutionDir)include\"</Command>
     </PreBuildEvent>
     <PreLinkEvent>
       <Command>xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\FpBravoModule.lib" "$(SolutionDir)$(Platform)\$(Configuration)\"
 xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\FpBravoModule.dll" "$(SolutionDir)$(Platform)\$(Configuration)\"
 xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\FpBridge.lib" "$(SolutionDir)$(Platform)\$(Configuration)\"
-xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\FpBridge.dll" "$(SolutionDir)$(Platform)\$(Configuration)\"</Command>
+xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\FpBridge.dll" "$(SolutionDir)$(Platform)\$(Configuration)\"
+xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\synImageTestd.lib" "$(SolutionDir)$(Platform)\$(Configuration)\"
+xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\synImageTestd.dll" "$(SolutionDir)$(Platform)\$(Configuration)\"
+</Command>
     </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -92,13 +96,17 @@ xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\FpBridge.dll" 
       <Command>xcopy /y "$(SolutionDir)..\changning\FpBravoModule\FpBravoModule.h" "$(SolutionDir)include\"
 xcopy /y "$(SolutionDir)..\changning\FpBridge\syn_bridge.h" "$(SolutionDir)include\"
 xcopy /y "$(SolutionDir)..\changning\FpBridge\syn_devicemanager.h" "$(SolutionDir)include\"
-xcopy /y "$(SolutionDir)..\changning\include\vcsfw" "$(SolutionDir)include\vcsfw\"</Command>
+xcopy /y "$(SolutionDir)..\changning\include\vcsfw" "$(SolutionDir)include\vcsfw\"
+xcopy /y "$(SolutionDir)..\changning\synImageTest\synImageTest.h" "$(SolutionDir)include\"</Command>
     </PreBuildEvent>
     <PreLinkEvent>
       <Command>xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\FpBravoModule.lib" "$(SolutionDir)$(Platform)\$(Configuration)\"
 xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\FpBravoModule.dll" "$(SolutionDir)$(Platform)\$(Configuration)\"
 xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\FpBridge.lib" "$(SolutionDir)$(Platform)\$(Configuration)\"
-xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\FpBridge.dll" "$(SolutionDir)$(Platform)\$(Configuration)\"</Command>
+xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\FpBridge.dll" "$(SolutionDir)$(Platform)\$(Configuration)\"
+xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\synImageTest.lib" "$(SolutionDir)$(Platform)\$(Configuration)\"
+xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\synImageTest.dll" "$(SolutionDir)$(Platform)\$(Configuration)\"
+</Command>
     </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -115,6 +123,7 @@ xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\FpBridge.dll" 
     <ClInclude Include="Ts_BravoCurrentTest.h" />
     <ClInclude Include="Ts_BravoDRdyTest.h" />
     <ClInclude Include="Ts_BravoFinalizationStep.h" />
+    <ClInclude Include="Ts_BravoHuaweiImageTest.h" />
     <ClInclude Include="Ts_BravoImperfections.h" />
     <ClInclude Include="Ts_BravoInitializationStep.h" />
     <ClInclude Include="Ts_BravoIOTACheck.h" />
@@ -124,6 +133,7 @@ xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\FpBridge.dll" 
     <ClInclude Include="Ts_BravoSharpness.h" />
     <ClInclude Include="Ts_BravoSleepCurrentTest.h" />
     <ClInclude Include="Ts_BravoSNRTest.h" />
+    <ClInclude Include="Ts_BravoUpdateFIB.h" />
     <ClInclude Include="Ts_BravoWaitStimulus.h" />
     <ClInclude Include="Ts_BravoWOF_Baseline.h" />
     <ClInclude Include="Ts_BravoWOF_Signal.h" />
@@ -138,6 +148,7 @@ xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\FpBridge.dll" 
     <ClCompile Include="Ts_BravoCurrentTest.cpp" />
     <ClCompile Include="Ts_BravoDRdyTest.cpp" />
     <ClCompile Include="Ts_BravoFinalizationStep.cpp" />
+    <ClCompile Include="Ts_BravoHuaweiImageTest.cpp" />
     <ClCompile Include="Ts_BravoImperfections.cpp" />
     <ClCompile Include="Ts_BravoInitializationStep.cpp" />
     <ClCompile Include="Ts_BravoIOTACheck.cpp" />
@@ -147,6 +158,7 @@ xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\FpBridge.dll" 
     <ClCompile Include="Ts_BravoSharpness.cpp" />
     <ClCompile Include="Ts_BravoSleepCurrentTest.cpp" />
     <ClCompile Include="Ts_BravoSNRTest.cpp" />
+    <ClCompile Include="Ts_BravoUpdateFIB.cpp" />
     <ClCompile Include="Ts_BravoWaitStimulus.cpp" />
     <ClCompile Include="Ts_BravoWOF_Baseline.cpp" />
     <ClCompile Include="Ts_BravoWOF_Signal.cpp" />

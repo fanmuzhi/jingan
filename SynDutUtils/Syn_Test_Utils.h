@@ -15,9 +15,11 @@ using namespace std;
 #define	SW_VERSION		"AlphaRelease"
 #define SW_RELEASEDATE	"2017-02-24"
 
-#define BRAVO_IMAGE_RAWDATA_MAX 10000
-#define MAXROW 200
-#define MAXCOL 200
+#define BRAVO_IMAGE_RAWDATA_MAX		10000
+#define MAXROW						200
+#define MAXCOL						200
+
+#define REGIONS						7
 
 struct FpFrame
 {
@@ -48,6 +50,13 @@ struct InitializationTestData : public SynTestData
 
 	//result
 	string strSensorSerialNumber;
+};
+
+struct UpdateFIBTestData : public SynTestData
+{
+	//parameter
+
+	//result
 };
 
 struct ProgrammingMFTestData : public SynTestData
@@ -176,8 +185,28 @@ struct CurrentTestData : public SynTestData
 
 struct SNRTestData : public SynTestData
 {
-	//simply : waiting for new snr algorithm release
+	//parameter
+	int signal_overall_high;
+	int signal_overall_low;
+	float noise_overall_high;
+	float noise_overall_low;
+	double snr_overall_high;
+	double snr_overall_low;
 
+	int signal_zone_high;
+	int signal_zone_low;
+	float noise_zone_high;
+	float noise_zone_low;
+	double snr_zone_high;
+	double snr_zone_low;
+
+	int signal_value[REGIONS];
+	float noise_value[REGIONS];
+	double snr_value[REGIONS];
+};
+
+struct HuaweiImageTestData : public SynTestData
+{
 	//parameter
 	uint32_t snrLimit;
 	uint32_t signalLimit;
@@ -228,6 +257,9 @@ struct BubbleTestData : public SynTestData
 	half_word_frame_data_t frame2;//RNG
 
 	bubble_check_zone_data_t bubble_check_data[QNTY_BUBBLE_CHECK_ZONES];
+
+	uint32_t nBubbleMeasure_x10[QNTY_BUBBLE_CHECK_ZONES];
+	uint32_t n_pixels[QNTY_BUBBLE_CHECK_ZONES];
 };
 
 struct SharpnessData : public SynTestData
