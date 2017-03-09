@@ -49,13 +49,13 @@ void Ts_BravoCurrentTest::SetUp()
 	}
 
 	if (0 != listOfArgValue[0].length())
-		_pCurrentTestData->m_nImageAcqVccMax_uA = (float)(stof(listOfArgValue[0]) * 1000);
+		_pCurrentTestData->m_nImageAcqVccMax_uA = (float)(stof(listOfArgValue[0]));
 	if (0 != listOfArgValue[1].length())
-		_pCurrentTestData->m_nImageAcqSpivccMax_uA = (float)(stof(listOfArgValue[1]) * 1000);
+		_pCurrentTestData->m_nImageAcqSpivccMax_uA = (float)(stof(listOfArgValue[1]));
 	if (0 != listOfArgValue[2].length())
-		_pCurrentTestData->m_nImageAcqVccMin_uA = (float)(stof(listOfArgValue[2]) * 1000);
+		_pCurrentTestData->m_nImageAcqVccMin_uA = (float)(stof(listOfArgValue[2]));
 	if (0 != listOfArgValue[3].length())
-		_pCurrentTestData->m_nImageAcqSpivccMin_uA = (float)(stof(listOfArgValue[3]) * 1000);
+		_pCurrentTestData->m_nImageAcqSpivccMin_uA = (float)(stof(listOfArgValue[3]));
 }
 
 void Ts_BravoCurrentTest::Execute()

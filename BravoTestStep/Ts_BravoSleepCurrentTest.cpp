@@ -30,8 +30,8 @@ void Ts_BravoSleepCurrentTest::SetUp()
 
 	_pSleepCurrentTestData = new SleepCurrentTestData();
 	_pSleepCurrentTestData->data_name = _strName;
-	_pSleepCurrentTestData->highLimit = 1 * 1000;	//nA
-	_pSleepCurrentTestData->lowLimit = 0;			//nA
+	_pSleepCurrentTestData->highLimit = 1 * 1000;	//uA
+	_pSleepCurrentTestData->lowLimit = 0;			//uA
 	_pSleepCurrentTestData->delay = 500;
 
 	string strTestArgs;
@@ -45,9 +45,9 @@ void Ts_BravoSleepCurrentTest::SetUp()
 			listOfArgValue.push_back(std::string(""));
 	}
 	if (0 != listOfArgValue[0].length())
-		_pSleepCurrentTestData->highLimit = std::stof(listOfArgValue[0]) * 1000;
+		_pSleepCurrentTestData->highLimit = std::stof(listOfArgValue[0]);
 	if (0 != listOfArgValue[1].length())
-		_pSleepCurrentTestData->lowLimit = std::stof(listOfArgValue[1]) * 1000;
+		_pSleepCurrentTestData->lowLimit = std::stof(listOfArgValue[1]);
 	if (0 != listOfArgValue[2].length())
 		_pSleepCurrentTestData->delay = atoi(listOfArgValue[2].c_str());
 }
@@ -97,10 +97,9 @@ void Ts_BravoSleepCurrentTest::ProcessData()
 {
 	_pSleepCurrentTestData->pass = true;
 
-	if (_pSleepCurrentTestData->spivcc_current_uA > _pSleepCurrentTestData->highLimit
-		|| _pSleepCurrentTestData->vcc_current_uA > _pSleepCurrentTestData->highLimit
-		|| _pSleepCurrentTestData->vcc_current_uA < _pSleepCurrentTestData->lowLimit
-		|| _pSleepCurrentTestData->spivcc_current_uA < _pSleepCurrentTestData->lowLimit)
+	if (_pSleepCurrentTestData->vcc_current_uA >= _pSleepCurrentTestData->highLimit
+		|| _pSleepCurrentTestData->vcc_current_uA <= _pSleepCurrentTestData->lowLimit
+		)	
 	{
 		_pSleepCurrentTestData->pass = false;
 		_pSynDutUtils->_pDutTestResult->list_bincodes.push_back("117");

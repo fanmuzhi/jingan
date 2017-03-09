@@ -130,6 +130,8 @@ public:
 
 	virtual uint32_t FpGetWOFRegister(uint32_t &oGainRegister, uint32_t &oOffsetRegister, uint32_t &oCtrlRegister) = 0;
 
+	virtual uint32_t FpGetSpecification(uint32_t &oRowNumber, uint32_t &oColumnNumber) = 0;
+
 protected:
 
 	uint32_t getStatus(Bravo_Sensor_Status_t &oSensorStatus);
