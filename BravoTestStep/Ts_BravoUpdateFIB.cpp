@@ -79,6 +79,14 @@ void Ts_BravoUpdateFIB::Execute()
 		throw Exception;
 		return;
 	}
+	rc = _pSynModule->FpLoadPatch(fibwritePatch.patchbufp, fibwritePatch.patchbuflen);
+	if (0 != rc)
+	{
+		Exception.SetError(rc);
+		Exception.SetDescription("BravoUpdateFIB::FpLoadPatch is failed!");
+		throw Exception;
+		return;
+	}
 
 	_pUpdateFIBTestData->executed = true;
 
