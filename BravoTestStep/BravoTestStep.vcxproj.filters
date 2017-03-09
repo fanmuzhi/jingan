@@ -87,6 +87,9 @@
     <ClInclude Include="Ts_BravoHuaweiImageTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Ts_BravoUpdateFIB.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Syn_TestStepFactory.cpp">
@@ -153,6 +156,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Ts_BravoHuaweiImageTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Ts_BravoUpdateFIB.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

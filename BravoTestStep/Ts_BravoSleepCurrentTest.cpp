@@ -45,9 +45,9 @@ void Ts_BravoSleepCurrentTest::SetUp()
 			listOfArgValue.push_back(std::string(""));
 	}
 	if (0 != listOfArgValue[0].length())
-		_pSleepCurrentTestData->highLimit = std::stof(listOfArgValue[0]) * 1000;
+		_pSleepCurrentTestData->highLimit = std::stof(listOfArgValue[0]);
 	if (0 != listOfArgValue[1].length())
-		_pSleepCurrentTestData->lowLimit = std::stof(listOfArgValue[1]) * 1000;
+		_pSleepCurrentTestData->lowLimit = std::stof(listOfArgValue[1]);
 	if (0 != listOfArgValue[2].length())
 		_pSleepCurrentTestData->delay = atoi(listOfArgValue[2].c_str());
 }

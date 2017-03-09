@@ -403,6 +403,14 @@ uint32_t Syn_TestEngine::WriteLog(string strFolderPath, string strFileName)
 			if (NULL != pInitTestData)
 				fprintf(pFile, "\nInitialization,%s,%.f ms\n", pInitTestData->pass ? "Pass" : "Fail", pInitTestData->test_time);
 		}
+		else if ("UpdateFIB" == strTestStepName)
+		{
+			UpdateFIBTestData *pUpdateFIBTestData = static_cast<UpdateFIBTestData*>(Test_data);
+			if (NULL != pUpdateFIBTestData)
+			{
+				fprintf(pFile, "\nUpdateFIB,%s,%.0f ms\n", pUpdateFIBTestData->pass ? "Pass" : "Fail", pUpdateFIBTestData->test_time);
+			}
+		}
 		else if ("ProgrammingMissionFirmware" == strTestStepName)
 		{
 			ProgrammingMFTestData *pProgrammingMFTestData = static_cast<ProgrammingMFTestData*>(Test_data);
@@ -485,6 +493,16 @@ uint32_t Syn_TestEngine::WriteLog(string strFolderPath, string strFileName)
 				for (int i = 0; i<REGIONS; i++)
 					fprintf(pFile, "%d,%f,%f,", pSNRTestData->signal_value[i], pSNRTestData->noise_value[i], pSNRTestData->snr_value[i]);
 				fprintf(pFile, "\n");
+			}
+		}
+		else if ("HuaweiImageQualityTest" == strTestStepName)
+		{
+			HuaweiImageTestData *pHuaweiImageTestData = static_cast<HuaweiImageTestData*>(Test_data);
+			if (NULL != pHuaweiImageTestData)
+			{
+				fprintf(pFile, "\nHuaweiImageQualityTest,%s,%.0f ms,", pHuaweiImageTestData->pass ? "Pass" : "Fail", pHuaweiImageTestData->test_time);
+				fprintf(pFile, "Signal,Noise,SNR\n");
+				fprintf(pFile, ",,,%d,%f,%f\n", pHuaweiImageTestData->signalValue, pHuaweiImageTestData->noiseValue, pHuaweiImageTestData->snrValue);
 			}
 		}
 		else if ("SharpnessTest" == strTestStepName)

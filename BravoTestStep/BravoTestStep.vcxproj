@@ -133,6 +133,7 @@ xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\synImageTest.d
     <ClInclude Include="Ts_BravoSharpness.h" />
     <ClInclude Include="Ts_BravoSleepCurrentTest.h" />
     <ClInclude Include="Ts_BravoSNRTest.h" />
+    <ClInclude Include="Ts_BravoUpdateFIB.h" />
     <ClInclude Include="Ts_BravoWaitStimulus.h" />
     <ClInclude Include="Ts_BravoWOF_Baseline.h" />
     <ClInclude Include="Ts_BravoWOF_Signal.h" />
@@ -157,6 +158,7 @@ xcopy /y "$(SolutionDir)..\changning\$(Platform)\$(Configuration)\synImageTest.d
     <ClCompile Include="Ts_BravoSharpness.cpp" />
     <ClCompile Include="Ts_BravoSleepCurrentTest.cpp" />
     <ClCompile Include="Ts_BravoSNRTest.cpp" />
+    <ClCompile Include="Ts_BravoUpdateFIB.cpp" />
     <ClCompile Include="Ts_BravoWaitStimulus.cpp" />
     <ClCompile Include="Ts_BravoWOF_Baseline.cpp" />
     <ClCompile Include="Ts_BravoWOF_Signal.cpp" />

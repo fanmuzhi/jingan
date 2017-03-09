@@ -52,6 +52,13 @@ struct InitializationTestData : public SynTestData
 	string strSensorSerialNumber;
 };
 
+struct UpdateFIBTestData : public SynTestData
+{
+	//parameter
+
+	//result
+};
+
 struct ProgrammingMFTestData : public SynTestData
 {
 	//parameter

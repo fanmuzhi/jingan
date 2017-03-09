@@ -1,6 +1,7 @@
 #include "Syn_TestStepFactory.h"
 #include "Syn_BravoFingerprintTest.h"
 #include "Ts_BravoInitializationStep.h"
+#include "Ts_BravoUpdateFIB.h"
 #include "Ts_BravoProgrammingMF.h"
 #include "Ts_BravoProgrammingIOTA.h"
 #include "Ts_BravoDRdyTest.h"
@@ -13,6 +14,7 @@
 #include "Ts_BravoWOF_Signal.h"
 #include "Ts_BravoCurrentTest.h"
 #include "Ts_BravoSNRTest.h"
+#include "Ts_BravoHuaweiImageTest.h"
 #include "Ts_BravoBubbleTest.h"
 #include "Ts_BravoImperfections.h"
 #include "Ts_BravoSharpness.h"
@@ -48,6 +50,10 @@ uint32_t Syn_TestStepFactory::CreateBravoTestStep(string strTestStepName, string
 	else if (string("ProgrammingMissionFirmware") == strTestStepName)
 	{
 		opBravoTestStep = new Ts_BravoProgrammingMF(strTestStepName, pBravoModule, pDutUtils);
+	}
+	else if (string("UpdateFIB") == strTestStepName)
+	{
+		opBravoTestStep = new Ts_BravoUpdateFIB(strTestStepName, pBravoModule, pDutUtils);
 	}
 	else if (string("ProgrammingIOTA_BIN") == strTestStepName)
 	{
@@ -92,6 +98,10 @@ uint32_t Syn_TestStepFactory::CreateBravoTestStep(string strTestStepName, string
 	else if (string("SNRTest") == strTestStepName)
 	{
 		opBravoTestStep = new Ts_BravoSNRTest(strTestStepName, pBravoModule, pDutUtils);
+	}
+	else if (string("HuaweiImageQualityTest") == strTestStepName)
+	{
+		opBravoTestStep = new Ts_BravoHuaweiImageTest(strTestStepName, pBravoModule, pDutUtils);
 	}
 	else if (string("CurrentTest") == strTestStepName)
 	{
