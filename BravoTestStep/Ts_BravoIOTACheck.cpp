@@ -275,7 +275,9 @@ void Ts_BravoIOTACheck::IotaParse(vcsfw_reply_iota_find_hdr_t iotafindheader, ui
 			oIOTAValue += "delay_interval_msec:" + std::to_string(config_tag_pselect.delay_interval_msec) + "\n";
 			oIOTAValue += "frame_avg:" + std::to_string(config_tag_pselect.frame_avg) + "\n";
 			oIOTAValue += "pscan_col_size:" + std::to_string(config_tag_pselect.pscan_col_size) + "\n";
-			oIOTAValue += "pscan_row_size:" + std::to_string(config_tag_pselect.pscan_row_size);
+			oIOTAValue += "pscan_row_size:" + std::to_string(config_tag_pselect.pscan_row_size) + "\n";
+			oIOTAValue += "state_check_delay_msec:" + std::to_string(config_tag_pselect.state_check_delay_msec) + "\n";
+			oIOTAValue += "unused:" + std::to_string(config_tag_pselect.unused);
 			break;
 		case VCSFW_IOTA_ITYPE_CONFIG_WOE:
 			oIOTAType = "CONFIG_WOE";
@@ -301,8 +303,8 @@ void Ts_BravoIOTACheck::IotaParse(vcsfw_reply_iota_find_hdr_t iotafindheader, ui
 			oIOTAType = "CONFIG_VERSION";
 			vcsfw_config_version_t config_version;
 			memcpy(&config_version, &(arrIota[startPos]), sizeof(vcsfw_config_version_t));
-			oIOTAValue += "YYMMDD:" + std::to_string(config_version.config_id1) + "\n";
-			oIOTAValue += "HHMMSS:" + std::to_string(config_version.config_id2) + "\n";
+			oIOTAValue += "config_id1:" + std::to_string(config_version.config_id1) + "\n";
+			oIOTAValue += "config_id2:" + std::to_string(config_version.config_id2) + "\n";
 			oIOTAValue += "version:" + std::to_string(config_version.version);
 			break;
 		case VCSFW_IOTA_ITYPE_CONFIG_NAV_SWIPE:
