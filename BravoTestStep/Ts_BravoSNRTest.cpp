@@ -34,26 +34,56 @@ void Ts_BravoSNRTest::SetUp()
 	_pSNRTestData = new SNRTestData();
 	_pSNRTestData->data_name = _strName;
 	
+	_pSNRTestData->snr_overall_high = 1200;
+	_pSNRTestData->snr_overall_low = 50;
 	_pSNRTestData->signal_overall_high = 4000;
 	_pSNRTestData->signal_overall_low = 800;
 	_pSNRTestData->noise_overall_high = 10;
 	_pSNRTestData->noise_overall_low = 0;
-	_pSNRTestData->snr_overall_high = 1200;
-	_pSNRTestData->snr_overall_low = 50;
 
+	_pSNRTestData->snr_zone_high = 1200;
+	_pSNRTestData->snr_zone_low = 50;
 	_pSNRTestData->signal_zone_high = 4000;
 	_pSNRTestData->signal_zone_low = 800;
 	_pSNRTestData->noise_zone_high = 10;
 	_pSNRTestData->noise_zone_low = 0;
-	_pSNRTestData->snr_zone_high = 1200;
-	_pSNRTestData->snr_zone_low = 50;
-
+	
 	string strTestArgs;
 	_pSynDutUtils->Config_MT_Info.GetTestStepInfo(_strName, strTestArgs);
 
 	vector<string> listOfArgValue;
 	ParseTestStepArgs(strTestArgs, listOfArgValue);
 	size_t iListSize = listOfArgValue.size();
+	if (iListSize < 12)
+	{
+		for (size_t t = 1; t <= 12 - iListSize; t++)
+			listOfArgValue.push_back(std::string(""));
+	}
+	if (0 != listOfArgValue[0].length())
+		_pSNRTestData->snr_overall_high = std::stof(listOfArgValue[0]);
+	if (0 != listOfArgValue[1].length())
+		_pSNRTestData->snr_overall_low = std::stof(listOfArgValue[1]);
+	if (0 != listOfArgValue[2].length())
+		_pSNRTestData->signal_overall_high = atoi(listOfArgValue[2].c_str());
+	if (0 != listOfArgValue[3].length())
+		_pSNRTestData->signal_overall_low = atoi(listOfArgValue[3].c_str());
+	if (0 != listOfArgValue[4].length())
+		_pSNRTestData->noise_overall_high = std::stof(listOfArgValue[4]);
+	if (0 != listOfArgValue[5].length())
+		_pSNRTestData->noise_overall_low = std::stof(listOfArgValue[5]);
+
+	if (0 != listOfArgValue[6].length())
+		_pSNRTestData->snr_zone_high = std::stof(listOfArgValue[6]);
+	if (0 != listOfArgValue[7].length())
+		_pSNRTestData->snr_zone_low = std::stof(listOfArgValue[7]);
+	if (0 != listOfArgValue[8].length())
+		_pSNRTestData->signal_zone_high = atoi(listOfArgValue[8].c_str());
+	if (0 != listOfArgValue[9].length())
+		_pSNRTestData->signal_zone_low = atoi(listOfArgValue[9].c_str());
+	if (0 != listOfArgValue[10].length())
+		_pSNRTestData->noise_zone_high = std::stof(listOfArgValue[10]);
+	if (0 != listOfArgValue[11].length())
+		_pSNRTestData->noise_zone_low = std::stof(listOfArgValue[11]);
 }
 
 void Ts_BravoSNRTest::Execute()

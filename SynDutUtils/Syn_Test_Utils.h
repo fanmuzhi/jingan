@@ -12,8 +12,8 @@ using namespace std;
 
 #define	TESTENGINE_COUNTS_MAX	20
 
-#define	SW_VERSION		"AlphaRelease"
-#define SW_RELEASEDATE	"2017-02-24"
+#define	SW_VERSION		"v1.0.0"
+#define SW_RELEASEDATE	"2017-03-10"
 
 #define BRAVO_IMAGE_RAWDATA_MAX		10000
 #define MAXROW						200

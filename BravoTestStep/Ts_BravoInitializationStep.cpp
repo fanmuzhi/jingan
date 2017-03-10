@@ -62,7 +62,7 @@ void Ts_BravoInitializationStep::Execute()
 	}*/
 
 	vcsfw_reply_get_version_t get_version;
-	rc = _pSynModule->FpGetVersion((uint8_t*)&get_version, sizeof(vcsfw_reply_get_version_t));
+	rc = _pSynModule->FpGetVersion((uint8_t*)&get_version, sizeof(vcsfw_reply_get_version_t), 100);
 	if (0 != rc)
 	{
 		Exception.SetError(rc);
