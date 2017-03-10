@@ -165,7 +165,7 @@ void Ts_BravoProgrammingIOTA::Execute()
 	}
 
 	//VCSFW_IOTA_ITYPE_CONFIG_FRAME
-	vcsfw_config_tag_frame_avg_t config_tag_frame_avg;
+	/*vcsfw_config_tag_frame_avg_t config_tag_frame_avg;
 	config_tag_frame_avg.frame_avg = 2;
 	config_tag_frame_avg.unused[0] = 0;
 	config_tag_frame_avg.unused[1] = 0;
@@ -177,7 +177,7 @@ void Ts_BravoProgrammingIOTA::Execute()
 		Exception.SetDescription("BravoProgrammingIOTA::FpIotawrite(VCSFW_IOTA_ITYPE_CONFIG_FRAME) is failed!");
 		throw Exception;
 		return;
-	}
+	}*/
 	
 	_pSynModule->FpExitBLMode();
 
